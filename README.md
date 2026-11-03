@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 2Hands — Waterproof Detailing Inner Glove
 
-## Getting Started
+Production-quality marketing + e-commerce site for the **Waterproof Detailing Inner Glove** (SKU `WDIG-001`, colorway `BLK-01`).
 
-First, run the development server:
+Built from tech pack WDIG-001 R01 and the Problem-Solution Fit portfolio. Brand, price, sales mode, and claims are config-driven — never invent specs.
+
+## Quick start
 
 ```bash
+npm install
+cp .env.example .env.local   # optional
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm run lint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Phase status
 
-## Learn More
+| Phase | Status |
+| --- | --- |
+| 1 Scaffold, design system, shell, AutoVideo | Done |
+| 2 Home 17-section scroll story | Done |
+| 3 Inner pages (glove, made, sizing, tested, …) | Done |
+| 4 Cart, checkout, payments, APIs | Done |
+| 5 Perf, a11y, SEO, README | Done |
 
-To learn more about Next.js, take a look at the following resources:
+Source brief: [`docs/PROMPT.md`](docs/PROMPT.md)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Config knobs
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Edit [`lib/config.ts`](lib/config.ts) (and optionally env):
 
-## Deploy on Vercel
+| Key | Purpose |
+| --- | --- |
+| `BRAND.name` | Brand string in UI (currently **2Hands**) — never hardcode elsewhere |
+| `PRICE_USD` | Pair price (default `24.99`) |
+| `SALES_MODE` | `preorder` \| `live` — CTA labels + waitlist capture |
+| `CLAIM_LEVEL` | `intent` \| `proven` — Prototype badge + copy |
+| `SHOW_CONCEPT_LABEL` | “Concept visualization” on illustrative video |
+| `PAYMENT_PROVIDER` | `mock` \| `stripe` (env override) |
+| `SHIPPING_FLAT_USD` / `FREE_SHIPPING_OVER_USD` | Shipping math |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL for sitemap / OG / JSON-LD |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Data editors
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Sizes: [`data/sizes.ts`](data/sizes.ts) — only **M** is confirmed; never auto-scale S/L/XL
+- Tests: [`data/tests.ts`](data/tests.ts) — statuses `planned` \| `in_testing` \| `passed` \| `failed`
+- Copy: [`content/copy.ts`](content/copy.ts)
+- Videos: [`content/videos.ts`](content/videos.ts)
+- FAQ / survey: [`content/faq.ts`](content/faq.ts), [`content/survey.ts`](content/survey.ts)
+
+## Claims guardrails
+
+While `CLAIM_LEVEL === 'intent'`:
+
+- No “certified,” “chemical-resistant/proof,” “hypoallergenic,” “thermal rated,” “PPE,” or lifetime durability
+- Use intent language: “designed to keep water out,” “built to stay thin under your mitt”
+- Show **Prototype V2. Testing in progress.** in hero/footer
+- Survey stats always footnoted: founder survey, **n=62**
+
+## Videos
+
+Place files in `public/videos/` using exact names from `content/videos.ts`. Missing files show an animated placeholder (filename label in **development** only).
+
+**Present:** hero-droplets, problem-cold-hands, glove-on-strap, mitt-swap, bucket-dip-dry-reveal, full-wash-in-use, cuff-seal-macro, layers-macro, dexterity-test, durability-montage, making-lamination-cutting, making-seal-bonding
+
+**Still placeholders:** making-leak-test, sizing-measure, winter-mobile-detailer, product-turntable, closing-cta-pair, social-vertical-droplets
+
+Target ~3 MB per looping clip when encoding for production.
+
+### Scrub encode (scroll-scrubbed clips)
+
+```bash
+ffmpeg -i in.mp4 -an -vf scale=1920:-2 -g 1 -crf 23 out-scrub.mp4
+```
+
+Images live in `public/images/` (`glove-concept.png`, `glove-in-use.png`).
+
+## Commerce
+
+- Cart: Zustand + `localStorage` — [`lib/store/cart.ts`](lib/store/cart.ts)
+- Drawer in header; full page at `/cart`
+- Checkout: react-hook-form + zod → `POST /api/checkout`
+- Mock provider routes to `/order/confirmation` (no card fields)
+- Stripe scaffold: [`lib/payments/stripe.ts`](lib/payments/stripe.ts) + `/api/webhooks/stripe`
+- Waitlist / contact: `POST /api/waitlist`, `POST /api/contact` → console + [`data/submissions.json`](data/submissions.json) + [`lib/email.ts`](lib/email.ts) Resend stub
+
+## Accessibility & motion
+
+- Skip link to `#main`
+- Visible `:focus-visible` rings (cyan)
+- `prefers-reduced-motion`: no Lenis, pins/scrub skipped, AutoVideo shows play button, marquees static, cursor trail off
+- Landmarks: `header`, `main`, `footer`, labeled navs
+- Video captions via `<VideoCaption>` when `SHOW_CONCEPT_LABEL` is on
+
+## SEO
+
+- Per-route metadata + Open Graph / Twitter cards
+- [`app/sitemap.ts`](app/sitemap.ts), [`app/robots.ts`](app/robots.ts)
+- Organization + Product JSON-LD (`PreOrder` when preorder)
+- Blue droplet favicon: `app/icon.svg` / `public/favicon.svg`
+
+## Performance notes
+
+- Hero video uses `priority` + IntersectionObserver pause off-screen
+- Below-fold videos preload `metadata` only
+- `next/image` AVIF/WebP; animate `transform` / `opacity` only
+- Compress videos before production deploy for Lighthouse mobile targets (Perf 85+, A11y 95+, SEO 95+)
+
+## Project map
+
+```
+app/           routes + API
+components/    ui, layout, home, glove, commerce, media, seo
+content/       copy, videos, faq, survey
+data/          sizes, tests, submissions.json
+lib/           config, gsap, payments, cart, schemas, site
+public/images  product stills
+public/videos  mp4 clips
+docs/PROMPT.md full build brief
+```
+
+## Acceptance checklist
+
+- [x] Every route loads; commerce mock order works
+- [x] Home has 17 scroll sections; mobile matchMedia lighter
+- [x] Works with missing videos (placeholders)
+- [x] Cart drawer, checkout validation, confirmation
+- [x] `PAYMENT_PROVIDER`, `SALES_MODE`, `CLAIM_LEVEL` change behavior
+- [x] Claims guardrails + survey footnotes
+- [x] Reduced-motion usable
+- [x] Sitemap, robots, OG, JSON-LD, favicon
