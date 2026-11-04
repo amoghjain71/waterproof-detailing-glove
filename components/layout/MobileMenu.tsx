@@ -26,11 +26,11 @@ export function MobileMenu({
           <div className="flex h-full flex-col px-6 pb-10 pt-[calc(var(--header-h)+1.5rem)]">
             <div className="mb-8">
               <Image
-                src="/images/brand/logo-mark.png"
+                src="/images/brand/logo-gloves.png"
                 alt={BRAND.name}
-                width={96}
-                height={60}
-                className="h-8 w-auto object-contain"
+                width={80}
+                height={80}
+                className="h-12 w-12 object-contain"
               />
             </div>
             <nav aria-label="Mobile" className="flex flex-col gap-2">

@@ -47,11 +47,11 @@ export function Header() {
             aria-label={BRAND.name}
           >
             <Image
-              src="/images/brand/logo-mark.png"
+              src="/images/brand/logo-gloves.png"
               alt=""
-              width={120}
-              height={75}
-              className="h-9 w-auto object-contain sm:h-10"
+              width={96}
+              height={96}
+              className="h-11 w-11 object-contain sm:h-12 sm:w-12"
               priority
             />
           </Link>
