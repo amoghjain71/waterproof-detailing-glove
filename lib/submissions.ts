@@ -18,6 +18,16 @@ export type Submission =
       topic?: string;
       message: string;
       at: string;
+    }
+  | {
+      type: "order";
+      orderId: string;
+      email: string;
+      name: string;
+      paymentStatus: string;
+      amountTotal: number | null;
+      currency: string | null;
+      at: string;
     };
 
 export async function appendSubmission(entry: Submission): Promise<void> {

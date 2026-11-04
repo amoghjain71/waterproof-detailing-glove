@@ -86,6 +86,11 @@ export function CheckoutForm() {
       if (!res.ok) {
         throw new Error(data.error || "Checkout failed");
       }
+      // Hosted Stripe Checkout is an absolute URL — full navigation required.
+      if (data.redirectUrl?.startsWith("http")) {
+        window.location.assign(data.redirectUrl);
+        return;
+      }
       clear();
       router.push(
         data.redirectUrl ||
@@ -187,7 +192,7 @@ export function CheckoutForm() {
         </div>
 
         <PaymentSlot
-          onMockPlaceOrder={() => void placeOrder()}
+          onPlaceOrder={() => void placeOrder()}
           busy={busy}
           disabled={items.length === 0}
         />
@@ -195,8 +200,8 @@ export function CheckoutForm() {
         {error ? <p className="text-sm text-red-300">{error}</p> : null}
         {SALES_MODE === "preorder" ? (
           <p className="text-xs text-muted">
-            Pre-order mode captures your email on the waitlist when you place a
-            mock order. {SHIP_ESTIMATE_TEXT}
+            Pre-order checkout still collects your email for production timing.{" "}
+            {SHIP_ESTIMATE_TEXT}
           </p>
         ) : null}
       </form>

@@ -29,8 +29,11 @@ export const SHIP_ESTIMATE_TEXT =
   "Pre-order ships after fit-trial lock and first production run. Estimate shared by email.";
 
 export type PaymentProviderId = "mock" | "stripe";
+/** Prefer NEXT_PUBLIC_ so client UI (checkout CTA) matches the server provider. */
 export const PAYMENT_PROVIDER: PaymentProviderId =
-  (process.env.PAYMENT_PROVIDER as PaymentProviderId) || "mock";
+  (process.env.NEXT_PUBLIC_PAYMENT_PROVIDER as PaymentProviderId) ||
+  (process.env.PAYMENT_PROVIDER as PaymentProviderId) ||
+  "mock";
 
 export const SURVEY_FOOTNOTE =
   "Detailers and enthusiasts from WA, OR, CA, TX, FL, MI, KS, IN.";

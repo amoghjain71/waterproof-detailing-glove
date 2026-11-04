@@ -3,12 +3,19 @@
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { PageHero } from "@/components/ui/PageHero";
-import { BRAND } from "@/lib/config";
+import { BRAND, PAYMENT_PROVIDER } from "@/lib/config";
+import { useCart } from "@/lib/store/cart";
 import { usePrefersReducedMotion } from "@/lib/reduced-motion";
 
 export function ConfirmationClient({ orderId }: { orderId: string }) {
+  const isStripe = PAYMENT_PROVIDER === "stripe" || orderId.startsWith("cs_");
+  const clear = useCart((s) => s.clear);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reduced = usePrefersReducedMotion();
+
+  useEffect(() => {
+    if (isStripe) clear();
+  }, [clear, isStripe]);
 
   useEffect(() => {
     if (reduced) return;
@@ -57,8 +64,12 @@ export function ConfirmationClient({ orderId }: { orderId: string }) {
   return (
     <div>
       <PageHero
-        title="You're on the list"
-        description={`Thanks for supporting ${BRAND.name}. Your mock order is confirmed.`}
+        title={isStripe ? "Order received" : "You're on the list"}
+        description={
+          isStripe
+            ? `Thanks for supporting ${BRAND.name}. Your payment went through Stripe Checkout.`
+            : `Thanks for supporting ${BRAND.name}. Your mock order is confirmed.`
+        }
       />
       <section className="mx-auto max-w-xl px-4 py-14 text-center lg:px-8">
         <div className="relative mx-auto mb-6 flex h-[280px] w-[280px] items-center justify-center">
@@ -73,8 +84,9 @@ export function ConfirmationClient({ orderId }: { orderId: string }) {
           Order {orderId}
         </p>
         <p className="mt-3 text-sm text-muted">
-          Watch your inbox for fit-trial and production timing updates. No card
-          was charged — this was a mock checkout.
+          {isStripe
+            ? "Watch your inbox for fit-trial and production timing updates. A Stripe receipt was also emailed when available."
+            : "Watch your inbox for fit-trial and production timing updates. No card was charged — this was a mock checkout."}
         </p>
         <Button href="/glove" className="mt-8">
           Back to the glove
