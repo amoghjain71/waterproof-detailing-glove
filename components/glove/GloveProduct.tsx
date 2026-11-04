@@ -28,7 +28,6 @@ const GALLERY: GalleryItem[] = [
     type: "video",
     id: "product-turntable",
     label: "Product turntable",
-    forceMissing: true,
   },
   {
     type: "image",

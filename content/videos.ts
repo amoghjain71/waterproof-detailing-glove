@@ -62,9 +62,10 @@ export const VIDEOS: Record<VideoId, VideoEntry> = {
   "mitt-swap": {
     id: "mitt-swap",
     filename: "mitt-swap.mp4",
-    src: "/videos/mitt-swap.mp4",
+    src: "/videos/mitt-swap.mp4?v=scrub",
     label: "Swapping wash mitts over the glove",
     concept: true,
+    scrub: true,
   },
   "bucket-dip-dry-reveal": {
     id: "bucket-dip-dry-reveal",
@@ -202,7 +203,7 @@ export const VIDEOS: Record<VideoId, VideoEntry> = {
   "product-turntable": {
     id: "product-turntable",
     filename: "product-turntable.mp4",
-    src: "/videos/product-turntable.mp4",
+    src: "/videos/product-turntable.mp4?v=scrub",
     label: "Product turntable",
     concept: true,
     scrub: true,

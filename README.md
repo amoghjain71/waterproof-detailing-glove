@@ -67,9 +67,9 @@ While `CLAIM_LEVEL === 'intent'`:
 
 Place files in `public/videos/` using exact names from `content/videos.ts`. Missing files show an animated placeholder (filename label in **development** only).
 
-**Present:** hero-droplets, problem-cold-hands, glove-on-strap, mitt-swap, bucket-dip-dry-reveal, full-wash-in-use, cuff-seal-macro, layers-macro, dexterity-test, durability-montage, making-lamination-cutting, making-seal-bonding
+**Present:** hero-droplets, problem-cold-hands, glove-on-strap, mitt-swap, bucket-dip-dry-reveal, full-wash-in-use, cuff-seal-macro, layers-macro, dexterity-test, durability-montage, making-lamination-cutting, making-seal-bonding, making-leak-test, sizing-measure, winter-mobile-detailer, product-turntable, closing-cta-pair
 
-**Still placeholders:** making-leak-test, sizing-measure, winter-mobile-detailer, product-turntable, closing-cta-pair, social-vertical-droplets
+**Still placeholders:** social-vertical-droplets
 
 Target ~3 MB per looping clip when encoding for production.
 

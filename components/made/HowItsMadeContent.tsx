@@ -68,11 +68,6 @@ const BUILD_STEPS: {
     video: "making-seal",
   },
   {
-    title: "Light reinforcement",
-    body: "Reinforce stress points without adding mitt-blocking thickness.",
-    video: "making-reinforce",
-  },
-  {
     title: "Attach lip and strap",
     body: "Install silicone sealing lip and 25 mm low-profile strap.",
     video: "making-strap",

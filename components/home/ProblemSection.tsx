@@ -103,7 +103,7 @@ export function ProblemSection() {
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-cyan">The problem</p>
           <h2 className="font-display mt-3 text-3xl uppercase tracking-tight sm:text-5xl">
-            Cold, wet hands are the wash default
+            Cold and wet hands are the current wash experience
           </h2>
           <DropletDivider className="justify-start py-4" />
           <ul className="mt-4 space-y-4">

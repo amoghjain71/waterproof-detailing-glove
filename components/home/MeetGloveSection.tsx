@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { AutoVideo, type AutoVideoHandle } from "@/components/media/AutoVideo";
 import { copy } from "@/content/copy";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
@@ -18,24 +17,36 @@ export function MeetGloveSection() {
     const root = rootRef.current;
     if (!root || reduced) return;
 
+    const syncFromProgress = (progress: number) => {
+      videoRef.current?.setProgress(progress);
+      const idx = copy.meetAnnotations.findIndex(
+        (a, i, arr) =>
+          progress >= a.at &&
+          (i === arr.length - 1 || progress < arr[i + 1]!.at),
+      );
+      setActive(idx < 0 ? 0 : idx);
+    };
+
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
         "(min-width: 768px)": () => {
+          // Longer travel = slower spin per scroll tick (still 1:1 with progress).
           ScrollTrigger.create({
             trigger: root,
             start: "top top",
-            end: "+=180%",
+            end: "+=400%",
             pin: true,
-            scrub: 1,
-            onUpdate: (self) => {
-              videoRef.current?.setProgress(self.progress);
-              const idx = copy.meetAnnotations.findIndex(
-                (a, i, arr) =>
-                  self.progress >= a.at &&
-                  (i === arr.length - 1 || self.progress < arr[i + 1]!.at),
-              );
-              setActive(idx < 0 ? 0 : idx);
-            },
+            scrub: true,
+            onUpdate: (self) => syncFromProgress(self.progress),
+          });
+        },
+        "(max-width: 767px)": () => {
+          ScrollTrigger.create({
+            trigger: root,
+            start: "top 85%",
+            end: "+=220%",
+            scrub: true,
+            onUpdate: (self) => syncFromProgress(self.progress),
           });
         },
       });
@@ -72,21 +83,11 @@ export function MeetGloveSection() {
         </div>
 
         <div className="relative overflow-hidden rounded-2xl border border-border">
-          {/* product-turntable still missing — AutoVideo shows placeholder; concept image as visual anchor */}
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/images/glove-concept.png"
-              alt=""
-              fill
-              className="object-cover opacity-40"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
           <AutoVideo
             ref={videoRef}
             id="product-turntable"
             scrub
-            className="relative z-10 aspect-square w-full md:aspect-video"
+            className="aspect-square w-full md:aspect-video"
           />
         </div>
       </div>

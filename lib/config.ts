@@ -33,7 +33,7 @@ export const PAYMENT_PROVIDER: PaymentProviderId =
   (process.env.PAYMENT_PROVIDER as PaymentProviderId) || "mock";
 
 export const SURVEY_FOOTNOTE =
-  "Founder survey, n=62 detailers and enthusiasts (WA, OR, CA, TX, FL, MI, KS, IN).";
+  "Detailers and enthusiasts from WA, OR, CA, TX, FL, MI, KS, IN.";
 
 export const NAV_LINKS = [
   { href: "/glove", label: "The Glove" },

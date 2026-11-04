@@ -101,8 +101,8 @@ export function LayersSection() {
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-cyan">Three layers</p>
           <h2 className="font-display mt-3 text-3xl uppercase tracking-tight sm:text-5xl">
-            <span className="block">Laminate,</span>
-            <span className="block">exploded</span>
+            <span className="block">What’s between you</span>
+            <span className="block">and the water</span>
           </h2>
           <ul className="mt-8 space-y-4">
             {copy.layers.map((layer) => (

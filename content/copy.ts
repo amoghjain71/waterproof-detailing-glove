@@ -59,11 +59,11 @@ export const copy = {
   pivotCards: [
     {
       title: "We started with a lined mitt.",
-      body: "The first idea was a wash mitt with a waterproof liner built in. Detailers wash too fast — and swap too often — for that to win.",
+      body: "The first idea was a wash mitt with a waterproof liner built in. Detailers swap mitts too often slowing down their details.",
     },
     {
       title: "Detailers told us what mattered.",
-      body: "I swap 2 to 4 mitts a wash. Keep the inside dry in the bucket. Don't let a strap scratch the paint.",
+      body: "'I swap 2 to 4 mitts a wash.', 'Keep the inside dry in the bucket.', 'Don't let a strap scratch the paint.'",
       attribution: "From our survey",
     },
     {
@@ -74,7 +74,7 @@ export const copy = {
   underTheMitt: "Put it on once. Swap mitts in seconds.",
   testedHeading: "We show every result, passed or not.",
   compareIntro:
-    "Existing options either protect paint or try to protect hands — rarely both under a wash mitt.",
+    "Most options pick a side: clearcoat safety or dry hands. An under-mitt glove does both.",
   compareRows: [
     {
       feature: "Paint-safe contact",
@@ -140,7 +140,6 @@ export const copy = {
     { title: "Cut mirrored left / right", video: "making-cut" as const },
     { title: "Bond the body", video: "making-bond" as const },
     { title: "Seal every joint", video: "making-seal" as const },
-    { title: "Light reinforcement", video: "making-reinforce" as const },
     { title: "Attach lip and strap", video: "making-strap" as const },
     { title: "Finish", video: "making-finish" as const },
     { title: "Cure and test", video: "making-leak-test" as const },
@@ -149,7 +148,7 @@ export const copy = {
     {
       id: "wash",
       title: "Full wash",
-      body: "Wear the glove once. Keep mitt feel on paint while your hands stay behind a thin barrier designed to keep water out.",
+      body: "Wear the glove once. Your hands stay behind a thin barrier designed to keep water out.",
       video: "full-wash-in-use" as const,
     },
     {

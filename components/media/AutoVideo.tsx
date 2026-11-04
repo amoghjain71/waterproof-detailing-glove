@@ -59,8 +59,13 @@ export const AutoVideo = forwardRef<AutoVideoHandle, AutoVideoProps>(
     useImperativeHandle(ref, () => ({
       setProgress: (p: number) => {
         const el = videoRef.current;
-        if (!el || !el.duration) return;
-        targetTime.current = Math.max(0, Math.min(1, p)) * el.duration;
+        if (!el || !Number.isFinite(el.duration) || el.duration <= 0) return;
+        // Map scroll progress 1:1 onto the clip so spin speed tracks scroll speed.
+        const t = Math.max(0, Math.min(1, p)) * el.duration;
+        targetTime.current = t;
+        if (el.readyState >= 1) {
+          el.currentTime = t;
+        }
       },
       play: () => void videoRef.current?.play(),
       pause: () => videoRef.current?.pause(),
@@ -69,14 +74,13 @@ export const AutoVideo = forwardRef<AutoVideoHandle, AutoVideoProps>(
 
     useEffect(() => {
       if (!scrub || reduced) return;
+      const el = videoRef.current;
+      if (!el) return;
+      el.pause();
+      // Catch-up if the browser dropped a seek mid-decode.
       const tick = () => {
-        const el = videoRef.current;
-        if (el && el.duration) {
-          const cur = el.currentTime;
-          const next = cur + (targetTime.current - cur) * 0.18;
-          if (Math.abs(next - cur) > 0.01) {
-            el.currentTime = next;
-          }
+        if (el.duration && Math.abs(el.currentTime - targetTime.current) > 0.04) {
+          el.currentTime = targetTime.current;
         }
         rafRef.current = requestAnimationFrame(tick);
       };
@@ -151,8 +155,15 @@ export const AutoVideo = forwardRef<AutoVideoHandle, AutoVideoProps>(
           muted
           loop={!scrub}
           playsInline
-          preload={priority ? "auto" : "metadata"}
+          preload={priority || scrub ? "auto" : "metadata"}
           poster={poster ?? entry.poster}
+          onLoadedMetadata={() => {
+            const el = videoRef.current;
+            if (el && scrub) {
+              el.pause();
+              el.currentTime = targetTime.current;
+            }
+          }}
           onCanPlay={() => setReady(true)}
           onError={onError}
           controls={reduced && manualPlay}

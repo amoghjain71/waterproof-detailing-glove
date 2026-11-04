@@ -47,7 +47,7 @@ export function MakingPreviewSection() {
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-cyan">How it&apos;s made</p>
           <h2 className="font-display mt-3 text-3xl uppercase tracking-tight sm:text-5xl">
-            Eight steps to a sealed pair
+            Seven steps to a sealed pair
           </h2>
         </div>
         <Link
