@@ -19,8 +19,10 @@ export function ProductJsonLd() {
     description:
       "A thin waterproof inner glove designed to live under a wash mitt. Sold as one left plus one right glove per pair.",
     image: [
-      `${SITE.url}/images/glove-concept.png`,
-      `${SITE.url}/images/glove-in-use.png`,
+      `${SITE.url}/images/glove/01-back-of-hand.jpg`,
+      `${SITE.url}/images/glove/04-water-beading.jpg`,
+      `${SITE.url}/images/glove/02-pair-flat-lay.jpg`,
+      `${SITE.url}/images/glove/03-palm-view.jpg`,
     ],
     offers: {
       "@type": "Offer",

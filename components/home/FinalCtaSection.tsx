@@ -18,7 +18,11 @@ import { cn } from "@/lib/utils";
 
 export function FinalCtaSection() {
   const rootRef = useRef<HTMLElement>(null);
-  const [intensity, setIntensity] = useState(0.35);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const subRef = useRef<HTMLParagraphElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const [intensity, setIntensity] = useState(0.15);
   const [size, setSize] = useState<SizeCode>("M");
   const [qty, setQty] = useState(1);
   const addItem = useCart((s) => s.addItem);
@@ -27,28 +31,60 @@ export function FinalCtaSection() {
   useEffect(() => {
     registerGsap();
     const root = rootRef.current;
-    if (!root || reduced) return;
+    const headline = headlineRef.current;
+    const sub = subRef.current;
+    const card = cardRef.current;
+    const progress = progressRef.current;
+    if (!root || !headline || !sub || !card || reduced) return;
 
     const ctx = gsap.context(() => {
+      gsap.set(headline, { y: 48, opacity: 0.35, scale: 1.08 });
+      gsap.set(sub, { y: 28, opacity: 0 });
+      gsap.set(card, { y: 64, opacity: 0 });
+      if (progress) gsap.set(progress, { scaleX: 0, transformOrigin: "left center" });
+
       ScrollTrigger.matchMedia({
         "(min-width: 768px)": () => {
-          ScrollTrigger.create({
-            trigger: root,
-            start: "top top",
-            end: "+=120%",
-            pin: true,
-            scrub: true,
-            onUpdate: (self) => setIntensity(0.35 + self.progress * 0.65),
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: root,
+              start: "top top",
+              end: "+=140%",
+              pin: true,
+              scrub: 0.65,
+              onUpdate: (self) => {
+                // Rain goes from light drizzle → heavy wash
+                setIntensity(0.12 + self.progress * 0.88);
+              },
+            },
           });
+
+          tl.to(
+            headline,
+            { y: 0, opacity: 1, scale: 1, ease: "none", duration: 0.35 },
+            0,
+          )
+            .to(sub, { y: 0, opacity: 1, ease: "none", duration: 0.25 }, 0.2)
+            .to(card, { y: 0, opacity: 1, ease: "none", duration: 0.35 }, 0.4);
+
+          if (progress) {
+            tl.to(progress, { scaleX: 1, ease: "none", duration: 1 }, 0);
+          }
         },
         "(max-width: 767px)": () => {
-          ScrollTrigger.create({
-            trigger: root,
-            start: "top 80%",
-            end: "bottom 40%",
-            scrub: true,
-            onUpdate: (self) => setIntensity(0.35 + self.progress * 0.5),
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: root,
+              start: "top 75%",
+              end: "bottom 45%",
+              scrub: 0.5,
+              onUpdate: (self) => setIntensity(0.15 + self.progress * 0.7),
+            },
           });
+
+          tl.to(headline, { y: 0, opacity: 1, scale: 1, ease: "none", duration: 0.4 }, 0)
+            .to(sub, { y: 0, opacity: 1, ease: "none", duration: 0.3 }, 0.15)
+            .to(card, { y: 0, opacity: 1, ease: "none", duration: 0.35 }, 0.3);
         },
       });
     }, root);
@@ -74,15 +110,24 @@ export function FinalCtaSection() {
       <RainCanvas intensity={intensity} />
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100svh-var(--header-h))] max-w-5xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
-        <h2 className="font-display hero-headline text-foreground">
+        <p className="mb-4 text-xs uppercase tracking-[0.2em] text-cyan">
+          Close the wash dry
+        </p>
+        <h2
+          ref={headlineRef}
+          className="font-display hero-headline text-foreground"
+        >
           {copy.finalCta}
         </h2>
-        <p className="mt-4 max-w-xl text-muted">
+        <p ref={subRef} className="mt-4 max-w-xl text-muted">
           Pre-order the {BRAND.productName}. Designed to keep water out. Built to
           stay thin under your mitt.
         </p>
 
-        <div className="mt-10 w-full max-w-md rounded-2xl border border-border bg-background/70 p-6 text-left backdrop-blur-md">
+        <div
+          ref={cardRef}
+          className="mt-10 w-full max-w-md rounded-2xl border border-border bg-background/70 p-6 text-left backdrop-blur-md"
+        >
           <div className="flex flex-wrap gap-2">
             {SIZE_CHART.map((s) => (
               <button
@@ -139,6 +184,18 @@ export function FinalCtaSection() {
             Opens your cart drawer with size {size}.
           </p>
         </div>
+
+        {!reduced ? (
+          <div
+            className="mt-8 h-px w-40 overflow-hidden rounded-full bg-border"
+            aria-hidden
+          >
+            <div
+              ref={progressRef}
+              className="h-full w-full origin-left scale-x-0 bg-cyan"
+            />
+          </div>
+        ) : null}
       </div>
     </section>
   );

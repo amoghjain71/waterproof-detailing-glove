@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { AutoVideo } from "@/components/media/AutoVideo";
 import {
   GalleryLightbox,
   type GalleryItem,
 } from "@/components/glove/GalleryLightbox";
+import { ProductGallery } from "@/components/glove/ProductGallery";
 import { SizeDrawer } from "@/components/glove/SizeDrawer";
 import { PrototypeBadge } from "@/components/ui/PrototypeBadge";
 import { Button } from "@/components/ui/Button";
@@ -23,33 +22,63 @@ import {
 import { useCart } from "@/lib/store/cart";
 import { cn, formatUsd, FRAMER_EASE } from "@/lib/utils";
 
-const GALLERY: GalleryItem[] = [
+const GALLERY: Extract<GalleryItem, { type: "image" }>[] = [
   {
-    type: "video",
-    id: "product-turntable",
-    label: "Product turntable",
+    type: "image",
+    src: "/images/glove/01-back-of-hand.jpg",
+    alt: "Back of hand with 2Hands mark and wrist strap",
   },
   {
     type: "image",
-    src: "/images/glove-concept.png",
-    alt: "Concept render of the matte black Waterproof Detailing Inner Glove",
+    src: "/images/glove/02-pair-flat-lay.jpg",
+    alt: "Pair flat lay — one strap open, one closed",
   },
   {
     type: "image",
-    src: "/images/glove-in-use.png",
-    alt: "Glove in use during a soapy wash with water beading on the surface",
+    src: "/images/glove/03-palm-view.jpg",
+    alt: "Palm view with low-profile branding",
   },
   {
-    type: "video",
-    id: "glove-on-strap",
-    label: "Glove on with wrist strap",
+    type: "image",
+    src: "/images/glove/04-water-beading.jpg",
+    alt: "Water beading on the matte outer shell",
+  },
+  {
+    type: "image",
+    src: "/images/glove/05-flexibility.jpg",
+    alt: "Flex views — closed fist and open fingers",
+  },
+  {
+    type: "image",
+    src: "/images/glove/06-strap-open-closed.jpg",
+    alt: "Hook-and-loop strap open vs closed",
+  },
+  {
+    type: "image",
+    src: "/images/glove/07-cuff-strap.jpg",
+    alt: "Cuff and strap close-up",
+  },
+  {
+    type: "image",
+    src: "/images/glove/08-inside-cuff.jpg",
+    alt: "Inside lining and silicone sealing lip",
+  },
+  {
+    type: "image",
+    src: "/images/glove/09-material-layers.jpg",
+    alt: "Three-layer laminate cross-section",
+  },
+  {
+    type: "image",
+    src: "/images/glove/10-packaging.jpg",
+    alt: "Pair with packaging card and envelope",
   },
 ];
 
 const SPEC_ITEMS = [
   {
     title: "Construction",
-    body: "Three-layer laminate: matte-black stretch nylon outer, 1.0 mm closed-cell neoprene core, smooth polyester tricot inner. Seams bonded and sealed. No exposed metal or abrasive hardware, no raised grip texture, no logos on the body.",
+    body: "Three-layer laminate: matte-black stretch nylon outer, 1.0 mm closed-cell neoprene core, smooth polyester tricot inner. Seams bonded and sealed. No exposed metal or abrasive hardware, no raised grip texture.",
   },
   {
     title: "Cuff & closure",
@@ -100,39 +129,7 @@ export function GloveProduct() {
       </section>
 
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
-        <div className="grid gap-4 sm:grid-cols-2">
-          {GALLERY.map((item, i) => (
-            <button
-              key={i}
-              type="button"
-              className={cn(
-                "group relative overflow-hidden rounded-2xl border border-border text-left",
-                i === 0 && "sm:col-span-2",
-              )}
-              onClick={() => setLightbox(i)}
-            >
-              {item.type === "image" ? (
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  width={1600}
-                  height={1200}
-                  className="h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                  priority={i === 0}
-                />
-              ) : (
-                <AutoVideo
-                  id={item.id}
-                  forceMissing={item.forceMissing}
-                  className="aspect-video w-full"
-                />
-              )}
-              <span className="absolute bottom-3 left-3 rounded-full border border-border bg-background/70 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-cyan backdrop-blur">
-                Expand
-              </span>
-            </button>
-          ))}
-        </div>
+        <ProductGallery items={GALLERY} onExpand={setLightbox} />
 
         <aside className="h-fit rounded-2xl border border-border bg-glass p-6 lg:sticky lg:top-24">
           <p className="text-xs uppercase tracking-[0.18em] text-cyan">

@@ -61,14 +61,15 @@ export function RainCanvas({ intensity = 0.4 }: { intensity?: number }) {
       }
       while (drops.length > target) drops.pop();
 
-      ctx.strokeStyle = "rgba(127,214,255,0.45)";
-      ctx.lineWidth = 1;
+      const alpha = 0.28 + intensityRef.current * 0.45;
+      ctx.strokeStyle = `rgba(127,214,255,${alpha})`;
+      ctx.lineWidth = 1 + intensityRef.current * 0.6;
       for (const d of drops) {
         ctx.beginPath();
         ctx.moveTo(d.x, d.y);
-        ctx.lineTo(d.x + 1.5, d.y + d.len);
+        ctx.lineTo(d.x + 1.5 + intensityRef.current, d.y + d.len * (0.85 + intensityRef.current * 0.35));
         ctx.stroke();
-        d.y += d.speed * (0.7 + intensityRef.current);
+        d.y += d.speed * (0.7 + intensityRef.current * 1.35);
         if (d.y > h) {
           d.y = -20;
           d.x = Math.random() * w;
