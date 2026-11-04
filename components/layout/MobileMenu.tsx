@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { BRAND, NAV_LINKS } from "@/lib/config";
@@ -23,9 +24,15 @@ export function MobileMenu({
           transition={{ duration: 0.25, ease: FRAMER_EASE }}
         >
           <div className="flex h-full flex-col px-6 pb-10 pt-[calc(var(--header-h)+1.5rem)]">
-            <p className="mb-8 text-xs uppercase tracking-[0.2em] text-muted">
-              {BRAND.name}
-            </p>
+            <div className="mb-8">
+              <Image
+                src="/images/brand/logo-mark.png"
+                alt={BRAND.name}
+                width={96}
+                height={60}
+                className="h-8 w-auto object-contain"
+              />
+            </div>
             <nav aria-label="Mobile" className="flex flex-col gap-2">
               {NAV_LINKS.map((link, i) => (
                 <motion.div

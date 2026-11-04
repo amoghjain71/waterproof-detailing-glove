@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BRAND, NAV_LINKS } from "@/lib/config";
@@ -42,9 +43,17 @@ export function Header() {
         >
           <Link
             href="/"
-            className="font-display text-lg uppercase tracking-[0.08em] text-foreground"
+            className="inline-flex items-center text-foreground"
+            aria-label={BRAND.name}
           >
-            {BRAND.name}
+            <Image
+              src="/images/brand/logo-mark.png"
+              alt=""
+              width={120}
+              height={75}
+              className="h-9 w-auto object-contain sm:h-10"
+              priority
+            />
           </Link>
 
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">

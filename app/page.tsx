@@ -12,7 +12,25 @@ export const metadata: Metadata = {
     title: `${BRAND.name} — Wet job. Dry hands.`,
     description: SITE.description,
     url: SITE.url,
-    images: [{ url: SITE.ogImage, alt: BRAND.productName }],
+    images: [
+      {
+        url: SITE.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${BRAND.name} — Wet job. Dry hands.`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [
+      {
+        url: SITE.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${BRAND.name} — Wet job. Dry hands.`,
+      },
+    ],
   },
 };
 

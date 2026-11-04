@@ -56,9 +56,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: SITE.ogImage,
-        width: 1600,
-        height: 1200,
-        alt: "Waterproof Detailing Inner Glove in use with water beading on matte black surface",
+        width: 1200,
+        height: 630,
+        alt: "2Hands — Wet job. Dry hands. Waterproof detailing inner glove",
       },
     ],
   },
@@ -66,14 +66,25 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${BRAND.name} — Wet job. Dry hands.`,
     description: SITE.description,
-    images: [SITE.ogImage],
+    images: [
+      {
+        url: SITE.ogImage,
+        width: 1200,
+        height: 630,
+        alt: "2Hands — Wet job. Dry hands. Waterproof detailing inner glove",
+      },
+    ],
   },
   robots: {
     index: true,
     follow: true,
   },
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", type: "image/png", sizes: "48x48" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
