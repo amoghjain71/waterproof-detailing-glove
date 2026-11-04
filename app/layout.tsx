@@ -30,7 +30,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${BRAND.name} — ${BRAND.productName}`,
+    default: BRAND.name,
     template: `%s · ${BRAND.name}`,
   },
   description: SITE.description,
@@ -51,27 +51,27 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE.url,
     siteName: BRAND.name,
-    title: `${BRAND.name} — Wet job. Dry hands.`,
+    title: BRAND.name,
     description: SITE.description,
     images: [
       {
         url: SITE.ogImage,
         width: 1200,
         height: 630,
-        alt: "2Hands — Wet job. Dry hands. Waterproof detailing inner glove",
+        alt: BRAND.name,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${BRAND.name} — Wet job. Dry hands.`,
+    title: BRAND.name,
     description: SITE.description,
     images: [
       {
         url: SITE.ogImage,
         width: 1200,
         height: 630,
-        alt: "2Hands — Wet job. Dry hands. Waterproof detailing inner glove",
+        alt: BRAND.name,
       },
     ],
   },
@@ -81,8 +81,8 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon.png", type: "image/png", sizes: "48x48" },
+      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
     ],
     apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },

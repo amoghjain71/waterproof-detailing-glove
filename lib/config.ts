@@ -1,5 +1,5 @@
 export const BRAND = {
-  name: "2Hands",
+  name: "2HANDS",
   tagline: "Wet job. Dry hands.",
   productName: "Waterproof Detailing Inner Glove",
   sku: "WDIG-001",
