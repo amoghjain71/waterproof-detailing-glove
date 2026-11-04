@@ -3,8 +3,6 @@ import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { appendSubmission } from "@/lib/submissions";
 
-export const runtime = "nodejs";
-
 async function fulfillCheckoutSession(session: Stripe.Checkout.Session) {
   if (session.payment_status === "unpaid") return;
 
