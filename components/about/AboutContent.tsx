@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { AutoVideo } from "@/components/media/AutoVideo";
 import { PageHero } from "@/components/ui/PageHero";
 import { surveyQuotes, surveyMeta } from "@/content/survey";
 import { BRAND } from "@/lib/config";
@@ -62,6 +63,18 @@ export function AboutContent() {
         title="Built from how detailers actually wash"
         description="A student entrepreneur who started detailing, surveyed the people doing the work, and pivoted from a lined mitt to a glove worn once under any mitt."
       />
+
+      <section className="mx-auto max-w-3xl px-4 pb-4 pt-6 lg:px-8">
+        <div
+          data-reveal
+          className="overflow-hidden rounded-2xl border border-border"
+        >
+          <AutoVideo id="winter-mobile-detailer" className="aspect-video w-full" />
+        </div>
+        <p data-reveal className="mt-3 text-sm text-muted">
+          Winter mobile detailing — the cold, wet work that shaped the product.
+        </p>
+      </section>
 
       <section className="mx-auto max-w-3xl px-4 py-14 lg:px-8">
         <h2 data-reveal className="font-display text-2xl uppercase tracking-tight">

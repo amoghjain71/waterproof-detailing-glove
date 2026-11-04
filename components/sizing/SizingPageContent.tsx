@@ -34,11 +34,7 @@ export function SizingPageContent() {
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-2 lg:px-8">
         <div className="space-y-4">
           <div className="overflow-hidden rounded-2xl border border-border">
-            <AutoVideo
-              id="sizing-measure"
-              forceMissing
-              className="aspect-video w-full"
-            />
+            <AutoVideo id="sizing-measure" className="aspect-video w-full" />
           </div>
           <ol className="space-y-2">
             {MEASURE_STEPS.map((step, i) => (

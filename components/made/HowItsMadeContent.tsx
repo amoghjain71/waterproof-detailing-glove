@@ -85,7 +85,7 @@ const BUILD_STEPS: {
   {
     title: "Cure and test",
     body: "Cure cycle, then validation gates for seams and cuff.",
-    video: "making-test",
+    video: "making-leak-test",
   },
 ];
 

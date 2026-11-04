@@ -143,7 +143,7 @@ export const copy = {
     { title: "Light reinforcement", video: "making-reinforce" as const },
     { title: "Attach lip and strap", video: "making-strap" as const },
     { title: "Finish", video: "making-finish" as const },
-    { title: "Cure and test", video: "making-test" as const },
+    { title: "Cure and test", video: "making-leak-test" as const },
   ],
   inUseSlides: [
     {
