@@ -38,6 +38,9 @@ export const PAYMENT_PROVIDER: PaymentProviderId =
 export const SURVEY_FOOTNOTE =
   "Detailers and enthusiasts from WA, OR, CA, TX, FL, MI, KS, IN.";
 
+/** Partnership / wholesale inquiries — swap later for a brand inbox. */
+export const PARTNERSHIP_EMAIL = "amoghjain71@gmail.com";
+
 export const NAV_LINKS = [
   { href: "/glove", label: "The Glove" },
   { href: "/how-its-made", label: "How It's Made" },

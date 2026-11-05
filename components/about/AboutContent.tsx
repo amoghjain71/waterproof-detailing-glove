@@ -4,8 +4,9 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { AutoVideo } from "@/components/media/AutoVideo";
 import { PageHero } from "@/components/ui/PageHero";
+import { Button } from "@/components/ui/Button";
 import { surveyQuotes, surveyMeta } from "@/content/survey";
-import { BRAND } from "@/lib/config";
+import { BRAND, PARTNERSHIP_EMAIL } from "@/lib/config";
 import { gsap, registerGsap } from "@/lib/gsap";
 import { usePrefersReducedMotion } from "@/lib/reduced-motion";
 
@@ -233,6 +234,35 @@ export function AboutContent() {
         <p data-reveal className="mt-4 text-xs text-muted">
           {surveyMeta.footnote}
         </p>
+
+        <div
+          data-reveal
+          id="partnerships"
+          className="mt-14 rounded-2xl border border-border bg-glass p-6 sm:p-8"
+        >
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan">
+            Partnerships
+          </p>
+          <h3 className="font-display mt-3 text-2xl uppercase tracking-tight">
+            Shops, distributors, and creators
+          </h3>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
+            Interested in stocking {BRAND.name}, running a fit trial with your
+            team, or collaborating on content? Reach out — we&apos;ll reply with
+            next steps.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Button href={`mailto:${PARTNERSHIP_EMAIL}?subject=${encodeURIComponent(`${BRAND.name} partnership`)}`}>
+              Email for partnerships
+            </Button>
+            <a
+              href={`mailto:${PARTNERSHIP_EMAIL}`}
+              className="text-sm text-cyan underline-offset-4 hover:underline"
+            >
+              {PARTNERSHIP_EMAIL}
+            </a>
+          </div>
+        </div>
       </section>
     </div>
   );
