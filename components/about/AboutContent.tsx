@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { AutoVideo } from "@/components/media/AutoVideo";
 import { PageHero } from "@/components/ui/PageHero";
 import { surveyQuotes, surveyMeta } from "@/content/survey";
@@ -61,10 +62,67 @@ export function AboutContent() {
       <PageHero
         eyebrow={BRAND.name}
         title="Built from how detailers actually wash"
-        description="A student entrepreneur who started detailing, surveyed the people doing the work, and pivoted from a lined mitt to a glove worn once under any mitt."
+        description="A local detailer who started with a vacuum and a dream, surveyed the people doing the work, and pivoted from a lined mitt to a glove worn once under any mitt."
       />
 
-      <section className="mx-auto max-w-3xl px-4 pb-4 pt-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-14 lg:px-8">
+        <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div
+            data-reveal
+            className="relative overflow-hidden rounded-2xl border border-border"
+          >
+            <div className="relative aspect-[4/5] w-full">
+              <Image
+                src="/images/about/founder.jpg"
+                alt="Amogh Jain, founder of 2Hands"
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover object-[center_20%]"
+                priority
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent px-5 pb-5 pt-16">
+                <p className="font-display text-xl uppercase tracking-tight text-white">
+                  Amogh Jain
+                </p>
+                <p className="mt-1 text-sm text-cyan">
+                  Founder, {BRAND.name}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div data-reveal>
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan">
+              Who&apos;s behind {BRAND.name}
+            </p>
+            <h2 className="font-display mt-3 text-3xl uppercase tracking-tight sm:text-4xl">
+              Built by a local detailer obsessed with the details
+            </h2>
+            <div className="mt-6 space-y-4 text-base leading-relaxed text-muted">
+              <p>
+                I&apos;m Amogh — a local high school student, detailer, and the
+                founder of {BRAND.name}. It started with a vacuum and a dream
+                after a summer helping my dad clean his car, then saving up and
+                practicing on friends&apos; and family cars around Bothell,
+                Woodinville, Kirkland, and nearby.
+              </p>
+              <p>
+                Running mobile and drop-off detailing taught me the same thing
+                every cold wash does: wet hands kill the job. That&apos;s what
+                pushed me from scrubbing cars to designing a thin waterproof
+                inner glove detailers can wear under any mitt.
+              </p>
+              <p>
+                I treat every car — and every prototype — like it&apos;s my own:
+                meticulous prep, honest feedback, and no claims we haven&apos;t
+                earned yet.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-4 pb-4 pt-2 lg:px-8">
         <div
           data-reveal
           className="overflow-hidden rounded-2xl border border-border"
@@ -78,7 +136,7 @@ export function AboutContent() {
 
       <section className="mx-auto max-w-3xl px-4 py-14 lg:px-8">
         <h2 data-reveal className="font-display text-2xl uppercase tracking-tight">
-          The founder story
+          How we got here
         </h2>
         <div data-reveal className="mt-6 space-y-4 text-base leading-relaxed text-muted">
           <p>
