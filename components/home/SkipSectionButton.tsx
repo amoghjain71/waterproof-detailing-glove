@@ -116,10 +116,10 @@ export function SkipSectionButton() {
         type="button"
         onClick={onSkip}
         className={cn(
-          "pointer-events-auto inline-flex items-center gap-2 rounded-full border border-border",
-          "bg-background/85 px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em]",
-          "text-foreground shadow-lg backdrop-blur-md transition",
-          "hover:border-cyan/50 hover:text-cyan focus-visible:outline-none",
+          "pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/25",
+          "bg-[#16181d]/92 px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em]",
+          "text-foreground shadow-[0_8px_28px_rgba(0,0,0,0.45)] backdrop-blur-md transition",
+          "hover:border-cyan/55 hover:text-cyan focus-visible:outline-none",
         )}
         aria-label={`${label}. Skip the current scroll animation and jump ahead.`}
       >

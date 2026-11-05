@@ -52,7 +52,8 @@ export function SizeDrawer({
             </div>
             <p className="mb-6 text-sm text-muted">
               Measure bare-hand circumference around the widest knuckles. Between
-              sizes? Choose the larger. Only size M is confirmed so far.
+              sizes? Choose the larger. M is the measured sample; L and XL are
+              graded from it. S is still pending.
             </p>
             <SizeFinder
               onRecommend={(code) => {

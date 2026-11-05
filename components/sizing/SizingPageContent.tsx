@@ -111,10 +111,11 @@ export function SizingPageContent() {
             </table>
           </div>
           <p className="mt-4 text-sm text-muted">
-            Sample dims for M: overall length / middle finger / palm width laid
-            flat / cuff. 95 mm is palm width laid flat — not a hand-size range.
-            Between sizes? Choose the larger. We will not invent S, L, or XL
-            ranges.
+            Sample dims: overall length / middle finger / palm width laid flat /
+            cuff. Palm width laid flat is a glove measurement, not a hand-size
+            range. M is the measured sample; L and XL are graded from it using
+            standard work-glove steps. S remains pending. Between sizes? Choose
+            the larger.
           </p>
         </div>
       </section>
@@ -125,8 +126,7 @@ export function SizingPageContent() {
             Fits under your mitt
           </h2>
           <p className="mt-3 text-sm text-muted">
-            Pick a mitt style for a friendly fit note — no invented
-            measurements.
+            Pick a mitt style for a friendly fit note.
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
             {(Object.keys(MITT_COMPATIBILITY_NOTES) as MittStyle[]).map(

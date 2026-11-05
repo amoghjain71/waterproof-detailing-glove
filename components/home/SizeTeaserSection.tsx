@@ -41,8 +41,9 @@ export function SizeTeaserSection() {
         </h2>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
           Bare-hand circumference around the widest knuckles — fingers together,
-          thumb excluded. Size M is confirmed at 200–215 mm. S, L, and XL are
-          still being set from fit trials.
+          thumb excluded. M is confirmed at 200–215 mm; L (216–230) and XL
+          (231–250) are graded from that sample and standard work-glove steps. S
+          is still pending.
         </p>
 
         <div className="mt-10 grid items-stretch gap-6 lg:grid-cols-2">

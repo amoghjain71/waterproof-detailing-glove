@@ -107,7 +107,7 @@ export function ProblemSection() {
           </h2>
           <DropletDivider className="justify-start py-4" />
           <ul className="mt-4 space-y-4">
-            <li data-stat-card className="rounded-2xl border border-border bg-glass px-5 py-4">
+            <li data-stat-card className="rounded-2xl border border-white/18 bg-white/[0.06] px-5 py-4">
               <p
                 data-stat
                 data-end="90"
@@ -120,7 +120,7 @@ export function ProblemSection() {
                 {copy.problemStats[0].label}
               </p>
             </li>
-            <li data-stat-card className="rounded-2xl border border-border bg-glass px-5 py-4">
+            <li data-stat-card className="rounded-2xl border border-white/18 bg-white/[0.06] px-5 py-4">
               <p
                 data-stat
                 data-end="82"
@@ -133,7 +133,7 @@ export function ProblemSection() {
                 {copy.problemStats[1].label}
               </p>
             </li>
-            <li data-stat-card className="rounded-2xl border border-border bg-glass px-5 py-4">
+            <li data-stat-card className="rounded-2xl border border-white/18 bg-white/[0.06] px-5 py-4">
               <p
                 data-stat
                 data-end="64"
@@ -150,11 +150,13 @@ export function ProblemSection() {
           <p className="mt-4 text-xs text-muted">{SURVEY_FOOTNOTE}</p>
         </div>
 
-        <div
-          ref={maskRef}
-          className="relative aspect-square overflow-hidden rounded-full border border-border md:aspect-auto md:h-[70vh] md:rounded-none md:[clip-path:circle(18%_at_70%_50%)]"
-        >
-          <AutoVideo id="problem-cold-hands" className="h-full w-full" />
+        <div className="relative md:[filter:drop-shadow(0_0_0_1.5px_rgba(127,214,255,0.45))_drop-shadow(0_0_18px_rgba(127,214,255,0.18))]">
+          <div
+            ref={maskRef}
+            className="relative aspect-square overflow-hidden rounded-full border border-cyan/30 md:aspect-auto md:h-[70vh] md:rounded-none md:border-0 md:[clip-path:circle(18%_at_70%_50%)]"
+          >
+            <AutoVideo id="problem-cold-hands" className="h-full w-full" />
+          </div>
         </div>
       </div>
     </section>

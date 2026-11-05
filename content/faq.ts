@@ -9,7 +9,7 @@ export const faqItems: FaqItem[] = [
     id: "fit-under-mitt",
     question: "Does it fit under a normal wash mitt?",
     answer:
-      "It is built as a thin five-finger inner glove with minimal seam bulk, designed to sit underneath a standard microfiber, chenille, or merino wash mitt. Size M sample dimensions target that under-mitt fit; other sizes are still being set from fit trials.",
+      "It is built as a thin five-finger inner glove with minimal seam bulk, designed to sit underneath a standard microfiber, chenille, or merino wash mitt. Size M sample dimensions target that under-mitt fit; L and XL are graded from that sample.",
   },
   {
     id: "stays-on",
@@ -45,7 +45,7 @@ export const faqItems: FaqItem[] = [
     id: "sizing",
     question: "How do I pick a size?",
     answer:
-      "Measure bare-hand circumference around the widest knuckles (fingers together, thumb excluded) with a flexible tape — not squeezed. Size M is confirmed for about 200–215 mm. S, L, and XL ranges are still being set from fit trials. Between sizes, choose the larger.",
+      "Measure bare-hand circumference around the widest knuckles (fingers together, thumb excluded) with a flexible tape — not squeezed. M is 200–215 mm (measured sample). L is 216–230 mm and XL is 231–250 mm, graded from M using standard work-glove size steps. S is still pending. Between sizes, choose the larger.",
   },
   {
     id: "shipping",
