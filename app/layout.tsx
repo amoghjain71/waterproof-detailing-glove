@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo_Black, DM_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
@@ -103,6 +104,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <AppProviders>
           <SiteShell>{children}</SiteShell>
         </AppProviders>
+        <Analytics />
       </body>
     </html>
   );
