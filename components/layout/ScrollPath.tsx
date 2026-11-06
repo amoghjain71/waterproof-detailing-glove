@@ -1,30 +1,67 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import { usePrefersReducedMotion } from "@/lib/reduced-motion";
 
-function snake(width: number, height: number) {
-  const edge = Math.max(16, Math.min(40, width * 0.03));
-  const reach = width > 800 ? width * 0.34 : Math.min(72, width * 0.18);
-  const step = 440;
-  let y = 80;
-  let onEdge = true;
-  let d = `M ${width - edge} 0`;
+type Point = { x: number; y: number };
 
-  while (y < height + step) {
-    const y2 = Math.min(height, y);
-    const from = onEdge ? width - edge : width - reach;
-    const to = onEdge ? width - reach : width - edge;
-    d += ` C ${from} ${y - step * 0.65}, ${to} ${y2 - step * 0.35}, ${to} ${y2}`;
-    onEdge = !onEdge;
-    if (y >= height) break;
-    y += step;
+function buildPath(points: Point[], width: number) {
+  if (points.length === 0) return "";
+  if (points.length === 1) {
+    const p = points[0]!;
+    return `M ${p.x} ${p.y}`;
+  }
+
+  const swing = width * 0.1;
+  const stackThreshold = width * 0.08;
+  let d = `M ${points[0]!.x} ${points[0]!.y}`;
+  let swingSign = 1;
+
+  for (let i = 1; i < points.length; i += 1) {
+    const prev = points[i - 1]!;
+    const curr = points[i]!;
+    const dy = curr.y - prev.y;
+    const dx = Math.abs(curr.x - prev.x);
+
+    // Vertical tangents: control points share endpoint X so L/R hops curve smoothly.
+    let c1x = prev.x;
+    let c2x = curr.x;
+    const c1y = prev.y + dy * 0.35;
+    const c2y = curr.y - dy * 0.35;
+
+    // Nearly stacked points get an alternating lateral swing so the line still snakes.
+    if (dx < stackThreshold) {
+      const side = swingSign;
+      swingSign *= -1;
+      c1x = prev.x + side * swing;
+      c2x = curr.x + side * swing;
+    }
+
+    d += ` C ${c1x} ${c1y}, ${c2x} ${c2y}, ${curr.x} ${curr.y}`;
   }
 
   return d;
 }
 
-export function ScrollPath() {
+/** Furthest length along a mostly-downward path whose y is still <= targetY. */
+function lengthAtY(path: SVGPathElement, total: number, targetY: number) {
+  if (total <= 0) return 0;
+  if (path.getPointAtLength(total).y <= targetY) return total;
+  let lo = 0;
+  let hi = total;
+  for (let i = 0; i < 28; i += 1) {
+    const mid = (lo + hi) / 2;
+    if (path.getPointAtLength(mid).y <= targetY) lo = mid;
+    else hi = mid;
+  }
+  return lo;
+}
+
+export function ScrollPath({
+  containerRef,
+}: {
+  containerRef?: RefObject<HTMLElement | null>;
+} = {}) {
   const svgRef = useRef<SVGSVGElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const reduced = usePrefersReducedMotion();
@@ -35,28 +72,65 @@ export function ScrollPath() {
     if (!svg || !path) return;
 
     let frame = 0;
+    let length = 0;
 
     const layout = () => {
-      const width = document.documentElement.clientWidth;
-      const height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+      const root = containerRef?.current ?? document.body;
+      const rootRect = root.getBoundingClientRect();
+      const width = root.clientWidth || document.documentElement.clientWidth;
+      const height = Math.max(root.scrollHeight, root.clientHeight, window.innerHeight);
+
+      const nodes = Array.from(root.querySelectorAll<HTMLElement>("[data-path-point]"));
+      if (nodes.length === 0) {
+        path.setAttribute("d", "");
+        svg.style.height = "0px";
+        svg.setAttribute("viewBox", `0 0 ${width} 0`);
+        return 0;
+      }
+
+      const scrollY = window.scrollY;
+      const centerX = width / 2;
+      const minX = width * 0.08;
+      const maxX = width * 0.92;
+      const points: Point[] = nodes.map((node) => {
+        const rect = node.getBoundingClientRect();
+        const rawX = rect.left + rect.width / 2 - rootRect.left;
+        return {
+          x: Math.min(maxX, Math.max(minX, rawX)),
+          y: rect.top + scrollY + rect.height / 2 - (rootRect.top + scrollY),
+        };
+      });
+      points.push({
+        x: centerX,
+        y: Math.max(height - 24, (points.at(-1)?.y ?? 0) + 48),
+      });
+
+      const stroke = width > 800 ? 4 : 3;
+      path.setAttribute("stroke-width", String(stroke));
       svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
       svg.style.height = `${height}px`;
-      path.setAttribute("d", snake(width, height));
-      const length = path.getTotalLength();
+      path.setAttribute("d", buildPath(points, width));
+      length = path.getTotalLength();
       path.style.strokeDasharray = `${length}`;
       return length;
     };
-
-    let length = layout();
 
     const paint = () => {
       if (reduced) {
         path.style.strokeDashoffset = "0";
         return;
       }
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max <= 0 ? 1 : Math.min(1, Math.max(0, window.scrollY / max));
-      path.style.strokeDashoffset = `${length * (1 - progress)}`;
+      if (length <= 0) {
+        path.style.strokeDashoffset = "0";
+        return;
+      }
+      // Reveal by viewport Y, not page %, so horizontal weaves (same Y, lots of length)
+      // still finish before those waypoints scroll off-screen.
+      const root = containerRef?.current ?? document.body;
+      const rootTop = root.getBoundingClientRect().top + window.scrollY;
+      const headY = window.scrollY + window.innerHeight * 0.55 - rootTop;
+      const drawn = lengthAtY(path, length, headY);
+      path.style.strokeDashoffset = `${length - drawn}`;
     };
 
     const onScroll = () => {
@@ -69,11 +143,12 @@ export function ScrollPath() {
       paint();
     };
 
+    length = layout();
     paint();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
     const observer = new ResizeObserver(onResize);
-    observer.observe(document.body);
+    observer.observe(containerRef?.current ?? document.body);
 
     return () => {
       cancelAnimationFrame(frame);
@@ -81,22 +156,23 @@ export function ScrollPath() {
       window.removeEventListener("resize", onResize);
       observer.disconnect();
     };
-  }, [reduced]);
+  }, [containerRef, reduced]);
 
   return (
     <svg
       ref={svgRef}
-      className="pointer-events-none absolute inset-x-0 top-0 z-0 w-full"
+      className="pointer-events-none absolute inset-x-0 top-0 z-path w-full"
       data-scroll-path
       aria-hidden
     >
       <path
         ref={pathRef}
         fill="none"
-        stroke="var(--ink)"
-        strokeWidth="2"
-        strokeOpacity="0.28"
-        strokeLinecap="square"
+        stroke="var(--brand)"
+        strokeWidth="4"
+        strokeOpacity="0.65"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

@@ -96,10 +96,12 @@ export function LayersSection() {
         <AutoVideo id="layers-macro" className="h-full w-full" />
       </div>
 
-      <div className="relative mx-auto grid min-h-fold max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <div className="mx-auto grid min-h-fold max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div>
-          <h2 className="font-display text-h2">Thin</h2>
-          <p className="mt-4 text-body text-ink">
+          <h2 data-path-point className="relative z-10 font-display text-h2">
+            Thin
+          </h2>
+          <p className="relative z-10 mt-4 text-body text-ink">
             One millimeter of neoprene between a matte nylon shell and a smooth tricot
             lining. The target finished laminate is 1.8 mm or thinner, so your mitt still
             slides on.

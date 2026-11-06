@@ -41,10 +41,12 @@ const ROWS = [
 
 export function CompareSection() {
   return (
-    <section className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+    <section className="relative border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <h2 className="font-display text-h2">Compare</h2>
-        <div className="mt-8 w-full min-w-0 overflow-x-auto border border-rule">
+        <h2 data-path-point className="relative z-10 font-display text-h2">
+          Compare
+        </h2>
+        <div className="relative z-10 mt-8 w-full min-w-0 overflow-x-auto border border-rule">
           <table className="w-full min-w-sheet border-collapse text-left text-body">
             <thead>
               <tr>

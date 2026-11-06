@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { SizeCode } from "@/data/sizes";
 import type { BundleId } from "@/lib/config";
 import { CompareSection } from "@/components/home/CompareSection";
@@ -16,14 +16,17 @@ import { StickyBuyBar } from "@/components/home/StickyBuyBar";
 import { TestPreview } from "@/components/home/TestPreview";
 import { WhatItIs } from "@/components/home/WhatItIs";
 import { WhyGlove } from "@/components/home/WhyGlove";
+import { ScrollPath } from "@/components/layout/ScrollPath";
 
 export function HomeStory() {
+  const rootRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<SizeCode>("M");
   const [bundleId, setBundleId] = useState<BundleId>("single");
   const [sizerOpen, setSizerOpen] = useState(false);
 
   return (
-    <div className="relative w-full min-w-0 pb-24">
+    <div ref={rootRef} className="relative w-full min-w-0 pb-24">
+      <ScrollPath containerRef={rootRef} />
       <HomeHero
         size={size}
         bundleId={bundleId}

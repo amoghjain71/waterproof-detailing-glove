@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function FounderNote() {
   return (
-    <section className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+    <section className="relative border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl items-start gap-10 lg:grid-cols-12">
         <div className="overflow-hidden border border-rule lg:col-span-5">
           <Image
@@ -14,8 +14,10 @@ export function FounderNote() {
           />
         </div>
         <div className="lg:col-span-7">
-          <h2 className="font-display text-h2">Why I am building this</h2>
-          <div className="mt-6 max-w-xl space-y-4 text-body text-ink">
+          <h2 data-path-point className="relative z-10 font-display text-h2">
+            Why I am building this
+          </h2>
+          <div className="relative z-10 mt-6 max-w-xl space-y-4 text-body text-ink">
             <p>
               I wash cars in the Pacific Northwest. Every mitt soaks through, and I swap two
               to four of them on a full wash. My hands get cold and wet.

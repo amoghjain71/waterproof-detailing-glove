@@ -18,11 +18,14 @@ const ROWS = [
 
 export function SpecSheet() {
   return (
-    <section id="spec" className="border-t border-rule bg-surface px-4 py-16 sm:px-6 lg:px-8">
+    <section id="spec" className="relative border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 -z-10 bg-surface" aria-hidden />
       <TrackOnView event="view_spec_sheet" targetId="spec" />
       <div className="mx-auto max-w-7xl">
-        <h2 className="font-display text-h2">Spec sheet</h2>
-        <div className="mt-8 overflow-x-auto border border-rule">
+        <h2 data-path-point className="relative z-10 font-display text-h2">
+          Spec sheet
+        </h2>
+        <div className="relative z-10 mt-8 overflow-x-auto border border-rule">
           <table className="w-full border-collapse text-left text-body">
             <thead>
               <tr>
@@ -49,7 +52,7 @@ export function SpecSheet() {
             </tbody>
           </table>
         </div>
-        <p className="mt-4 text-label text-ink-muted">
+        <p className="relative z-10 mt-4 text-label text-ink-muted">
           Prototype V2 development specs. Final values are set after sample testing.
         </p>
       </div>

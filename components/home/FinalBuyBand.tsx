@@ -47,10 +47,13 @@ export function FinalBuyBand({
   }
 
   return (
-    <section className="bg-band px-4 py-16 sm:px-6 lg:px-8">
+    <section className="relative px-4 py-16 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 -z-10 bg-band" aria-hidden />
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
-        <h2 className="font-display text-h1 text-on-band">Wet job. Dry hands.</h2>
-        <div className="border border-rule bg-surface p-6">
+        <h2 data-path-point className="relative z-10 font-display text-h1 text-on-band">
+          Wet job. Dry hands.
+        </h2>
+        <div className="relative z-10 border border-rule bg-surface p-6">
           <BuyModule
             size={size}
             bundleId={bundleId}

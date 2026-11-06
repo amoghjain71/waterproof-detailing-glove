@@ -20,11 +20,15 @@ const ROWS = [
 
 export function WhyGlove() {
   return (
-    <section className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+    <section className="relative border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <h2 className="font-display max-w-3xl text-h2">Why a glove, not a lined mitt</h2>
-        <p className="mt-4 text-label text-ink-muted">From our survey, not a customer review.</p>
-        <div className="mt-8 border-t border-rule">
+        <h2 data-path-point className="relative z-10 font-display max-w-3xl text-h2">
+          Why a glove, not a lined mitt
+        </h2>
+        <p className="relative z-10 mt-4 text-label text-ink-muted">
+          From our survey, not a customer review.
+        </p>
+        <div className="relative z-10 mt-8 border-t border-rule">
           {ROWS.map((row) => (
             <article key={row.title} className="grid gap-4 border-b border-rule py-6 lg:grid-cols-12">
               <h3 className="font-display text-h3 lg:col-span-3">{row.title}</h3>

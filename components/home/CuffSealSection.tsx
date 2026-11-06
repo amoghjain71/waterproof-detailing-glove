@@ -50,11 +50,13 @@ export function CuffSealSection() {
   }, [reduced]);
 
   return (
-    <section ref={rootRef} className="border-t border-rule px-4 py-20 sm:px-6 lg:px-8">
+    <section ref={rootRef} className="relative border-t border-rule px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
         <div>
-          <h2 className="font-display text-h2">Sealed cuff</h2>
-          <p className="mt-4 text-body text-ink-muted">
+          <h2 data-path-point className="relative z-10 font-display text-h2">
+            Sealed cuff
+          </h2>
+          <p className="relative z-10 mt-4 text-body text-ink-muted">
             A soft silicone lip and a 25 mm strap close the cuff, so the water has
             nowhere to run in. Designed to. The strap sits under the mitt.
           </p>
@@ -131,7 +133,7 @@ export function CuffSealSection() {
             </svg>
           </div>
 
-          <div className="mt-4 inline-flex rounded border border-rule p-1">
+          <div className="relative z-10 mt-4 inline-flex rounded border border-rule p-1">
             <button
               type="button"
               className={cn(

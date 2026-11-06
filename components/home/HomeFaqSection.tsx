@@ -58,13 +58,15 @@ const ITEMS = [
 
 export function HomeFaqSection() {
   return (
-    <section id="faq" className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+    <section id="faq" className="relative border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-3xl">
-        <h2 className="font-display text-h2">Questions</h2>
-        <div className="mt-8">
+        <h2 data-path-point className="relative z-10 font-display text-h2">
+          Questions
+        </h2>
+        <div className="relative z-10 mt-8">
           <Accordion items={ITEMS} defaultOpen={["fit", "paint", "cuff"]} />
         </div>
-        <Link href="/faq" className="mt-6 inline-flex text-label text-brand">
+        <Link href="/faq" className="relative z-10 mt-6 inline-flex text-label text-brand">
           More questions
         </Link>
       </div>

@@ -25,6 +25,7 @@ export function BuyModule({
   onBundle,
   onOpenSizer,
   observe = false,
+  compact = false,
 }: {
   size: SizeCode;
   bundleId: BundleId;
@@ -32,6 +33,8 @@ export function BuyModule({
   onBundle: (id: BundleId) => void;
   onOpenSizer?: () => void;
   observe?: boolean;
+  /** Tighter spacing for the home hero fold. */
+  compact?: boolean;
 }) {
   const addItem = useCart((s) => s.addItem);
   const [busy, setBusy] = useState(false);
@@ -82,7 +85,10 @@ export function BuyModule({
   }
 
   return (
-    <div data-buy-module={observe ? "hero" : undefined} className="mt-8">
+    <div
+      data-buy-module={observe ? "hero" : undefined}
+      className={compact ? "mt-4" : "mt-8"}
+    >
       <p className="text-label text-ink">Size</p>
       <div className="mt-2 flex gap-2">
         {SIZES.map((code) => (
@@ -104,40 +110,41 @@ export function BuyModule({
         ))}
       </div>
       {size === "M" && sample ? (
-        <p className="mt-3 text-label text-ink-muted">
-          Size M sample: {sample.overallLengthMm} mm length, {sample.palmWidthLaidFlatMm} mm palm
-          width, {sample.middleFingerMm} mm middle finger, {sample.cuffLengthMm} mm cuff. Hand
-          circumference 200 to 215 mm.
+        <p className="mt-2 text-label text-ink-muted">
+          {compact
+            ? `Size M sample: hand circumference 200 to 215 mm.`
+            : `Size M sample: ${sample.overallLengthMm} mm length, ${sample.palmWidthLaidFlatMm} mm palm width, ${sample.middleFingerMm} mm middle finger, ${sample.cuffLengthMm} mm cuff. Hand circumference 200 to 215 mm.`}
         </p>
       ) : (
-        <p className="mt-3 text-label text-ink">Size set finalizing.</p>
+        <p className="mt-2 text-label text-ink">Size set finalizing.</p>
       )}
       {onOpenSizer ? (
         <button
           type="button"
           onClick={onOpenSizer}
-          className="mt-3 text-label text-brand"
+          className="mt-2 text-label text-brand"
         >
           Which size?
         </button>
       ) : null}
 
-      <div className="mt-6">
+      <div className={compact ? "mt-3" : "mt-6"}>
         <BundleSelector
           value={bundleId}
           onChange={(id) => {
             onBundle(id);
             track("select_bundle", { bundle: id });
           }}
+          compact={compact}
         />
       </div>
 
       {canBuy ? (
-        <Button className="mt-6 w-full" loading={busy} onClick={preorder}>
+        <Button className={cn("w-full", compact ? "mt-3" : "mt-6")} loading={busy} onClick={preorder}>
           Pre-order
         </Button>
       ) : (
-        <form className="mt-6" onSubmit={notify}>
+        <form className={compact ? "mt-3" : "mt-6"} onSubmit={notify}>
           <Input
             label="Email for this size"
             name="notify-email"
@@ -155,7 +162,7 @@ export function BuyModule({
         </form>
       )}
 
-      <div className="mt-4">
+      <div className="mt-3">
         <PreorderTerms />
       </div>
     </div>

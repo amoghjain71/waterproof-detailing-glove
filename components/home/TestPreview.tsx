@@ -35,10 +35,12 @@ export function TestPreview() {
   );
 
   return (
-    <section className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+    <section className="relative border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <h2 className="font-display text-h2">How we test it</h2>
-        <div className="mt-8 overflow-x-auto border border-rule">
+        <h2 data-path-point className="relative z-10 font-display text-h2">
+          How we test it
+        </h2>
+        <div className="relative z-10 mt-8 overflow-x-auto border border-rule">
           <table className="w-full border-collapse text-left text-body">
             <thead>
               <tr>
@@ -65,8 +67,10 @@ export function TestPreview() {
             </tbody>
           </table>
         </div>
-        <p className="mt-4 text-body text-ink">We publish every result, including failures.</p>
-        <Link href="/tested" className="mt-4 inline-flex text-label text-brand">
+        <p className="relative z-10 mt-4 text-body text-ink">
+          We publish every result, including failures.
+        </p>
+        <Link href="/tested" className="relative z-10 mt-4 inline-flex text-label text-brand">
           See the full test list
         </Link>
       </div>

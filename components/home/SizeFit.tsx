@@ -59,18 +59,20 @@ export function SizeFit({
   }
 
   return (
-    <section id="sizing" className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+    <section id="sizing" className="relative border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl items-start gap-10 lg:grid-cols-2">
         <div>
-          <h2 className="font-display text-h2">Size and fit</h2>
-          <p className="mt-4 max-w-xl text-body text-ink">
+          <h2 data-path-point className="relative z-10 font-display text-h2">
+            Size and fit
+          </h2>
+          <p className="relative z-10 mt-4 max-w-xl text-body text-ink">
             Measure around the widest knuckles, fingers together, thumb out. Snug, not
             squeezed. Between sizes, choose the larger.
           </p>
-          <p className="mt-4 text-body text-ink-muted">
+          <p className="relative z-10 mt-4 text-body text-ink-muted">
             M is the only confirmed size: 200 to 215 mm. S, L and XL are still being set.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="relative z-10 mt-6 flex flex-wrap gap-3">
             <Button type="button" onClick={() => onOpenChange(true)}>
               Open size calculator
             </Button>
@@ -79,7 +81,11 @@ export function SizeFit({
             </Button>
           </div>
           {onUseM ? (
-            <button type="button" className="mt-4 text-label text-brand" onClick={onUseM}>
+            <button
+              type="button"
+              className="relative z-10 mt-4 text-label text-brand"
+              onClick={onUseM}
+            >
               Use size M
             </button>
           ) : null}

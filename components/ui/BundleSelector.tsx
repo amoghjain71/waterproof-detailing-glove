@@ -10,11 +10,13 @@ export function BundleSelector({
   onChange,
   disabled = false,
   error,
+  compact = false,
 }: {
   value?: BundleId;
   onChange?: (id: BundleId) => void;
   disabled?: boolean;
   error?: string;
+  compact?: boolean;
 }) {
   const [internal, setInternal] = useState<BundleId>("single");
   const selected = value ?? internal;
@@ -42,7 +44,8 @@ export function BundleSelector({
             <label
               key={bundle.id}
               className={cn(
-                "flex cursor-pointer items-start justify-between gap-4 border p-4 text-body",
+                "flex cursor-pointer items-start justify-between gap-4 border text-body",
+                compact ? "p-3" : "p-4",
                 active ? "border-ink bg-surface" : "border-rule bg-ground",
                 "hover:border-ink",
               )}
@@ -56,12 +59,24 @@ export function BundleSelector({
                   onChange={() => choose(bundle.id)}
                 />
                 <span className="block text-ink">{bundle.name}</span>
-                <span className="mt-1 block text-label text-ink-muted">
-                  {bundle.note}
-                </span>
-                {saves ? (
-                  <span className="mt-1 block text-label text-ink">Best value</span>
-                ) : null}
+                {compact ? (
+                  saves ? (
+                    <span className="mt-1 block text-label text-ink-muted">
+                      {bundle.note} Best value
+                    </span>
+                  ) : (
+                    <span className="mt-1 block text-label text-ink-muted">{bundle.note}</span>
+                  )
+                ) : (
+                  <>
+                    <span className="mt-1 block text-label text-ink-muted">
+                      {bundle.note}
+                    </span>
+                    {saves ? (
+                      <span className="mt-1 block text-label text-ink">Best value</span>
+                    ) : null}
+                  </>
+                )}
               </span>
               <span className="text-ink">{formatUsd(bundle.priceUsd)}</span>
             </label>

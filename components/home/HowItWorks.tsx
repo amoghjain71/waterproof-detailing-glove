@@ -32,16 +32,21 @@ export function HowItWorks({
   );
 
   return (
-    <section id="how-it-works" className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+    <section id="how-it-works" className="relative border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <h2 className="font-display text-h2">How it works</h2>
+        <h2 data-path-point className="relative z-10 font-display text-h2">
+          How it works
+        </h2>
         <ol className="mt-10 grid gap-10 lg:grid-cols-3">
           {steps.map((step) => (
             <li key={step.n}>
-              <p className="font-display text-h3 text-ink">{step.n}</p>
-              <h3 className="mt-3 font-display text-h3">{step.title}</h3>
-              <p className="mt-3 text-body text-ink-muted">{step.body}</p>
-              <div className="mt-4 overflow-hidden border border-rule">
+              <p className="relative z-10 font-display text-h3 text-ink">{step.n}</p>
+              <h3 className="relative z-10 mt-3 font-display text-h3">{step.title}</h3>
+              <p className="relative z-10 mt-3 text-body text-ink-muted">{step.body}</p>
+              <div
+                data-path-point
+                className="mt-4 overflow-hidden border border-rule"
+              >
                 <AutoVideo id={step.video} className="aspect-mitt w-full" />
               </div>
             </li>

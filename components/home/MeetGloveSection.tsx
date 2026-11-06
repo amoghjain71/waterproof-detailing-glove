@@ -62,11 +62,13 @@ export function MeetGloveSection() {
     >
       <div className="mx-auto grid min-h-fold max-w-7xl items-center gap-8 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div>
-          <h2 className="font-display text-h2">Turn the glove</h2>
-          <p className="mt-4 text-body text-ink-muted">
+          <h2 data-path-point className="relative z-10 font-display text-h2">
+            Turn the glove
+          </h2>
+          <p className="relative z-10 mt-4 text-body text-ink-muted">
             Scroll to walk around the sample. The callouts mark the parts that matter in a wash.
           </p>
-          <ul className="mt-8 space-y-3">
+          <ul className="relative z-10 mt-8 space-y-3">
             {copy.meetAnnotations.map((a, i) => (
               <li
                 key={a.label}

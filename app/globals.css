@@ -43,12 +43,24 @@
   min-height: calc(100svh - var(--chrome-h));
 }
 
+@utility h-hero-media {
+  height: calc(100svh - var(--chrome-h) - 12rem);
+}
+
+@utility max-h-hero-media {
+  max-height: calc(100svh - var(--chrome-h) - 12rem);
+}
+
 @utility h-announce {
   min-height: var(--announce-h);
 }
 
 @utility top-chrome {
   top: var(--chrome-h);
+}
+
+@utility z-path {
+  z-index: 1;
 }
 
 .concept-mark {

@@ -9,11 +9,13 @@ export function WhatItIs() {
       <MeetGloveSection />
       <LayersSection />
       <CuffSealSection />
-      <section className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+      <section className="relative border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <h2 className="font-display text-h2">Fits how you wash</h2>
-            <p className="mt-4 max-w-xl text-body text-ink">
+            <h2 data-path-point className="relative z-10 font-display text-h2">
+              Fits how you wash
+            </h2>
+            <p className="relative z-10 mt-4 max-w-xl text-body text-ink">
               Articulated fingers are built for triggers, clips, and the motions of a real
               wash. Designed to stay thin under the mitt.
             </p>
