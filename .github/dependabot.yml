@@ -1,0 +1,18 @@
+# Security-focused dependency updates only. Never auto-merge.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    # Delay non-security version bumps at least 7 days after release.
+    cooldown:
+      default-days: 7
+    allow:
+      - dependency-type: direct
+    labels:
+      - dependencies
+      - security
+    commit-message:
+      prefix: deps
