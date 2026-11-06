@@ -2,9 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import { PageHero } from "@/components/ui/PageHero";
-import { BRAND } from "@/lib/config";
+import { Button } from "@/components/ui/Button";
 
-type Status = "idle" | "ok" | "error";
+type Status = "idle" | "sending" | "ok" | "error";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<Status>("idle");
@@ -23,6 +23,7 @@ export default function ContactPage() {
       setStatus("error");
       return;
     }
+    setStatus("sending");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -41,25 +42,24 @@ export default function ContactPage() {
   return (
     <div>
       <PageHero
-        eyebrow="Contact"
-        title={`Talk to ${BRAND.name}`}
-        description="Fit trials, pre-order timing, wholesale, or press — send a note. Messages validate with zod, log server-side, and append to data/submissions.json in development."
+        title="Contact"
+        description="Fit trials, pre-order timing, wholesale, or press. Send a note."
       />
 
-      <section className="mx-auto grid max-w-5xl gap-10 px-4 py-14 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-        <div className="space-y-4 text-sm text-muted">
+      <section className="mx-auto grid max-w-5xl gap-10 px-4 py-14 lg:split-5-7 lg:px-8">
+        <div className="space-y-4 text-label text-ink-muted">
           <p>
             Prefer product questions first? Check{" "}
-            <a href="/faq" className="text-cyan">
+            <a href="/faq" className="text-brand">
               FAQ
             </a>{" "}
             and{" "}
-            <a href="/tested" className="text-cyan">
+            <a href="/tested" className="text-brand">
               Tested
             </a>{" "}
-            for claims status.
+            for what is tested and what is not.
           </p>
-          <ul className="space-y-2 rounded-2xl border border-border bg-glass p-5">
+          <ul className="space-y-2 rounded border border-rule bg-surface p-5">
             <li>Pre-order & shipping timing</li>
             <li>Fit trials / sizing feedback</li>
             <li>Wholesale & shop inquiries</li>
@@ -69,12 +69,12 @@ export default function ContactPage() {
 
         <form
           onSubmit={onSubmit}
-          className="space-y-4 rounded-2xl border border-border bg-glass p-6"
+          className="space-y-4 rounded border border-rule bg-surface p-6"
         >
           <div>
             <label
               htmlFor="name"
-              className="text-xs uppercase tracking-[0.14em] text-muted"
+              className="text-label text-ink-muted"
             >
               Name
             </label>
@@ -82,13 +82,13 @@ export default function ContactPage() {
               id="name"
               name="name"
               required
-              className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-cyan/60"
+              className="mt-2 h-12 w-full border border-rule bg-ground px-4 text-body outline-none focus:border-brand"
             />
           </div>
           <div>
             <label
               htmlFor="email"
-              className="text-xs uppercase tracking-[0.14em] text-muted"
+              className="text-label text-ink-muted"
             >
               Email
             </label>
@@ -97,13 +97,13 @@ export default function ContactPage() {
               name="email"
               type="email"
               required
-              className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-cyan/60"
+              className="mt-2 h-12 w-full border border-rule bg-ground px-4 text-body outline-none focus:border-brand"
             />
           </div>
           <div>
             <label
               htmlFor="topic"
-              className="text-xs uppercase tracking-[0.14em] text-muted"
+              className="text-label text-ink-muted"
             >
               Topic
             </label>
@@ -112,7 +112,7 @@ export default function ContactPage() {
               name="topic"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-cyan/60"
+              className="mt-2 h-12 w-full border border-rule bg-ground px-4 text-body outline-none focus:border-brand"
             >
               <option value="general">General</option>
               <option value="preorder">Pre-order</option>
@@ -124,7 +124,7 @@ export default function ContactPage() {
           <div>
             <label
               htmlFor="message"
-              className="text-xs uppercase tracking-[0.14em] text-muted"
+              className="text-label text-ink-muted"
             >
               Message
             </label>
@@ -133,20 +133,17 @@ export default function ContactPage() {
               name="message"
               required
               rows={6}
-              className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-cyan/60"
+              className="mt-2 w-full border border-rule bg-ground px-4 py-3 text-body outline-none focus:border-brand"
             />
           </div>
-          <button
-            type="submit"
-            className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-white"
-          >
+          <Button type="submit" loading={status === "sending"} error={status === "error"}>
             Send message
-          </button>
+          </Button>
           {status === "ok" ? (
-            <p className="text-xs text-cyan">Message sent (logged + saved).</p>
+            <p className="text-label text-ink">Message sent.</p>
           ) : null}
           {status === "error" ? (
-            <p className="text-xs text-red-300">
+            <p className="text-label text-ink">
               Check email and message length (5+ characters).
             </p>
           ) : null}

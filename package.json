@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run audit:tells && next build",
+    "audit:tells": "node scripts/audit-tells.mjs",
     "start": "next start",
     "lint": "eslint"
   },

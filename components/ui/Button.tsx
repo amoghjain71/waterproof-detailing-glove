@@ -2,56 +2,76 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Magnetic } from "@/components/ui/Magnetic";
 
 type ButtonProps = {
   href?: string;
   children: React.ReactNode;
-  variant?: "primary" | "ghost" | "outline";
-  magnetic?: boolean;
+  variant?: "primary" | "outline" | "band";
   className?: string;
   type?: "button" | "submit";
   onClick?: () => void;
   disabled?: boolean;
+  loading?: boolean;
+  error?: boolean;
 };
 
 const variants = {
   primary:
-    "bg-accent text-white hover:bg-[color-mix(in_oklab,var(--accent)_88%,white)]",
-  ghost: "bg-transparent text-foreground hover:bg-white/5",
-  outline: "bg-transparent border border-border text-foreground hover:border-cyan/50",
+    "border border-brand bg-brand text-on-brand hover:bg-brand-hover active:bg-brand-hover",
+  outline:
+    "border border-ink bg-transparent text-ink hover:bg-surface active:bg-surface",
+  band: "border border-rule bg-transparent text-on-band hover:bg-surface hover:text-ink active:bg-surface active:text-ink",
 };
 
 export function Button({
   href,
   children,
   variant = "primary",
-  magnetic = false,
   className,
   type = "button",
   onClick,
   disabled,
+  loading = false,
+  error = false,
 }: ButtonProps) {
   const classes = cn(
-    "btn-ripple relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium tracking-wide transition-[transform,background-color,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+    "inline-flex h-12 items-center justify-center gap-2 rounded px-4 text-label font-medium transition-colors duration-200 ease-wash",
     variants[variant],
-    disabled && "pointer-events-none opacity-50",
+    (disabled || loading) && "pointer-events-none opacity-40",
+    error && "border-ink",
     className,
   );
 
-  const inner = href ? (
-    <Link href={href} className={classes} onClick={onClick}>
-      <span className="relative z-10">{children}</span>
-    </Link>
-  ) : (
-    <button type={type} className={classes} onClick={onClick} disabled={disabled}>
-      <span className="relative z-10">{children}</span>
-    </button>
+  const content = (
+    <>
+      {loading ? <span className="spinner" aria-hidden /> : null}
+      <span>{children}</span>
+    </>
   );
 
-  if (magnetic) {
-    return <Magnetic>{inner}</Magnetic>;
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className={classes}
+        onClick={onClick}
+        aria-disabled={disabled || loading || undefined}
+        aria-busy={loading || undefined}
+      >
+        {content}
+      </Link>
+    );
   }
 
-  return inner;
+  return (
+    <button
+      type={type}
+      className={classes}
+      onClick={onClick}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+    >
+      {content}
+    </button>
+  );
 }

@@ -36,7 +36,7 @@ function LightboxInner({
 
   return (
     <motion.div
-      className="fixed inset-0 z-[130] flex items-center justify-center bg-background/90 p-4 backdrop-blur-md"
+      className="fixed inset-0 z-drawer flex items-center justify-center bg-ground p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -48,7 +48,7 @@ function LightboxInner({
     >
       <button
         type="button"
-        className="absolute right-4 top-4 rounded-full border border-border bg-glass px-3 py-2 text-sm"
+        className="absolute right-4 top-4 rounded border border-rule bg-surface px-3 py-2 text-label"
         onClick={onClose}
       >
         Close
@@ -56,7 +56,7 @@ function LightboxInner({
 
       <button
         type="button"
-        className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-glass px-3 py-2"
+        className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded border border-rule bg-surface px-3 py-2"
         aria-label="Previous"
         onClick={(e) => {
           e.stopPropagation();
@@ -67,7 +67,7 @@ function LightboxInner({
       </button>
       <button
         type="button"
-        className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-glass px-3 py-2"
+        className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded border border-rule bg-surface px-3 py-2"
         aria-label="Next"
         onClick={(e) => {
           e.stopPropagation();
@@ -79,7 +79,7 @@ function LightboxInner({
 
       <motion.div
         key={index}
-        className="relative w-full max-w-4xl overflow-hidden rounded-2xl border border-border"
+        className="relative w-full max-w-4xl overflow-hidden rounded border border-rule"
         initial={{ opacity: 0, x: 24 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -24 }}
@@ -103,7 +103,7 @@ function LightboxInner({
             alt={item.alt}
             width={1600}
             height={1200}
-            className="h-auto max-h-[80vh] w-full object-contain"
+            className="h-auto max-h-sheet w-full object-contain"
           />
         ) : (
           <AutoVideo
@@ -112,7 +112,7 @@ function LightboxInner({
             className="aspect-video w-full"
           />
         )}
-        <p className="border-t border-border bg-glass px-4 py-3 text-xs text-muted">
+        <p className="border-t border-rule bg-surface px-4 py-3 text-label text-ink-muted">
           {item.type === "image" ? item.alt : item.label} · {index + 1}/
           {items.length}
         </p>

@@ -10,8 +10,6 @@ export function ProductJsonLd() {
     "@context": "https://schema.org",
     "@type": "Product",
     name: BRAND.productName,
-    sku: BRAND.sku,
-    color: BRAND.colorway,
     brand: {
       "@type": "Brand",
       name: BRAND.name,

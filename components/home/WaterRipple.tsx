@@ -7,7 +7,7 @@ import { usePrefersReducedMotion } from "@/lib/reduced-motion";
  * Lightweight canvas water-ripple over the hero. Degrades to nothing when
  * WebGL/canvas or reduced-motion is unavailable (video/poster remains).
  */
-export function WaterRipple({ className = "" }: { className?: string }) {
+export function WaterRipple({ className="" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reduced = usePrefersReducedMotion();
 
@@ -136,7 +136,7 @@ export function WaterRipple({ className = "" }: { className?: string }) {
   return (
     <canvas
       ref={canvasRef}
-      className={`pointer-events-none absolute inset-0 z-[1] ${className}`}
+      className={`pointer-events-none absolute inset-0 z-10 ${className}`}
       aria-hidden
     />
   );

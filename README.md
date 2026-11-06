@@ -38,7 +38,7 @@ Edit [`lib/config.ts`](lib/config.ts) (and optionally env):
 | Key | Purpose |
 | --- | --- |
 | `BRAND.name` | Brand string in UI (currently **2Hands**) — never hardcode elsewhere |
-| `PRICE_USD` | Pair price (default `24.99`) |
+| `PRICE_USD` | Pair price (default `29.99`) |
 | `SALES_MODE` | `preorder` \| `live` — CTA labels + waitlist capture |
 | `CLAIM_LEVEL` | `intent` \| `proven` — Prototype badge + copy |
 | `SHOW_CONCEPT_LABEL` | “Concept visualization” on illustrative video |
@@ -53,6 +53,14 @@ Edit [`lib/config.ts`](lib/config.ts) (and optionally env):
 - Copy: [`content/copy.ts`](content/copy.ts)
 - Videos: [`content/videos.ts`](content/videos.ts)
 - FAQ / survey: [`content/faq.ts`](content/faq.ts), [`content/survey.ts`](content/survey.ts)
+
+## Three numbers to watch
+
+Events log in the browser console as `[track]`. Each event includes `src` and `utm_*` captured from the landing URL (for example `?src=meet`).
+
+- **Bundle take rate.** `select_bundle` and `add_to_cart` with `bundle` of `single` or `crew`, divided by `view_item`.
+- **Size calculator against exchanges.** `open_size_calculator` and `notify_size` against later size-exchange requests. The calculator only recommends M until other sizes are confirmed.
+- **Revenue per visitor.** Checkout totals divided by `view_item`, split by device width and by `src` or `utm_source`.
 
 ## Claims guardrails
 

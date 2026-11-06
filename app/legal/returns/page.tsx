@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal/LegalPage";
+import { EXCHANGE_POLICY_TEXT, REFUND_PROMISE_SHORT } from "@/lib/config";
 
 export const metadata: Metadata = { title: "Returns" };
 
@@ -7,13 +8,11 @@ export default function ReturnsPage() {
   return (
     <LegalPage title="Returns">
       <p>
-        Once fulfillment begins, unused pairs in original condition may be
-        returned within 30 days of delivery unless otherwise stated at checkout.
+        {REFUND_PROMISE_SHORT} {EXCHANGE_POLICY_TEXT}
       </p>
       <p>
-        Tried-on gloves that show wear, water exposure, chemical residue, or odor
-        may not qualify. We still want fit feedback — size notes from fit trials
-        help lock S / L / XL ranges.
+        Gloves that show wear, water exposure, or odor may not qualify for a size
+        exchange. Fit notes from trials still help.
       </p>
       <p>
         Defective units from manufacturing issues (seam failure, strap

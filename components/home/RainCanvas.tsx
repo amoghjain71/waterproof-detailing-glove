@@ -62,7 +62,10 @@ export function RainCanvas({ intensity = 0.4 }: { intensity?: number }) {
       while (drops.length > target) drops.pop();
 
       const alpha = 0.28 + intensityRef.current * 0.45;
-      ctx.strokeStyle = `rgba(127,214,255,${alpha})`;
+      ctx.strokeStyle = getComputedStyle(document.documentElement)
+        .getPropertyValue("--on-band")
+        .trim();
+      ctx.globalAlpha = alpha;
       ctx.lineWidth = 1 + intensityRef.current * 0.6;
       for (const d of drops) {
         ctx.beginPath();
@@ -75,6 +78,7 @@ export function RainCanvas({ intensity = 0.4 }: { intensity?: number }) {
           d.x = Math.random() * w;
         }
       }
+      ctx.globalAlpha = 1;
       raf = requestAnimationFrame(draw);
     };
 
@@ -96,7 +100,7 @@ export function RainCanvas({ intensity = 0.4 }: { intensity?: number }) {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none absolute inset-0 z-[2]"
+      className="pointer-events-none absolute inset-0 z-10"
       aria-hidden
     />
   );

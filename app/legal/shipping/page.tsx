@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal/LegalPage";
 import {
   FREE_SHIPPING_OVER_USD,
+  REFUND_PROMISE_SHORT,
   SHIPPING_FLAT_USD,
-  SHIP_ESTIMATE_TEXT,
+  SHIP_WINDOW,
 } from "@/lib/config";
 import { formatUsd } from "@/lib/utils";
 
@@ -13,14 +14,11 @@ export default function ShippingPage() {
   return (
     <LegalPage title="Shipping">
       <p>
-        Pre-order shipments begin after fit-trial lock and the first production
-        run. {SHIP_ESTIMATE_TEXT}
+        {SHIP_WINDOW}. {REFUND_PROMISE_SHORT}
       </p>
       <p>
-        Flat shipping is {formatUsd(SHIPPING_FLAT_USD)} per order unless a
-        promotion states otherwise. Orders over{" "}
-        {formatUsd(FREE_SHIPPING_OVER_USD)} qualify for free shipping once live
-        checkout is enabled.
+        Flat shipping is {formatUsd(SHIPPING_FLAT_USD)} per order. Orders over{" "}
+        {formatUsd(FREE_SHIPPING_OVER_USD)} ship free.
       </p>
       <p>
         We currently plan domestic US shipping first. International options,

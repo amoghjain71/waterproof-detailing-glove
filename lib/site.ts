@@ -10,7 +10,7 @@ export const SITE = {
   productName: BRAND.productName,
   description:
     "A thin waterproof inner glove designed to live under your wash mitt. Wet job. Dry hands.",
-  ogImage: "/images/og.png",
+  ogImage: "/images/glove/01-back-of-hand.jpg",
   twitterHandle: "@2hands",
 } as const;
 

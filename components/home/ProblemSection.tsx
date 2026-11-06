@@ -32,17 +32,11 @@ export function ProblemSection() {
           });
 
           tl.fromTo(
-            root,
-            { backgroundColor: "#0A0B0D" },
-            { backgroundColor: "#101820", duration: 0.4 },
+            maskRef.current,
+            { clipPath: "circle(18% at 70% 50%)" },
+            { clipPath: "circle(140% at 70% 50%)", ease: "none", duration: 1 },
             0,
-          )
-            .fromTo(
-              maskRef.current,
-              { clipPath: "circle(18% at 70% 50%)" },
-              { clipPath: "circle(140% at 70% 50%)", ease: "none", duration: 1 },
-              0,
-            );
+          );
 
           root.querySelectorAll<HTMLElement>("[data-stat]").forEach((el, i) => {
             const end = Number(el.dataset.end || 0);
@@ -99,61 +93,61 @@ export function ProblemSection() {
 
   return (
     <section ref={rootRef} id="problem" className="relative overflow-hidden">
-      <div className="mx-auto grid min-h-[calc(100svh-var(--header-h))] max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <div className="mx-auto grid min-h-fold max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan">The problem</p>
-          <h2 className="font-display mt-3 text-3xl uppercase tracking-tight sm:text-5xl">
+          <p className="text-label text-brand">The problem</p>
+          <h2 className="font-display mt-3 text-h2 sm:text-h1">
             Cold and wet hands are the current wash experience
           </h2>
           <DropletDivider className="justify-start py-4" />
-          <ul className="mt-4 space-y-4">
-            <li data-stat-card className="rounded-2xl border border-white/18 bg-white/[0.06] px-5 py-4">
+          <ul className="mt-6 border-t border-rule">
+            <li data-stat-card className="border-b border-rule py-4">
               <p
                 data-stat
                 data-end="90"
                 data-format="ratio"
-                className="font-display text-3xl text-accent"
+                className="font-display text-h2 text-ink"
               >
                 9 in 10
               </p>
-              <p className="mt-1 text-sm text-muted">
+              <p className="mt-1 text-body text-ink-muted">
                 {copy.problemStats[0].label}
               </p>
             </li>
-            <li data-stat-card className="rounded-2xl border border-white/18 bg-white/[0.06] px-5 py-4">
+            <li data-stat-card className="border-b border-rule py-4">
               <p
                 data-stat
                 data-end="82"
                 data-format="pct"
-                className="font-display text-3xl text-accent"
+                className="font-display text-h2 text-ink"
               >
                 82%
               </p>
-              <p className="mt-1 text-sm text-muted">
+              <p className="mt-1 text-body text-ink-muted">
                 {copy.problemStats[1].label}
               </p>
             </li>
-            <li data-stat-card className="rounded-2xl border border-white/18 bg-white/[0.06] px-5 py-4">
+            <li data-stat-card className="border-b border-rule py-4">
               <p
                 data-stat
                 data-end="64"
                 data-format="pct"
-                className="font-display text-3xl text-accent"
+                className="font-display text-h2 text-ink"
               >
                 64%
               </p>
-              <p className="mt-1 text-sm text-muted">
+              <p className="mt-1 text-body text-ink-muted">
                 {copy.problemStats[2].label}
               </p>
             </li>
           </ul>
-          <p className="mt-4 text-xs text-muted">{SURVEY_FOOTNOTE}</p>
+          <p className="mt-4 text-label text-ink-muted">{SURVEY_FOOTNOTE}</p>
         </div>
 
-        <div className="relative md:[filter:drop-shadow(0_0_0_1.5px_rgba(127,214,255,0.45))_drop-shadow(0_0_18px_rgba(127,214,255,0.18))]">
+        <div className="relative">
           <div
             ref={maskRef}
-            className="relative aspect-square overflow-hidden rounded-full border border-cyan/30 md:aspect-auto md:h-[70vh] md:rounded-none md:border-0 md:[clip-path:circle(18%_at_70%_50%)]"
+            className="relative aspect-square overflow-hidden rounded border border-brand md:aspect-auto md:min-h-fold md:rounded-none md:border-0 md:problem-mask"
           >
             <AutoVideo id="problem-cold-hands" className="h-full w-full" />
           </div>

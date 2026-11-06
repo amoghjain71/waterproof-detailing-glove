@@ -58,22 +58,20 @@ export function MeetGloveSection() {
   return (
     <section
       ref={rootRef}
-      className="relative overflow-hidden border-t border-border bg-background"
+      className="relative overflow-hidden border-t border-rule bg-ground"
     >
-      <div className="mx-auto grid min-h-[calc(100svh-var(--header-h))] max-w-7xl items-center gap-8 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <div className="mx-auto grid min-h-fold max-w-7xl items-center gap-8 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan">Meet the glove</p>
-          <h2 className="font-display mt-3 text-3xl uppercase tracking-tight sm:text-5xl">
-            Thin enough to live under any mitt
-          </h2>
+          <h2 className="font-display text-h2">Turn the glove</h2>
+          <p className="mt-4 text-body text-ink-muted">
+            Scroll to walk around the sample. The callouts mark the parts that matter in a wash.
+          </p>
           <ul className="mt-8 space-y-3">
             {copy.meetAnnotations.map((a, i) => (
               <li
                 key={a.label}
-                className={`rounded-xl border px-4 py-3 text-sm transition-colors ${
-                  active === i
-                    ? "border-accent bg-accent/10 text-foreground"
-                    : "border-border text-muted"
+                className={`border px-4 py-3 text-label ${
+                  active === i ? "border-ink bg-surface text-ink" : "border-rule text-ink-muted"
                 }`}
               >
                 {a.label}
@@ -82,7 +80,7 @@ export function MeetGloveSection() {
           </ul>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border border-border">
+        <div className="relative overflow-hidden border border-rule">
           <AutoVideo
             ref={videoRef}
             id="product-turntable"

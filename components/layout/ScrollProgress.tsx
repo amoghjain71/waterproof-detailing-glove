@@ -20,11 +20,11 @@ export function ScrollProgress() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-x-0 top-0 z-[100] h-[2px] bg-white/5"
+      className="pointer-events-none fixed inset-x-0 top-0 z-overlay h-1 bg-brand"
       aria-hidden
     >
       <div
-        className="h-full origin-left bg-accent"
+        className="h-full origin-left bg-brand"
         style={{
           transform: `scaleX(${progress})`,
           transition: reduced ? undefined : "transform 80ms linear",

@@ -1,44 +1,42 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { PAYMENT_PROVIDER } from "@/lib/config";
 
 export function PaymentSlot({
   onPlaceOrder,
   busy,
   disabled,
+  error = false,
 }: {
   onPlaceOrder: () => void;
   busy?: boolean;
   disabled?: boolean;
+  error?: boolean;
 }) {
   const isStripe = PAYMENT_PROVIDER === "stripe";
 
   return (
-    <div className="rounded-xl border border-border p-4">
-      <p className="text-xs uppercase tracking-[0.16em] text-cyan">Payment</p>
-      <p className="mt-2 text-sm font-medium">
+    <div className="border border-rule p-4">
+      <p className="text-label text-ink">Payment</p>
+      <p className="mt-2 text-body text-ink">
         {isStripe ? "Pay securely with Stripe Checkout" : "Payment method coming soon"}
       </p>
-      <p className="mt-1 text-xs text-muted">
+      <p className="mt-2 text-label text-ink-muted">
         {isStripe
-          ? "You’ll finish card payment on Stripe’s hosted checkout — no card data touches this site."
-          : <>Provider: <code className="text-cyan">{PAYMENT_PROVIDER}</code>. Mock checkout is enabled for local demos.</>}
+          ? "You finish card payment on Stripe. No card data touches this site."
+          : "Card payment is not connected on this build. This demo order does not charge a card."}
       </p>
-
-      <button
+      <Button
         type="button"
-        disabled={disabled || busy}
+        className="mt-4 w-full"
+        disabled={disabled}
+        loading={busy}
+        error={error}
         onClick={onPlaceOrder}
-        className="mt-4 w-full rounded-full bg-accent px-6 py-3 text-sm font-medium text-white disabled:opacity-50"
       >
-        {busy
-          ? isStripe
-            ? "Redirecting to Stripe…"
-            : "Placing mock order…"
-          : isStripe
-            ? "Continue to Stripe Checkout"
-            : "Place mock order"}
-      </button>
+        Pre-order
+      </Button>
     </div>
   );
 }

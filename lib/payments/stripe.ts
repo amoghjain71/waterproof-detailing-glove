@@ -48,7 +48,7 @@ export const stripePaymentProvider: PaymentProvider = {
         currency: "usd",
         unit_amount: Math.round(item.price * 100),
         product_data: {
-          name: `${BRAND.productName} — Size ${item.size}`,
+          name: `${item.label ?? BRAND.productName}, size ${item.size}`,
           metadata: { sku: item.sku, size: item.size },
         },
       },

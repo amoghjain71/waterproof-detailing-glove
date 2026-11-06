@@ -4,7 +4,7 @@ import { SizingPageContent } from "@/components/sizing/SizingPageContent";
 export const metadata: Metadata = {
   title: "Sizing",
   description:
-    "Measure hand circumference and find your Waterproof Detailing Inner Glove size. M measured; L and XL graded; S pending.",
+    "Measure around the widest knuckles. Size M is 200 to 215 mm. Other sizes are still being set.",
 };
 
 export default function SizingPage() {

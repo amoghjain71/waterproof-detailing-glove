@@ -9,7 +9,7 @@ export default function PrivacyPage() {
     <LegalPage title="Privacy">
       <p>
         {BRAND.name} collects information you submit for waitlist, contact, and
-        checkout purposes — typically name, email, shipping address, size
+        checkout purposes. typically name, email, shipping address, size
         preference, and message contents.
       </p>
       <p>
@@ -18,9 +18,8 @@ export default function PrivacyPage() {
         not sell personal data.
       </p>
       <p>
-        Payment card data will be handled by a PCI-compliant provider when live
-        payments are enabled. Until then, mock checkout does not collect card
-        numbers on this site.
+        Card numbers are not stored on this site. When card payment is connected,
+        Stripe handles the card.
       </p>
       <p>
         Analytics and server logs may record approximate location, device type,

@@ -11,6 +11,7 @@ import {
 import { getVideo, type VideoId } from "@/content/videos";
 import { VideoCaption } from "@/components/media/VideoCaption";
 import { usePrefersReducedMotion } from "@/lib/reduced-motion";
+import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
 export type AutoVideoHandle = {
@@ -88,13 +89,18 @@ export const AutoVideo = forwardRef<AutoVideoHandle, AutoVideoProps>(
       return () => cancelAnimationFrame(rafRef.current);
     }, [scrub, reduced]);
 
+    const played = useRef(false);
     const tryPlay = useCallback(() => {
       const el = videoRef.current;
       if (!el || scrub || reduced) return;
-      void el.play().catch(() => {
+      void el.play().then(() => {
+        if (played.current) return;
+        played.current = true;
+        track("play_video", { video: id });
+      }).catch(() => {
         /* autoplay may be blocked */
       });
-    }, [scrub, reduced]);
+    }, [id, scrub, reduced]);
 
     useEffect(() => {
       const el = videoRef.current;
@@ -127,11 +133,11 @@ export const AutoVideo = forwardRef<AutoVideoHandle, AutoVideoProps>(
           <div className="video-placeholder absolute inset-0" />
           <div className="relative flex aspect-video w-full items-center justify-center p-6">
             {isDev ? (
-              <p className="rounded-full border border-border bg-background/60 px-4 py-2 text-xs text-cyan">
+              <p className="rounded border border-rule bg-ground px-4 py-2 text-label text-brand">
                 Video: {entry.filename}
               </p>
             ) : (
-              <p className="text-sm text-muted">{entry.label}</p>
+              <p className="text-label text-ink-muted">{entry.label}</p>
             )}
           </div>
           {(showCaption ?? entry.concept) ? (
@@ -144,7 +150,7 @@ export const AutoVideo = forwardRef<AutoVideoHandle, AutoVideoProps>(
     }
 
     return (
-      <figure className={cn("relative m-0 overflow-hidden bg-black", className)}>
+      <figure className={cn("relative m-0 overflow-hidden bg-band", className)}>
         <video
           ref={videoRef}
           className={cn(
@@ -178,10 +184,14 @@ export const AutoVideo = forwardRef<AutoVideoHandle, AutoVideoProps>(
         {reduced && !manualPlay ? (
           <button
             type="button"
-            className="absolute inset-0 flex items-center justify-center bg-black/35 text-sm font-medium text-white"
+            className="absolute top-6 left-1/2 z-20 inline-flex h-12 -translate-x-1/2 items-center rounded border border-rule bg-band px-4 text-label font-medium text-on-band"
             onClick={() => {
               setManualPlay(true);
-              void videoRef.current?.play();
+              void videoRef.current?.play().then(() => {
+                if (played.current) return;
+                played.current = true;
+                track("play_video", { video: id });
+              });
             }}
           >
             Play video

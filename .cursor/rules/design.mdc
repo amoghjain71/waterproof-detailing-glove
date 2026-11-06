@@ -1,0 +1,21 @@
+---
+description: 2HANDS visual system. Tokens, type, spacing, and banned patterns.
+globs: "**/*.{tsx,css}"
+alwaysApply: true
+---
+
+# Design
+
+Light wash bay. Read tokens from app/tokens.css. No raw hex, no Tailwind palette colors, no arbitrary values such as p-[13px].
+
+Colors: --ground #E8EBED, --surface #F6F7F8, --ink #0F1216, --ink-muted #4B5560, --rule #C5CCD2, --brand #1B5FE0 (logo, primary button, links, focus only), --band #0B0D10, --brand-on-band #6FA3FF. No gradients, glows, or second accent.
+
+Type: Barlow Condensed 600/700 for headings, sentence case. Barlow 400/500/600 for body and labels, tabular numerals. Only text-h1 64/1.05, text-h2 44/1.1, text-h3 28/1.2, text-lead 20/1.5, text-body 18/1.55, text-label 14/1.4.
+
+Space on a 4px grid: 4, 8, 12, 16, 24, 32, 48, 64, 96. Radius 4px on controls and cards, 0 on media. Do not mix radii. No pills except the cart count.
+
+Buttons are 48px rectangles. Primary is --brand with white text. Hover darkens 8% with no glow. Secondary is an ink outline. Hover changes border or background only.
+
+Banned: backdrop-blur, glass, rounded-2xl, rounded-3xl, rounded-full, uppercase eyebrows, three identical cards, marquees, fade-up on every block, hover scale or lift, em dashes, Inter, Geist, system-ui, monospace, status pills, invented reviews.
+
+Claims: designed to, built to, or intended to until tests pass. Never certified, chemical-resistant, hypoallergenic, thermal rated, or PPE. No V-codes, SKU, or Planned badges in customer UI.

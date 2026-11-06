@@ -43,25 +43,25 @@ export function InUseSection() {
   }, [reduced, slides.length]);
 
   return (
-    <section ref={rootRef} className="border-t border-border">
-      <div className="mx-auto grid min-h-[calc(100svh-var(--header-h))] max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+    <section ref={rootRef} className="border-t border-rule">
+      <div className="mx-auto grid min-h-fold max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:split-5-7 lg:px-8">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan">In use</p>
+          <p className="text-label text-brand">In use</p>
           <div className="mt-6 space-y-6">
             {slides.map((slide, i) => (
               <article
                 key={slide.id}
                 className={cn(
-                  "rounded-2xl border p-5 transition-all duration-500",
+                  "rounded border p-5 transition-all duration-500",
                   i === index
-                    ? "border-accent bg-accent/10 opacity-100"
-                    : "border-border bg-glass opacity-45",
+                    ? "border-brand bg-surface opacity-100"
+                    : "border-rule bg-ground opacity-45",
                 )}
               >
-                <h3 className="font-display text-xl uppercase tracking-tight">
+                <h3 className="font-display text-h3">
                   {slide.title}
                 </h3>
-                <p className="mt-2 text-sm text-muted">{slide.body}</p>
+                <p className="mt-2 text-label text-ink-muted">{slide.body}</p>
               </article>
             ))}
           </div>
@@ -70,20 +70,20 @@ export function InUseSection() {
               <span
                 key={s.id}
                 className={cn(
-                  "h-1.5 w-8 rounded-full transition-colors",
-                  i === index ? "bg-accent" : "bg-border",
+                  "h-1.5 w-8 rounded transition-colors",
+                  i === index ? "bg-brand" : "bg-border",
                 )}
               />
             ))}
           </div>
         </div>
 
-        <div className="relative aspect-video overflow-hidden rounded-2xl border border-border">
+        <div className="relative aspect-video overflow-hidden rounded border border-rule">
           {slides.map((slide, i) => (
             <div
               key={slide.id}
               className={cn(
-                "absolute inset-0 transition-opacity duration-700",
+                "absolute inset-0 transition-opacity duration-500",
                 i === index ? "opacity-100" : "opacity-0 pointer-events-none",
               )}
             >

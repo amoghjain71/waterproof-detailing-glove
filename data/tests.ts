@@ -87,16 +87,16 @@ export const TEST_GATES: TestGate[] = [
     name: "Cold-water comfort",
     method: "Comfort-only evaluation in cool water washes.",
     sampleCount: "Optional comfort panel",
-    passMeans: "Comfort feedback only — no thermal rating implied.",
+    passMeans: "Comfort notes only. No temperature rating.",
     status: "planned",
     optional: true,
   },
 ];
 
 export const NOT_CLAIMING_YET = [
-  "Certification or laboratory accreditation",
-  "Chemical resistance or chemical-proof performance",
-  "Thermal rating or warm-to-X-degrees claims",
-  "PPE classification",
-  "Lifetime durability",
+  "A lab certificate",
+  "Proof against detailing chemicals",
+  "A temperature rating",
+  "Safety-equipment status",
+  "A lifetime",
 ] as const;

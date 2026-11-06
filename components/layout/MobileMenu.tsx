@@ -3,7 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { BRAND, NAV_LINKS } from "@/lib/config";
+import { usePathname } from "next/navigation";
+import { BRAND, HOME_NAV, PRICE_USD } from "@/lib/config";
+import { formatUsd } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
 import { FRAMER_EASE } from "@/lib/utils";
 
 export function MobileMenu({
@@ -13,57 +16,43 @@ export function MobileMenu({
   open: boolean;
   onClose: () => void;
 }) {
+  const pathname = usePathname();
+  const buyHref = pathname === "/" ? "#buy" : "/#buy";
+
   return (
     <AnimatePresence>
       {open ? (
         <motion.div
-          className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl lg:hidden"
+          className="fixed inset-0 z-40 bg-ground lg:hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25, ease: FRAMER_EASE }}
+          transition={{ duration: 0.2, ease: FRAMER_EASE }}
         >
-          <div className="flex h-full flex-col px-6 pb-10 pt-[calc(var(--header-h)+1.5rem)]">
+          <div className="flex h-full flex-col px-6 pb-10 pt-menu">
             <div className="mb-8">
               <Image
-                src="/images/brand/logo-gloves.png"
+                src="/images/brand/logo-mark.png"
                 alt={BRAND.name}
-                width={80}
-                height={80}
-                className="h-12 w-12 object-contain"
+                width={128}
+                height={120}
+                className="h-12 w-auto object-contain"
               />
             </div>
             <nav aria-label="Mobile" className="flex flex-col gap-2">
-              {NAV_LINKS.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 8 }}
-                  transition={{ delay: 0.05 * i, duration: 0.4, ease: FRAMER_EASE }}
-                >
-                  <Link
-                    href={link.href}
-                    onClick={onClose}
-                    className="font-display block border-b border-border py-4 text-3xl uppercase tracking-tight text-foreground"
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35, duration: 0.4, ease: FRAMER_EASE }}
-              >
+              {HOME_NAV.map((link) => (
                 <Link
-                  href="/contact"
+                  key={link.href}
+                  href={pathname === "/" ? link.href.slice(1) : link.href}
                   onClick={onClose}
-                  className="mt-6 inline-flex text-sm text-cyan"
+                  className="font-display block border-b border-rule py-4 text-h2 text-ink"
                 >
-                  Contact
+                  {link.label}
                 </Link>
-              </motion.div>
+              ))}
+              <Button href={buyHref} className="mt-6" onClick={onClose}>
+                Pre-order · {formatUsd(PRICE_USD)}
+              </Button>
             </nav>
           </div>
         </motion.div>

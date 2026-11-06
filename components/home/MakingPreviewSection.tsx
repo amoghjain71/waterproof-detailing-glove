@@ -42,17 +42,17 @@ export function MakingPreviewSection() {
   }, [reduced]);
 
   return (
-    <section ref={rootRef} className="overflow-hidden border-t border-border">
+    <section ref={rootRef} className="overflow-hidden border-t border-rule">
       <div className="flex items-end justify-between gap-4 px-4 pt-16 sm:px-6 lg:px-8">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan">How it&apos;s made</p>
-          <h2 className="font-display mt-3 text-3xl uppercase tracking-tight sm:text-5xl">
+          <p className="text-label text-brand">How it&apos;s made</p>
+          <h2 className="font-display mt-3 text-h2 sm:text-h1">
             Seven steps to a sealed pair
           </h2>
         </div>
         <Link
           href="/how-its-made"
-          className="shrink-0 text-sm text-cyan underline-offset-4 hover:underline"
+          className="shrink-0 text-label text-brand underline-offset-4 hover:underline"
         >
           See the full build
         </Link>
@@ -65,14 +65,14 @@ export function MakingPreviewSection() {
         {copy.makingSteps.map((step, i) => (
           <article
             key={step.title}
-            className="w-full shrink-0 overflow-hidden rounded-2xl border border-border bg-glass md:w-[280px]"
+            className="w-full shrink-0 overflow-hidden rounded border border-rule bg-surface md:w-panel"
           >
             <AutoVideo id={step.video} className="aspect-video w-full" />
             <div className="p-4">
-              <p className="text-xs text-accent">
+              <p className="text-label text-brand">
                 {String(i + 1).padStart(2, "0")}
               </p>
-              <h3 className="font-display mt-1 text-lg uppercase tracking-tight">
+              <h3 className="font-display mt-1 text-lead">
                 {step.title}
               </h3>
             </div>

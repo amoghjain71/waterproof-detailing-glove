@@ -22,14 +22,14 @@ export function SizeDrawer({
           <motion.button
             type="button"
             aria-label="Close size finder"
-            className="fixed inset-0 z-[110] bg-background/70 backdrop-blur-sm"
+            className="fixed inset-0 z-overlay bg-ground"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
           <motion.aside
-            className="fixed bottom-0 right-0 top-0 z-[120] flex w-full max-w-md flex-col border-l border-border bg-background p-6 shadow-2xl"
+            className="fixed bottom-0 right-0 top-0 z-drawer flex w-full max-w-md flex-col border-l border-rule bg-ground p-6"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -39,18 +39,18 @@ export function SizeDrawer({
             aria-label="Which size?"
           >
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="font-display text-2xl uppercase tracking-tight">
+              <h2 className="font-display text-h3">
                 Which size?
               </h2>
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-full border border-border px-3 py-1 text-sm"
+                className="rounded border border-rule px-3 py-1 text-label"
               >
                 Close
               </button>
             </div>
-            <p className="mb-6 text-sm text-muted">
+            <p className="mb-6 text-label text-ink-muted">
               Measure bare-hand circumference around the widest knuckles. Between
               sizes? Choose the larger. M is the measured sample; L and XL are
               graded from it. S is still pending.
@@ -62,7 +62,7 @@ export function SizeDrawer({
             />
             <Link
               href="/sizing"
-              className="mt-8 text-sm text-cyan underline-offset-4 hover:underline"
+              className="mt-8 text-label text-brand underline-offset-4 hover:underline"
               onClick={onClose}
             >
               Open full sizing guide

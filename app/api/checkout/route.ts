@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { checkoutRequestSchema } from "@/lib/schemas";
 import { getPaymentProvider } from "@/lib/payments";
 import { appendSubmission } from "@/lib/submissions";
+import { orderEmailHtml, sendEmail } from "@/lib/email";
 import { SALES_MODE } from "@/lib/config";
 
 export async function POST(request: Request) {
@@ -20,14 +21,18 @@ export async function POST(request: Request) {
     );
   }
 
-  const { customer, cart, waitlistEmail } = parsed.data;
+  const { customer, cart, waitlistEmail, attribution } = parsed.data;
 
   if (SALES_MODE === "preorder" && (waitlistEmail || customer.email)) {
     await appendSubmission({
       type: "waitlist",
       email: waitlistEmail ?? customer.email,
       size: cart[0]?.size,
-      source: "checkout-preorder",
+      source: attribution?.src
+        ? `checkout-preorder:${attribution.src}`
+        : attribution?.utm_source
+          ? `checkout-preorder:${attribution.utm_source}`
+          : "checkout-preorder",
       at: new Date().toISOString(),
     });
   }
@@ -35,6 +40,18 @@ export async function POST(request: Request) {
   try {
     const provider = getPaymentProvider();
     const result = await provider.createCheckout(cart, customer);
+    await sendEmail({
+      to: customer.email,
+      subject: "Your 2HANDS pre-order",
+      html: orderEmailHtml({
+        name: customer.name,
+        lines: cart.map((item) => ({
+          label: item.label ?? "Inner glove",
+          size: item.size,
+          qty: item.qty,
+        })),
+      }),
+    });
     return NextResponse.json(result);
   } catch (err) {
     console.error("[api/checkout]", err);

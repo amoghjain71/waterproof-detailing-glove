@@ -24,7 +24,7 @@ export function CartButton() {
     <button
       type="button"
       onClick={openCart}
-      className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-glass text-sm"
+      className="relative inline-flex h-12 w-12 items-center justify-center border border-rule bg-surface text-label"
       aria-label={`Cart, ${count} items`}
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -45,12 +45,12 @@ export function CartButton() {
             initial={{ scale: 0.6, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.6, opacity: 0 }}
-            className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold text-white"
+            className="cart-badge absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-1 text-label font-semibold text-on-brand"
           >
             {count}
           </motion.span>
         ) : (
-          <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent/40 px-1 text-[10px] font-semibold text-white">
+          <span className="cart-badge absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full border border-rule bg-surface px-1 text-label font-semibold text-ink">
             0
           </span>
         )}

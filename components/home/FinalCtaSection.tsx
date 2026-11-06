@@ -98,35 +98,34 @@ export function FinalCtaSection() {
     <section
       ref={rootRef}
       id="final-cta"
-      className="relative overflow-hidden border-t border-border"
+      className="relative overflow-hidden border-t border-rule"
     >
       <div className="absolute inset-0">
         <AutoVideo
           id="closing-cta-pair"
           className="h-full w-full opacity-40"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/80 to-background" />
       </div>
       <RainCanvas intensity={intensity} />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-var(--header-h))] max-w-5xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
-        <p className="mb-4 text-xs uppercase tracking-[0.2em] text-cyan">
+      <div className="relative z-10 mx-auto flex min-h-fold max-w-5xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
+        <p className="mb-4 text-label text-brand">
           Close the wash dry
         </p>
         <h2
           ref={headlineRef}
-          className="font-display hero-headline text-foreground"
+          className="font-display text-h1 text-ink"
         >
           {copy.finalCta}
         </h2>
-        <p ref={subRef} className="mt-4 max-w-xl text-muted">
+        <p ref={subRef} className="mt-4 max-w-xl text-ink-muted">
           Pre-order the {BRAND.productName}. Designed to keep water out. Built to
           stay thin under your mitt.
         </p>
 
         <div
           ref={cardRef}
-          className="mt-10 w-full max-w-md rounded-2xl border border-border bg-background/70 p-6 text-left backdrop-blur-md"
+          className="mt-10 w-full max-w-md rounded border border-rule bg-ground p-6 text-left"
         >
           <div className="flex flex-wrap gap-2">
             {SIZE_CHART.map((s) => (
@@ -135,20 +134,20 @@ export function FinalCtaSection() {
                 type="button"
                 onClick={() => setSize(s.code)}
                 className={cn(
-                  "rounded-full border px-4 py-2 text-sm",
+                  "rounded border px-4 py-2 text-label",
                   size === s.code
-                    ? "border-accent bg-accent/15 text-accent"
-                    : "border-border text-muted",
+                    ? "border-brand bg-surface text-brand"
+                    : "border-rule text-ink-muted",
                 )}
               >
                 {s.code}
               </button>
             ))}
           </div>
-          <p className="mt-3 text-xs text-muted">{selected?.note}</p>
+          <p className="mt-3 text-label text-ink-muted">{selected?.note}</p>
 
           <div className="mt-5 flex items-center justify-between">
-            <div className="inline-flex items-center gap-3 rounded-full border border-border px-3 py-2">
+            <div className="inline-flex items-center gap-3 rounded border border-rule px-3 py-2">
               <button
                 type="button"
                 aria-label="Decrease quantity"
@@ -156,7 +155,7 @@ export function FinalCtaSection() {
               >
                 −
               </button>
-              <span className="min-w-6 text-center text-sm">{qty}</span>
+              <span className="min-w-6 text-center text-label">{qty}</span>
               <button
                 type="button"
                 aria-label="Increase quantity"
@@ -165,14 +164,14 @@ export function FinalCtaSection() {
                 +
               </button>
             </div>
-            <p className="font-display text-2xl">
+            <p className="font-display text-h3">
               {formatUsd(PRICE_USD * qty)}
             </p>
           </div>
 
           <button
             type="button"
-            className="btn-ripple mt-6 w-full rounded-full bg-accent px-6 py-3 text-sm font-medium text-white"
+            className="mt-6 w-full rounded bg-brand px-6 py-3 text-label font-medium text-on-brand"
             onClick={() =>
               addItem({ size, qty, price: PRICE_USD, sku: BRAND.sku })
             }
@@ -180,19 +179,19 @@ export function FinalCtaSection() {
             {SALES_MODE === "preorder" ? "Pre-order" : "Add to cart"} ·{" "}
             {formatUsd(PRICE_USD * qty)}
           </button>
-          <p className="mt-3 text-[11px] text-muted">
+          <p className="mt-3 text-label text-ink-muted">
             Opens your cart drawer with size {size}.
           </p>
         </div>
 
         {!reduced ? (
           <div
-            className="mt-8 h-px w-40 overflow-hidden rounded-full bg-border"
+            className="mt-8 h-px w-40 overflow-hidden rounded bg-border"
             aria-hidden
           >
             <div
               ref={progressRef}
-              className="h-full w-full origin-left scale-x-0 bg-cyan"
+              className="h-full w-full origin-left scale-x-0 bg-ink"
             />
           </div>
         ) : null}

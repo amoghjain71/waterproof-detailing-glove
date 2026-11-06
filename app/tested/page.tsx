@@ -4,7 +4,7 @@ import { TestedPageContent } from "@/components/tested/TestedPageContent";
 export const metadata: Metadata = {
   title: "Tested",
   description:
-    "Durability and reliability testing program for the Waterproof Detailing Inner Glove. We show every result, passed or not.",
+    "Leak, cuff, flex, and strap tests for the 2HANDS glove. We publish every result, including failures.",
 };
 
 export default function TestedPage() {

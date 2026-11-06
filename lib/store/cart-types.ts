@@ -5,4 +5,5 @@ export type CartItem = {
   size: SizeCode;
   qty: number;
   price: number;
+  label?: string;
 };

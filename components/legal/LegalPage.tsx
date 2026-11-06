@@ -11,13 +11,12 @@ export function LegalPage({
   return (
     <div>
       <PageHero
-        eyebrow="Draft"
         title={title}
-        description={`Draft legal copy for ${BRAND.name}. Final terms will be confirmed before live fulfillment.`}
+        description={`Draft for ${BRAND.name}. These terms are confirmed before the first shipment.`}
       />
-      <section className="mx-auto max-w-3xl px-4 py-14 text-sm leading-relaxed text-muted lg:px-8">
-        <p className="mb-6 rounded-xl border border-border bg-glass px-4 py-3 text-xs uppercase tracking-[0.16em] text-cyan">
-          Draft — not final legal advice
+      <section className="mx-auto max-w-3xl px-4 py-14 text-body leading-relaxed text-ink-muted lg:px-8">
+        <p className="mb-6 border border-rule bg-surface px-4 py-3 text-label text-ink">
+          Draft. This is not legal advice.
         </p>
         <div className="space-y-4">{children}</div>
       </section>

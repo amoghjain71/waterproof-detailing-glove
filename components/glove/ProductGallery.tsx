@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn, FRAMER_EASE } from "@/lib/utils";
+import { AutoVideo } from "@/components/media/AutoVideo";
 import type { GalleryItem } from "@/components/glove/GalleryLightbox";
 
 export function ProductGallery({
   items,
   onExpand,
 }: {
-  items: Extract<GalleryItem, { type: "image" }>[];
+  items: GalleryItem[];
   onExpand: (index: number) => void;
 }) {
   const [index, setIndex] = useState(0);
@@ -33,7 +34,7 @@ export function ProductGallery({
   return (
     <div className="space-y-4">
       <div
-        className="relative overflow-hidden rounded-2xl border border-border bg-[#121418]"
+        className="relative overflow-hidden border border-rule bg-surface"
         onTouchStart={(e) => {
           const t = e.touches[0];
           (e.currentTarget as HTMLElement).dataset.tx = String(t?.clientX ?? 0);
@@ -54,28 +55,32 @@ export function ProductGallery({
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
-              key={current.src}
+              key={current.type === "image" ? current.src : current.id}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: FRAMER_EASE }}
-              className="relative aspect-[4/5] w-full"
+              transition={{ duration: 0.2, ease: FRAMER_EASE }}
+              className="relative aspect-portrait w-full"
             >
-              <Image
-                src={current.src}
-                alt={current.alt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                className="object-contain p-2 sm:p-4"
-                priority={index === 0}
-              />
+              {current.type === "image" ? (
+                <Image
+                  src={current.src}
+                  alt={current.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-contain p-4"
+                  priority={index === 0}
+                />
+              ) : (
+                <AutoVideo id={current.id} className="h-full w-full" priority={index === 0} />
+              )}
             </motion.div>
           </AnimatePresence>
         </button>
 
         <button
           type="button"
-          className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-background/80 px-3 py-2 text-sm backdrop-blur hover:border-cyan/50"
+          className="absolute left-3 top-1/2 z-10 h-12 -translate-y-1/2 border border-rule bg-ground px-3 text-label hover:border-ink"
           aria-label="Previous photo"
           onClick={() => go(-1)}
         >
@@ -83,7 +88,7 @@ export function ProductGallery({
         </button>
         <button
           type="button"
-          className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-background/80 px-3 py-2 text-sm backdrop-blur hover:border-cyan/50"
+          className="absolute right-3 top-1/2 z-10 h-12 -translate-y-1/2 border border-rule bg-ground px-3 text-label hover:border-ink"
           aria-label="Next photo"
           onClick={() => go(1)}
         >
@@ -92,54 +97,54 @@ export function ProductGallery({
 
         <button
           type="button"
-          className="absolute bottom-3 left-3 z-10 rounded-full border border-border bg-background/80 px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] text-cyan backdrop-blur hover:border-cyan/50"
+          className="absolute bottom-3 left-3 z-10 h-12 border border-rule bg-ground px-3 text-label text-ink hover:border-ink"
           onClick={() => onExpand(index)}
         >
           Expand
         </button>
 
         <div className="pointer-events-none absolute bottom-3 right-3">
-          <span className="rounded-full border border-border bg-background/75 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-cyan backdrop-blur">
+          <span className="border border-rule bg-ground px-3 py-1 text-label text-ink">
             {index + 1} / {items.length}
           </span>
         </div>
       </div>
 
       <div
-        className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-2 overflow-x-auto pb-1 scroll-hide"
         role="tablist"
         aria-label="Product photos"
       >
         {items.map((item, i) => {
           const active = i === index;
+          const label = item.type === "image" ? item.alt : item.label;
+          const key = item.type === "image" ? item.src : item.id;
           return (
             <button
-              key={item.src}
+              key={key}
               type="button"
               role="tab"
               aria-selected={active}
-              aria-label={item.alt}
+              aria-label={label}
               onClick={() => setIndex(i)}
               className={cn(
-                "relative h-16 w-14 shrink-0 overflow-hidden rounded-lg border transition-[border-color,opacity]",
-                active
-                  ? "border-cyan opacity-100"
-                  : "border-border opacity-70 hover:opacity-100",
+                "relative h-16 w-16 shrink-0 overflow-hidden border text-label",
+                active ? "border-ink" : "border-rule",
               )}
             >
-              <Image
-                src={item.src}
-                alt=""
-                fill
-                sizes="56px"
-                className="object-cover"
-              />
+              {item.type === "image" ? (
+                <Image src={item.src} alt="" fill sizes="64px" className="object-cover" />
+              ) : (
+                <span className="flex h-full items-center justify-center text-ink">Video</span>
+              )}
             </button>
           );
         })}
       </div>
 
-      <p className="text-center text-xs text-muted">{current.alt}</p>
+      <p className="text-label text-ink-muted">
+        {current.type === "image" ? current.alt : current.label}
+      </p>
     </div>
   );
 }

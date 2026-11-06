@@ -63,11 +63,12 @@ export function SkipSectionButton() {
   }, []);
 
   useEffect(() => {
-    refreshLabel();
+    const kick = window.setTimeout(refreshLabel, 0);
     window.addEventListener("scroll", refreshLabel, { passive: true });
     window.addEventListener("resize", refreshLabel);
     const id = window.setInterval(refreshLabel, 600);
     return () => {
+      window.clearTimeout(kick);
       window.removeEventListener("scroll", refreshLabel);
       window.removeEventListener("resize", refreshLabel);
       window.clearInterval(id);
@@ -116,14 +117,14 @@ export function SkipSectionButton() {
         type="button"
         onClick={onSkip}
         className={cn(
-          "pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/25",
-          "bg-[#16181d]/92 px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em]",
-          "text-foreground shadow-[0_8px_28px_rgba(0,0,0,0.45)] backdrop-blur-md transition",
-          "hover:border-cyan/55 hover:text-cyan focus-visible:outline-none",
+          "pointer-events-auto inline-flex items-center gap-2 rounded border border-rule",
+          "bg-band/92 px-4 py-2 text-label font-medium",
+          "bg-band px-4 py-2 text-label font-medium text-on-band",
+          "hover:border-brand hover:text-brand focus-visible:outline-none",
         )}
         aria-label={`${label}. Skip the current scroll animation and jump ahead.`}
       >
-        <span aria-hidden className="text-cyan">
+        <span aria-hidden className="text-brand">
           ↓
         </span>
         {label}

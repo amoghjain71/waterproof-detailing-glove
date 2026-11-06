@@ -75,27 +75,26 @@ export function HeroSection() {
     <section
       ref={rootRef}
       id="hero"
-      className="relative min-h-[calc(100svh-var(--header-h))] overflow-hidden"
+      className="relative min-h-fold overflow-hidden"
     >
       <div
         ref={videoWrapRef}
-        className="absolute inset-0 origin-center will-change-transform bg-[#07080a]"
+        className="absolute inset-0 origin-center will-change-transform bg-band"
       >
         <AutoVideo id="hero-droplets" className="h-full w-full" priority />
         {/* Ripple sits under the scrim so blend never washes type */}
         <WaterRipple />
-        <div className="absolute inset-0 z-[2] bg-gradient-to-b from-black/65 via-black/75 to-[#07080a]" />
-        <div className="absolute inset-0 z-[2] bg-black/35" />
+        <div className="pointer-events-none absolute inset-0 z-10 bg-band/50" />
       </div>
 
       <div
         data-hero-copy
-        className="relative z-10 mx-auto flex min-h-[calc(100svh-var(--header-h))] max-w-7xl flex-col justify-end px-4 pb-16 pt-24 sm:px-6 lg:px-8"
+        className="relative z-10 mx-auto flex min-h-fold w-full min-w-0 max-w-7xl flex-col justify-end px-4 pb-16 pt-24 sm:px-6 lg:px-8"
       >
         <div data-hero-fade>
           <PrototypeBadge className="mb-6 w-fit" />
         </div>
-        <h1 className="font-display hero-headline max-w-5xl overflow-hidden text-white">
+        <h1 className="font-display text-h1 max-w-5xl text-on-band">
           <span className="block">
             <SplitChars text="Wet job." />
           </span>
@@ -105,18 +104,17 @@ export function HeroSection() {
         </h1>
         <p
           data-hero-fade
-          className="mt-6 max-w-xl text-lg text-white/85 sm:text-xl"
+          className="mt-6 max-w-xl text-lead text-on-band"
         >
           {copy.subline}
         </p>
         <div data-hero-fade className="mt-8 flex flex-wrap gap-3">
-          <Button href="/glove" magnetic>
+          <Button href="/glove">
             {copy.shopCta}
           </Button>
           <Button
             href="#problem"
-            variant="outline"
-            className="border-white/40 bg-black/35 text-white backdrop-blur-sm hover:border-cyan/60 hover:bg-black/50"
+            variant="band"
             onClick={() => {
               document.getElementById("problem")?.scrollIntoView({ behavior: "smooth" });
             }}
@@ -124,7 +122,7 @@ export function HeroSection() {
             {copy.seeHowCta}
           </Button>
         </div>
-        <p data-hero-fade className="mt-8 text-sm text-white/65">
+        <p data-hero-fade className="mt-8 text-label text-on-band">
           {BRAND.productName} · {formatUsd(PRICE_USD)} / pair ·{" "}
           {SALES_MODE === "preorder" ? "Pre-order" : "Shop"}
         </p>
@@ -132,11 +130,11 @@ export function HeroSection() {
         <a
           href="#problem"
           data-hero-fade
-          className="mt-10 inline-flex w-fit flex-col items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-cyan"
+          className="mt-10 inline-flex w-fit flex-col items-center gap-2 text-label text-on-band"
           aria-label="Scroll to the problem"
         >
           <span
-            className="block h-5 w-3.5 animate-bounce rounded-[50%_50%_50%_50%/60%_60%_40%_40%] bg-cyan/80"
+            className="block h-4 w-4 bg-on-band"
             aria-hidden
           />
           Scroll

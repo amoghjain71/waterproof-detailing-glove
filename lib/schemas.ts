@@ -32,10 +32,21 @@ export const cartItemSchema = z.object({
   size: z.enum(["S", "M", "L", "XL"]),
   qty: z.number().int().positive().max(20),
   price: z.number().positive(),
+  label: z.string().max(120).optional(),
+});
+
+export const attributionSchema = z.object({
+  src: z.string().max(80).optional(),
+  utm_source: z.string().max(80).optional(),
+  utm_medium: z.string().max(80).optional(),
+  utm_campaign: z.string().max(80).optional(),
+  utm_content: z.string().max(80).optional(),
+  utm_term: z.string().max(80).optional(),
 });
 
 export const checkoutRequestSchema = z.object({
   customer: checkoutCustomerSchema,
   cart: z.array(cartItemSchema).min(1),
   waitlistEmail: z.string().email().optional(),
+  attribution: attributionSchema.optional(),
 });

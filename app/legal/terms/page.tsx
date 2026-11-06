@@ -13,10 +13,10 @@ export default function TermsPage() {
         do not agree, do not use the site or place a pre-order.
       </p>
       <p>
-        Product descriptions use intent language while Prototype V2 testing is
-        in progress. Nothing on this site constitutes certification,
-        chemical-resistance claims, thermal ratings, PPE classification, or
-        lifetime durability guarantees.
+        Product descriptions say designed to, built to, or intended to while
+        testing is in progress. This site does not promise a lab certificate,
+        proof against chemicals, a temperature rating, safety-equipment status,
+        or a lifetime.
       </p>
       <p>
         Planned retail for the Waterproof Detailing Inner Glove is{" "}

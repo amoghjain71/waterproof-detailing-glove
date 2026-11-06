@@ -34,13 +34,13 @@ export const copy = {
   claimLevel: CLAIM_LEVEL,
   ...COPY_BY_CLAIM[CLAIM_LEVEL],
   valueProposition:
-    "Put the glove on once at the start of a wash, swap mitts in seconds, leave mitts soaking in the bucket without flooding your hands, and finish with warmer, drier hands.",
+    "Put the glove on once. Swap mitts all wash. Designed to keep bucket water off your hands.",
   keywordMarquee: [
-    "THIN.",
-    "SEALED.",
-    "UNDER ANY MITT.",
-    "SWAP IN SECONDS.",
-    "KEEP THE BUCKET OUT.",
+    "Thin",
+    "Sealed cuff",
+    "Under any mitt",
+    "Swap in seconds",
+    "Keep the bucket out",
   ],
   problemStats: [
     {
@@ -48,8 +48,8 @@ export const copy = {
       label: "get cold, wet hands while washing",
     },
     {
-      value: "82%",
-      label: "want waterproof protection",
+      value: "90.9%",
+      label: "use mitts that soak through",
     },
     {
       value: "64%",
@@ -68,7 +68,7 @@ export const copy = {
     },
     {
       title: "So we built the glove under any mitt.",
-      body: "Wear it once. Keep swapping mitts. Designed to stay thin, sealed at the cuff, and paint-safe under your wash mitt.",
+      body: "Wear it once. Keep swapping mitts. The strap is designed to sit under the mitt.",
     },
   ],
   underTheMitt: "Put it on once. Swap mitts in seconds.",
@@ -81,7 +81,7 @@ export const copy = {
       mitt: "Yes",
       nitrile: "Usually",
       thickNeo: "Bulky risk",
-      ours: "Yes — under mitt",
+      ours: "Under the mitt",
     },
     {
       feature: "Keeps bucket water off hands",

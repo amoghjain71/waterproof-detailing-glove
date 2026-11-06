@@ -1,156 +1,100 @@
-"use client";
-
-import { useState } from "react";
+import Link from "next/link";
 import { AutoVideo } from "@/components/media/AutoVideo";
-import { PageHero } from "@/components/ui/PageHero";
-import { Button } from "@/components/ui/Button";
+import { MediaNote } from "@/components/media/MediaNote";
 import { SizeFinder } from "@/components/sizing/SizeFinder";
-import {
-  MITT_COMPATIBILITY_NOTES,
-  SIZE_CHART,
-  type MittStyle,
-} from "@/data/sizes";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
+import { SIZE_CHART } from "@/data/sizes";
+import { SIZES_CONFIRMED } from "@/lib/config";
 
-const MEASURE_STEPS = [
-  "Use a flexible tape — not a rigid ruler.",
-  "Bare hand, fingers together, thumb excluded.",
-  "Wrap around the widest knuckles (usually across the palm knuckles).",
-  "Tape snug but not squeezed.",
-  "Also note wrist circumference for cuff comfort.",
-] as const;
+const STEPS = [
+  "Use a flexible tape, not a stiff ruler.",
+  "Bare hand. Fingers together. Thumb out.",
+  "Wrap the tape around the widest knuckles.",
+  "Snug, not squeezed.",
+  "Between sizes, choose the larger one.",
+];
 
 export function SizingPageContent() {
-  const [mitt, setMitt] = useState<MittStyle>("microfiber");
-
   return (
     <div>
-      <PageHero
-        eyebrow="Fit"
-        title="Size finder"
-        description="Measure bare-hand circumference around the widest knuckles — fingers together, thumb excluded — with a flexible tape, not squeezed. Also note wrist circumference for cuff comfort."
-      />
-
-      <section className="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-2 lg:px-8">
-        <div className="space-y-4">
-          <div className="overflow-hidden rounded-2xl border border-border">
-            <AutoVideo id="sizing-measure" className="aspect-video w-full" />
-          </div>
-          <ol className="space-y-2">
-            {MEASURE_STEPS.map((step, i) => (
-              <li
-                key={step}
-                className="flex gap-3 rounded-xl border border-border bg-glass px-4 py-3 text-sm text-muted"
-              >
-                <span className="font-display text-cyan">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span>{step}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        <div>
-          <h2 className="font-display text-2xl uppercase tracking-tight">
-            Interactive finder
-          </h2>
-          <div className="mt-6">
-            <SizeFinder />
-          </div>
+      <section className="border-b border-rule px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <h1 className="font-display text-h1">Sizing</h1>
+          <p className="mt-4 text-lead text-ink">
+            Measure around the widest knuckles. M is 200 to 215 mm. S, L, and XL are
+            still being set.
+          </p>
         </div>
       </section>
 
-      <section className="border-t border-border px-4 py-16 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="font-display text-2xl uppercase tracking-tight">
-            Size chart
-          </h2>
-          <div className="mt-6 overflow-x-auto rounded-2xl border border-border">
-            <table className="min-w-full text-left text-sm">
-              <thead className="border-b border-border bg-glass text-xs uppercase tracking-[0.14em] text-muted">
-                <tr>
-                  <th className="px-4 py-3">Size</th>
-                  <th className="px-4 py-3">Hand circumference</th>
-                  <th className="px-4 py-3">Sample dims</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3" />
-                </tr>
-              </thead>
-              <tbody>
-                {SIZE_CHART.map((row) => (
-                  <tr key={row.code} className="border-b border-border/70">
-                    <td className="px-4 py-4 font-medium">{row.code}</td>
-                    <td className="px-4 py-4 text-muted">
-                      {row.circumferenceMm
-                        ? `${row.circumferenceMm.min}–${row.circumferenceMm.max} mm`
-                        : "Setting from fit trials"}
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
+          <div>
+            <div className="overflow-hidden border border-rule">
+              <AutoVideo id="sizing-measure" className="aspect-video w-full" />
+            </div>
+            <MediaNote />
+            <ol className="mt-6 border-t border-rule">
+              {STEPS.map((step, index) => (
+                <li key={step} className="border-b border-rule py-3 text-body text-ink">
+                  {index + 1}. {step}
+                </li>
+              ))}
+            </ol>
+            <Button href="/measure" variant="outline" className="mt-6">
+              Print measuring strip
+            </Button>
+          </div>
+          <SizeFinder />
+        </div>
+      </section>
+
+      <section className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl overflow-x-auto border border-rule">
+          <table className="w-full border-collapse text-left text-body">
+            <thead>
+              <tr>
+                {["Size", "Hand", "Sample", "Status"].map((column) => (
+                  <th key={column} className="border-b border-rule px-4 py-3 text-label font-medium">
+                    {column}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {SIZE_CHART.map((row) => {
+                const confirmed = SIZES_CONFIRMED && row.status === "confirmed";
+                return (
+                  <tr key={row.code}>
+                    <td className="border-b border-rule px-4 py-3">{row.code}</td>
+                    <td className="border-b border-rule px-4 py-3 text-ink-muted">
+                      {confirmed && row.circumferenceMm
+                        ? `${row.circumferenceMm.min} to ${row.circumferenceMm.max} mm`
+                        : row.code === "M"
+                          ? "200 to 215 mm"
+                          : "Size set finalizing"}
                     </td>
-                    <td className="px-4 py-4 text-muted">
-                      {row.sample
-                        ? `${row.sample.overallLengthMm} / ${row.sample.middleFingerMm} / ${row.sample.palmWidthLaidFlatMm} / ${row.sample.cuffLengthMm} mm`
-                        : "—"}
+                    <td className="border-b border-rule px-4 py-3 text-ink-muted">
+                      {row.code === "M" && row.sample
+                        ? `${row.sample.overallLengthMm} mm length, ${row.sample.palmWidthLaidFlatMm} mm palm`
+                        : "Not set"}
                     </td>
-                    <td className="px-4 py-4">
-                      {row.status === "confirmed" ? (
-                        <span className="text-cyan">Confirmed</span>
-                      ) : (
-                        <span className="text-muted">Pending</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-4">
-                      {row.status === "pending" ? (
-                        <Button href="/#waitlist-email" variant="ghost" className="!px-3 !py-1 text-xs">
-                          Waitlist
-                        </Button>
-                      ) : null}
+                    <td className="border-b border-rule px-4 py-3">
+                      {row.code === "M" ? "Sample" : "Finalizing"}
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="mt-4 text-sm text-muted">
-            Sample dims: overall length / middle finger / palm width laid flat /
-            cuff. Palm width laid flat is a glove measurement, not a hand-size
-            range. M is the measured sample; L and XL are graded from it using
-            standard work-glove steps. S remains pending. Between sizes? Choose
-            the larger.
-          </p>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
-      </section>
-
-      <section className="border-t border-border px-4 py-16 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="font-display text-2xl uppercase tracking-tight">
-            Fits under your mitt
-          </h2>
-          <p className="mt-3 text-sm text-muted">
-            Pick a mitt style for a friendly fit note.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {(Object.keys(MITT_COMPATIBILITY_NOTES) as MittStyle[]).map(
-              (style) => (
-                <button
-                  key={style}
-                  type="button"
-                  onClick={() => setMitt(style)}
-                  className={cn(
-                    "rounded-full border px-4 py-2 text-sm capitalize",
-                    mitt === style
-                      ? "border-accent bg-accent/15 text-accent"
-                      : "border-border text-muted",
-                  )}
-                >
-                  {style}
-                </button>
-              ),
-            )}
-          </div>
-          <p className="mt-6 max-w-2xl rounded-2xl border border-border bg-glass px-5 py-4 text-sm leading-relaxed text-foreground/90">
-            {MITT_COMPATIBILITY_NOTES[mitt]}
-          </p>
-        </div>
+        <p className="mx-auto mt-4 max-w-7xl text-label text-ink-muted">
+          Palm width is the glove laid flat, not your hand size.{" "}
+          <Link href="/measure" className="text-brand">
+            Print a 1:1 strip
+          </Link>
+          .
+        </p>
       </section>
     </div>
   );

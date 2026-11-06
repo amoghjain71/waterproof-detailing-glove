@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo_Black, DM_Sans } from "next/font/google";
+import { Barlow, Barlow_Condensed } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { SiteShell } from "@/components/layout/SiteShell";
@@ -8,22 +8,22 @@ import { BRAND } from "@/lib/config";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
-const display = Archivo_Black({
-  weight: "400",
+const display = Barlow_Condensed({
+  weight: ["600", "700"],
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-barlow-condensed",
   display: "swap",
 });
 
-const body = DM_Sans({
+const body = Barlow({
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-barlow",
   display: "swap",
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0A0B0D",
-  colorScheme: "dark",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
         url: SITE.ogImage,
         width: 1200,
         height: 630,
-        alt: BRAND.name,
+        alt: "2HANDS waterproof inner glove",
       },
     ],
   },
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
         url: SITE.ogImage,
         width: 1200,
         height: 630,
-        alt: BRAND.name,
+        alt: "2HANDS waterproof inner glove",
       },
     ],
   },
@@ -82,8 +82,9 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.png", type: "image/png", sizes: "48x48" },
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon.png", type: "image/png", sizes: "48x48" },
     ],
     apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
@@ -97,7 +98,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body
-        className="flex min-h-full flex-col bg-background font-sans text-foreground antialiased"
+        className="flex min-h-full flex-col bg-ground font-sans text-ink antialiased"
         suppressHydrationWarning
       >
         <OrganizationJsonLd />

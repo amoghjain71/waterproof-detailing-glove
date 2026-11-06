@@ -1,71 +1,71 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import { copy } from "@/content/copy";
 import { BRAND } from "@/lib/config";
-import { gsap, registerGsap } from "@/lib/gsap";
-import { usePrefersReducedMotion } from "@/lib/reduced-motion";
+
+const COLUMNS = [
+  "Question",
+  "Mitt alone",
+  "Nitrile gloves",
+  "Thick neoprene",
+  `${BRAND.name} glove`,
+];
+
+const ROWS = [
+  [
+    "Water on your hands",
+    "A mitt soaks through in seconds",
+    "Blocks water, then traps sweat",
+    "Blocks water, but the cuff is short and loose",
+    "Designed to keep bucket water off your hands",
+  ],
+  [
+    "Under a mitt",
+    "This is the mitt",
+    "Thin, but it tears in heavy scrubbing",
+    "Too bulky to wear under a mitt",
+    "Target 1.8 mm or thinner so the mitt still slides on",
+  ],
+  [
+    "Cuff",
+    "No seal",
+    "Short loose cuff",
+    "A tall cuff that does not sit under a mitt",
+    "60 mm cuff, silicone lip, 25 mm strap under the mitt",
+  ],
+  [
+    "Swap mid-wash",
+    "You swap wet mitts onto a bare hand",
+    "The same gloves stay on",
+    "Awkward under a mitt",
+    "Put the glove on once, then swap mitts over it",
+  ],
+];
 
 export function CompareSection() {
-  const rootRef = useRef<HTMLElement>(null);
-  const reduced = usePrefersReducedMotion();
-
-  useEffect(() => {
-    registerGsap();
-    const root = rootRef.current;
-    if (!root || reduced) return;
-
-    const ctx = gsap.context(() => {
-      gsap.from(root.querySelectorAll("[data-compare-row]"), {
-        opacity: 0,
-        y: 18,
-        stagger: 0.08,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: root,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      });
-    }, root);
-
-    return () => ctx.revert();
-  }, [reduced]);
-
   return (
-    <section ref={rootRef} className="border-t border-border px-4 py-20 sm:px-6 lg:px-8">
+    <section className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan">Compare</p>
-        <h2 className="font-display mt-3 max-w-3xl text-3xl uppercase tracking-tight sm:text-5xl">
-          Why an under-mitt glove
-        </h2>
-        <p className="mt-4 max-w-2xl text-sm text-muted">{copy.compareIntro}</p>
-
-        <div className="mt-10 overflow-x-auto rounded-2xl border border-border">
-          <table className="min-w-[720px] w-full text-left text-sm">
-            <thead className="bg-glass text-xs uppercase tracking-[0.12em] text-muted">
+        <h2 className="font-display text-h2">Compare</h2>
+        <div className="mt-8 w-full min-w-0 overflow-x-auto border border-rule">
+          <table className="w-full min-w-sheet border-collapse text-left text-body">
+            <thead>
               <tr>
-                <th className="px-4 py-4">Feature</th>
-                <th className="px-4 py-4">Microfiber / merino mitt alone</th>
-                <th className="px-4 py-4">Nitrile gloves</th>
-                <th className="px-4 py-4">Thick neoprene</th>
-                <th className="px-4 py-4 text-accent shadow-[inset_0_0_40px_rgba(31,123,255,0.25)]">
-                  {BRAND.name} glove
-                </th>
+                {COLUMNS.map((column) => (
+                  <th
+                    key={column}
+                    className="border-b border-rule px-4 py-3 text-label font-medium"
+                  >
+                    {column}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {copy.compareRows.map((row) => (
-                <tr
-                  key={row.feature}
-                  data-compare-row
-                  className="border-t border-border/80"
-                >
-                  <td className="px-4 py-4 font-medium">{row.feature}</td>
-                  <td className="px-4 py-4 text-muted">{row.mitt}</td>
-                  <td className="px-4 py-4 text-muted">{row.nitrile}</td>
-                  <td className="px-4 py-4 text-muted">{row.thickNeo}</td>
-                  <td className="bg-accent/10 px-4 py-4 text-cyan">{row.ours}</td>
+              {ROWS.map((row) => (
+                <tr key={row[0]}>
+                  {row.map((cell) => (
+                    <td key={cell} className="border-b border-rule px-4 py-3 align-top">
+                      {cell}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>

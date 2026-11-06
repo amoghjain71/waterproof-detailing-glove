@@ -23,8 +23,8 @@ export default function OrderConfirmationPage({
   return (
     <Suspense
       fallback={
-        <div className="px-4 py-20 text-center text-sm text-muted">
-          Confirming order…
+        <div className="px-4 py-20 text-label text-ink-muted">
+          Confirming the order.
         </div>
       }
     >

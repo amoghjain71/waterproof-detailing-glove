@@ -6,7 +6,7 @@ import { BRAND } from "@/lib/config";
 export const metadata: Metadata = {
   title: BRAND.productName,
   description:
-    "Thin waterproof inner glove designed to live under your wash mitt. Matte black BLK-01. Pre-order available.",
+    "A thin waterproof inner glove designed to live under your wash mitt. Pre-order a pair.",
 };
 
 export default function GlovePage() {

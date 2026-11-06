@@ -1,7 +1,5 @@
-import { SHOW_CONCEPT_LABEL } from "@/lib/config";
-
 export function VideoCaption({
-  show = SHOW_CONCEPT_LABEL,
+  show = true,
   className = "",
 }: {
   show?: boolean;
@@ -9,11 +7,5 @@ export function VideoCaption({
 }) {
   if (!show) return null;
 
-  return (
-    <p
-      className={`text-[11px] uppercase tracking-[0.16em] text-muted ${className}`}
-    >
-      Concept visualization
-    </p>
-  );
+  return <span className={`concept-mark inline-block ${className}`} aria-hidden />;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -8,14 +8,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PaymentSlot } from "@/components/commerce/PaymentSlot";
 import { useCart } from "@/lib/store/cart";
 import { orderTotal } from "@/lib/commerce";
-import { BRAND, SALES_MODE, SHIP_ESTIMATE_TEXT } from "@/lib/config";
+import { PreorderTerms } from "@/components/commerce/OfferNotes";
+import { readAttribution, track } from "@/lib/track";
 import { checkoutCustomerSchema } from "@/lib/schemas";
 import { cn, formatUsd } from "@/lib/utils";
 
 type FormValues = z.infer<typeof checkoutCustomerSchema>;
 
 const fieldClass =
-  "mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-cyan/60";
+  "mt-2 w-full rounded border border-rule bg-ground px-4 py-3 text-label outline-none focus:border-brand";
 
 export function CheckoutForm() {
   const router = useRouter();
@@ -25,6 +26,10 @@ export function CheckoutForm() {
   const { shipping, total } = orderTotal(subtotal);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (items.length > 0) track("begin_checkout", { items: items.length });
+  }, [items.length]);
 
   const {
     register,
@@ -75,7 +80,8 @@ export function CheckoutForm() {
         body: JSON.stringify({
           customer,
           cart: items,
-          waitlistEmail: SALES_MODE === "preorder" ? customer.email : undefined,
+          waitlistEmail: customer.email,
+          attribution: readAttribution(),
         }),
       });
       const data = (await res.json()) as {
@@ -86,7 +92,7 @@ export function CheckoutForm() {
       if (!res.ok) {
         throw new Error(data.error || "Checkout failed");
       }
-      // Hosted Stripe Checkout is an absolute URL — full navigation required.
+      // Hosted Stripe Checkout is an absolute URL. full navigation required.
       if (data.redirectUrl?.startsWith("http")) {
         window.location.assign(data.redirectUrl);
         return;
@@ -105,9 +111,9 @@ export function CheckoutForm() {
 
   if (items.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border p-10 text-center">
-        <p className="text-muted">Nothing to check out yet.</p>
-        <a href="/glove" className="mt-4 inline-block text-sm text-cyan">
+      <div className="border border-rule p-10">
+        <p className="text-ink-muted">Nothing to check out yet.</p>
+        <a href="/glove" className="mt-4 inline-block text-label text-brand">
           Shop the glove
         </a>
       </div>
@@ -115,16 +121,16 @@ export function CheckoutForm() {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+    <div className="grid gap-8 lg:split-7-5">
       <form
-        className="space-y-6 rounded-2xl border border-border bg-glass p-6"
+        className="space-y-6 rounded border border-rule bg-surface p-6"
         onSubmit={(e) => {
           e.preventDefault();
           void placeOrder();
         }}
       >
         <div>
-          <h2 className="font-display text-xl uppercase tracking-tight">
+          <h2 className="font-display text-h3">
             Contact
           </h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -146,7 +152,7 @@ export function CheckoutForm() {
         </div>
 
         <div>
-          <h2 className="font-display text-xl uppercase tracking-tight">
+          <h2 className="font-display text-h3">
             Shipping address
           </h2>
           <div className="mt-4 grid gap-4">
@@ -195,41 +201,37 @@ export function CheckoutForm() {
           onPlaceOrder={() => void placeOrder()}
           busy={busy}
           disabled={items.length === 0}
+          error={Boolean(error)}
         />
 
-        {error ? <p className="text-sm text-red-300">{error}</p> : null}
-        {SALES_MODE === "preorder" ? (
-          <p className="text-xs text-muted">
-            Pre-order checkout still collects your email for production timing.{" "}
-            {SHIP_ESTIMATE_TEXT}
-          </p>
-        ) : null}
+        {error ? <p className="text-label text-ink">{error}</p> : null}
+        <PreorderTerms />
       </form>
 
-      <aside className="h-fit rounded-2xl border border-border p-6 lg:sticky lg:top-24">
-        <h2 className="font-display text-xl uppercase tracking-tight">
+      <aside className="h-fit border border-rule p-6 lg:sticky lg:top-chrome">
+        <h2 className="font-display text-h3">
           Order summary
         </h2>
-        <ul className="mt-4 space-y-3 text-sm">
+        <ul className="mt-4 space-y-3 text-label">
           {items.map((item) => (
             <li
               key={`${item.sku}-${item.size}`}
               className="flex justify-between gap-3"
             >
               <span>
-                {BRAND.productName} · {item.size} × {item.qty}
+                {item.label ?? "Inner glove"} · Size {item.size} × {item.qty}
               </span>
               <span>{formatUsd(item.price * item.qty)}</span>
             </li>
           ))}
         </ul>
-        <dl className="mt-6 space-y-2 border-t border-border pt-4 text-sm">
+        <dl className="mt-6 space-y-2 border-t border-rule pt-4 text-label">
           <div className="flex justify-between">
-            <dt className="text-muted">Subtotal</dt>
+            <dt className="text-ink-muted">Subtotal</dt>
             <dd>{formatUsd(subtotal)}</dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-muted">Shipping</dt>
+            <dt className="text-ink-muted">Shipping</dt>
             <dd>{shipping === 0 ? "Free" : formatUsd(shipping)}</dd>
           </div>
           <div className="flex justify-between font-medium">
@@ -252,11 +254,11 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label className={cn("block text-xs uppercase tracking-[0.14em] text-muted")}>
+    <label className={cn("block text-label text-ink-muted")}>
       {label}
       {children}
       {error ? (
-        <span className="mt-1 block normal-case tracking-normal text-red-300">
+        <span className="mt-1 block normal-case tracking-normal text-ink">
           {error}
         </span>
       ) : null}

@@ -40,32 +40,32 @@ export function PivotSection() {
   }, [reduced]);
 
   return (
-    <section ref={rootRef} className="relative overflow-hidden border-t border-border">
+    <section ref={rootRef} className="relative w-full min-w-0 overflow-hidden border-t border-rule">
       <div className="px-4 pt-16 sm:px-6 lg:px-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan">The pivot</p>
-        <h2 className="font-display mt-3 max-w-3xl text-3xl uppercase tracking-tight sm:text-5xl">
+        <p className="text-label text-brand">The pivot</p>
+        <h2 className="font-display mt-3 max-w-3xl text-h2 sm:text-h1">
           From lined mitt to under-mitt glove
         </h2>
       </div>
 
       <div
         ref={trackRef}
-        className="mt-10 flex w-max gap-6 px-4 pb-20 sm:px-6 lg:px-8 md:flex-row flex-col md:w-max w-full"
+        className="mt-10 flex w-full min-w-0 flex-col gap-6 px-4 pb-20 sm:px-6 md:w-max md:flex-row lg:px-8"
       >
         {copy.pivotCards.map((card, i) => (
           <article
             key={card.title}
-            className="w-full shrink-0 rounded-2xl border border-border bg-glass p-8 md:w-[min(80vw,420px)]"
+            className="w-full shrink-0 rounded border border-rule bg-surface p-8 md:max-w-md"
           >
-            <p className="font-display text-sm text-accent">
+            <p className="font-display text-label text-brand">
               {String(i + 1).padStart(2, "0")}
             </p>
-            <h3 className="font-display mt-4 text-2xl uppercase tracking-tight">
+            <h3 className="font-display mt-4 text-h3">
               {card.title}
             </h3>
-            <p className="mt-4 text-sm leading-relaxed text-muted">{card.body}</p>
+            <p className="mt-4 text-label leading-relaxed text-ink-muted">{card.body}</p>
             {"attribution" in card && card.attribution ? (
-              <p className="mt-6 text-xs uppercase tracking-[0.16em] text-cyan">
+              <p className="mt-6 text-label text-brand">
                 {card.attribution} · not a customer review
               </p>
             ) : null}

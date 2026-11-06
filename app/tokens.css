@@ -1,0 +1,21 @@
+/* Color tokens. Hex values live only in this file. */
+:root {
+  --ground: #e8ebed;
+  --surface: #f6f7f8;
+  --ink: #0f1216;
+  --ink-muted: #4b5560;
+  --rule: #c5ccd2;
+  --brand: #1b5fe0;
+  --brand-hover: color-mix(in srgb, var(--brand) 92%, black);
+  --band: #0b0d10;
+  --brand-on-band: #6fa3ff;
+  --on-brand: #ffffff;
+  --on-band: var(--surface);
+  --header-h: 4rem;
+  --announce-h: 4rem;
+  --chrome-h: calc(var(--header-h) + var(--announce-h));
+  --duration-fast: 200ms;
+  --duration-slow: 500ms;
+  --ease-wash: cubic-bezier(0.22, 1, 0.36, 1);
+  --radius-control: 4px;
+}
