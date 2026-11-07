@@ -75,7 +75,7 @@ export async function POST(request: Request) {
   const customerMail = data.phone
     ? preorderSignupEmailHtml()
     : waitlistEmailHtml();
-  await sendEmail({
+  const customerSend = await sendEmail({
     to: data.email,
     subject: customerMail.subject,
     html: customerMail.html,
@@ -89,10 +89,15 @@ export async function POST(request: Request) {
       size: data.size,
       source: data.source,
     });
+    const deliveryNote = customerSend.ok
+      ? ""
+      : `<p style="margin:16px 0 0;font-size:14px;line-height:1.5;color:#4B5560;">Customer confirmation email did not send. With Resend free sender (onboarding@resend.dev), only your Resend account email can receive mail. Verify a domain and set EMAIL_FROM to that domain.</p>`;
     await sendEmail({
       to: notifyTo,
-      subject: leadMail.subject,
-      html: leadMail.html,
+      subject: customerSend.ok
+        ? leadMail.subject
+        : `${leadMail.subject} (customer email failed)`,
+      html: `${leadMail.html}${deliveryNote}`,
     });
   }
 

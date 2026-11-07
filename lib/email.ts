@@ -311,7 +311,10 @@ export async function sendEmail(input: {
   });
 
   if (error) {
-    console.error("[sendEmail] provider error", error.name);
+    console.error("[sendEmail] provider error", {
+      name: error.name,
+      message: error.message,
+    });
     return { ok: false };
   }
 

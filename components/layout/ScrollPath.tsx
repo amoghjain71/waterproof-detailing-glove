@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type RefObject } from "react";
-import { usePrefersReducedMotion } from "@/lib/reduced-motion";
+import { useIsTouch, usePrefersReducedMotion } from "@/lib/reduced-motion";
 
 type Point = { x: number; y: number };
 
@@ -65,8 +65,10 @@ export function ScrollPath({
   const svgRef = useRef<SVGSVGElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const reduced = usePrefersReducedMotion();
+  const isTouch = useIsTouch();
 
   useEffect(() => {
+    if (isTouch) return;
     const svg = svgRef.current;
     const path = pathRef.current;
     if (!svg || !path) return;
@@ -161,7 +163,9 @@ export function ScrollPath({
       window.removeEventListener("resize", onResize);
       observer.disconnect();
     };
-  }, [containerRef, reduced]);
+  }, [containerRef, reduced, isTouch]);
+
+  if (isTouch) return null;
 
   return (
     <svg
