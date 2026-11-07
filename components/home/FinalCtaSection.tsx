@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { AutoVideo } from "@/components/media/AutoVideo";
 import { RainCanvas } from "@/components/home/RainCanvas";
 import { copy } from "@/content/copy";
-import { SIZE_CHART, type SizeCode } from "@/data/sizes";
+import { SIZE_CHART, isSizeSelectable, type SizeCode } from "@/data/sizes";
 import {
   BRAND,
   PRICE_USD,
@@ -128,21 +128,31 @@ export function FinalCtaSection() {
           className="mt-10 w-full max-w-md rounded border border-rule bg-ground p-6 text-left"
         >
           <div className="flex flex-wrap gap-2">
-            {SIZE_CHART.map((s) => (
-              <button
-                key={s.code}
-                type="button"
-                onClick={() => setSize(s.code)}
-                className={cn(
-                  "rounded border px-4 py-2 text-label",
-                  size === s.code
-                    ? "border-brand bg-surface text-brand"
-                    : "border-rule text-ink-muted",
-                )}
-              >
-                {s.code}
-              </button>
-            ))}
+            {SIZE_CHART.map((s) => {
+              const selectable = isSizeSelectable(s.code);
+              return (
+                <button
+                  key={s.code}
+                  type="button"
+                  disabled={!selectable}
+                  aria-disabled={!selectable}
+                  onClick={() => {
+                    if (!selectable) return;
+                    setSize(s.code);
+                  }}
+                  className={cn(
+                    "border px-4 py-2 text-label",
+                    !selectable
+                      ? "cursor-not-allowed border-rule text-ink-muted opacity-40"
+                      : size === s.code
+                        ? "border-brand bg-surface text-brand"
+                        : "border-rule text-ink-muted",
+                  )}
+                >
+                  {s.code}
+                </button>
+              );
+            })}
           </div>
           <p className="mt-3 text-label text-ink-muted">{selected?.note}</p>
 
@@ -171,10 +181,12 @@ export function FinalCtaSection() {
 
           <button
             type="button"
-            className="mt-6 w-full rounded bg-brand px-6 py-3 text-label font-medium text-on-brand"
-            onClick={() =>
-              addItem({ size, qty, sku: BRAND.sku })
-            }
+            disabled={!isSizeSelectable(size) || size !== "M"}
+            className="mt-6 w-full bg-brand px-6 py-3 text-label font-medium text-on-brand disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={() => {
+              if (!isSizeSelectable(size) || size !== "M") return;
+              addItem({ size, qty, sku: BRAND.sku });
+            }}
           >
             {SALES_MODE === "preorder" ? "Pre-order" : "Add to cart"} ·{" "}
             {formatUsd(PRICE_USD * qty)}

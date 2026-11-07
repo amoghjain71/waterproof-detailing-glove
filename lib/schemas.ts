@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { BUNDLES, BRAND, type BundleId } from "@/lib/config";
 
-const sizeSchema = z.enum(["S", "M", "L", "XL"]);
+/** Offered sizes for notify / fit. S is not available. */
+const sizeSchema = z.enum(["M", "L", "XL"]);
 
 /** Honeypot + timing — allow filled honeypot through zod so the route can soft-succeed. */
 const abuseFields = {

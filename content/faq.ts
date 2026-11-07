@@ -55,7 +55,7 @@ export const faqItems: FaqItem[] = [
     id: "sizing",
     question: "How do I pick a size?",
     answer:
-      "Measure around the widest knuckles, fingers together, thumb out. Snug, not squeezed. M is 200 to 215 mm. S, L, and XL are still being set. Between sizes, choose the larger.",
+      "Measure around the widest knuckles, fingers together, thumb out. Snug, not squeezed. M is 200 to 215 mm. Size S is not available. L and XL are still being set. Between sizes, choose the larger.",
   },
   {
     id: "shipping",

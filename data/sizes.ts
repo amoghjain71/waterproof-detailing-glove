@@ -1,6 +1,6 @@
 export type SizeCode = "S" | "M" | "L" | "XL";
 
-export type SizeStatus = "confirmed" | "pending";
+export type SizeStatus = "confirmed" | "pending" | "unavailable";
 
 export type SizeRow = {
   code: SizeCode;
@@ -18,19 +18,20 @@ export type SizeRow = {
   note: string;
 };
 
+export function isSizeSelectable(code: SizeCode): boolean {
+  return SIZE_CHART.find((row) => row.code === code)?.status !== "unavailable";
+}
+
 /**
  * Size M is the measured Prototype V2 sample.
- * L / XL are graded from that sample using typical work-glove steps
- * (~15 mm hand circumference, ~7–8 mm palm width laid flat, ~5 mm finger,
- * ~10 mm overall length per size) so the chart matches common mechanic /
- * detailing glove jumps while staying anchored to our glove.
- * S remains pending until a small-hand sample locks.
+ * L / XL stay pending until fit trials lock them.
+ * S is not offered.
  */
 export const SIZE_CHART: SizeRow[] = [
   {
     code: "S",
-    status: "pending",
-    note: "Setting from fit trials. Join the waitlist for updates.",
+    status: "unavailable",
+    note: "Size S is not available.",
   },
   {
     code: "M",

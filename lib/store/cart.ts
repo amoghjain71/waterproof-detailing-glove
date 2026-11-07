@@ -34,7 +34,7 @@ function normalizeItems(raw: unknown): CartItem[] {
       typeof row.sku === "string" ? canonicalSku(row.sku) : BRAND.sku;
     const size = row.size;
     const qty = Number(row.qty);
-    if (size !== "S" && size !== "M" && size !== "L" && size !== "XL") continue;
+    if (size !== "M" && size !== "L" && size !== "XL") continue;
     if (!Number.isFinite(qty) || qty < 1) continue;
     next.push({ sku, size, qty: Math.min(10, Math.floor(qty)) });
   }

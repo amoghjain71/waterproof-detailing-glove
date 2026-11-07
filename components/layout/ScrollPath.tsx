@@ -116,11 +116,16 @@ export function ScrollPath({
     };
 
     const paint = () => {
-      if (reduced) {
+      if (length <= 0) {
         path.style.strokeDashoffset = "0";
         return;
       }
-      if (length <= 0) {
+      // Keep the brand line fully hidden at the top of the page; reveal after scroll.
+      if (window.scrollY < 12) {
+        path.style.strokeDashoffset = `${length}`;
+        return;
+      }
+      if (reduced) {
         path.style.strokeDashoffset = "0";
         return;
       }

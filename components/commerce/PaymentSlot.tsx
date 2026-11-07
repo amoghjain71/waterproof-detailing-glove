@@ -14,21 +14,21 @@ export function PaymentSlot({
   disabled?: boolean;
   error?: boolean;
 }) {
-  const isStripe = PAYMENT_PROVIDER === "stripe";
+  const paymentsOpen = process.env.NEXT_PUBLIC_PAYMENTS_OPEN === "true";
+  const isStripeLive = PAYMENT_PROVIDER === "stripe" && paymentsOpen;
   const allowDevMock =
-    process.env.NODE_ENV === "development" && !isStripe;
+    process.env.NODE_ENV === "development" && PAYMENT_PROVIDER !== "stripe";
 
   return (
     <div className="border border-rule p-4">
       <p className="text-label text-ink">Payment</p>
-      {isStripe ? (
+      {isStripeLive ? (
         <>
           <p className="mt-2 text-body text-ink">
             Pay securely with Stripe Checkout
           </p>
           <p className="mt-2 text-label text-ink-muted">
             You finish card payment on Stripe. No card data touches this site.
-            Set PAYMENTS_OPEN=true on the server when you are ready to charge.
           </p>
           <Button
             type="button"
@@ -63,8 +63,8 @@ export function PaymentSlot({
         <>
           <p className="mt-2 text-body text-ink">Pre-order payments open soon</p>
           <p className="mt-2 text-label text-ink-muted">
-            Card checkout is not open on this build. Join the waitlist from the
-            home page for timing updates. No mock orders are placed.
+            Card checkout is not open yet. Join the waitlist from the home page
+            for timing updates.
           </p>
         </>
       )}

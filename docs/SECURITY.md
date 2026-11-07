@@ -34,10 +34,10 @@ Honest status: this site is hardened for a small pre-order storefront. It is not
 1. Set `PAYMENT_PROVIDER=stripe` and `NEXT_PUBLIC_PAYMENT_PROVIDER=stripe` in Vercel.
 2. Set `STRIPE_SECRET_KEY` (prefer a **restricted** key), `STRIPE_WEBHOOK_SECRET`, optional publishable key.
 3. Point the Stripe webhook at `/api/webhooks/stripe` for `checkout.session.completed` and `checkout.session.async_payment_succeeded`.
-4. Only then set `PAYMENTS_OPEN=true`.
+4. Only then set `PAYMENTS_OPEN=true` and `NEXT_PUBLIC_PAYMENTS_OPEN=true`.
 5. Redeploy and place a test-mode order end to end.
 
-Until step 4, `/api/checkout` returns 503 and the checkout UI does not offer a mock order button.
+Until step 4, `/api/checkout` returns 503 and the checkout UI shows “Pre-order payments open soon” (no Place Order button).
 
 ## Rotating secrets
 

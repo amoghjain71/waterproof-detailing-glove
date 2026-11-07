@@ -21,8 +21,8 @@ export function SizingPageContent() {
         <div className="mx-auto max-w-3xl">
           <h1 className="font-display text-h1">Sizing</h1>
           <p className="mt-4 text-lead text-ink">
-            Measure around the widest knuckles. M is 200 to 215 mm. S, L, and XL are
-            still being set.
+            Measure around the widest knuckles. M is 200 to 215 mm. Size S is not
+            available. L and XL are still being set.
           </p>
         </div>
       </section>
@@ -72,7 +72,9 @@ export function SizingPageContent() {
                         ? `${row.circumferenceMm.min} to ${row.circumferenceMm.max} mm`
                         : row.code === "M"
                           ? "200 to 215 mm"
-                          : "Size set finalizing"}
+                          : row.status === "unavailable"
+                            ? "Not available"
+                            : "Size set finalizing"}
                     </td>
                     <td className="border-b border-rule px-4 py-3 text-ink-muted">
                       {row.code === "M" && row.sample
@@ -80,7 +82,11 @@ export function SizingPageContent() {
                         : "Not set"}
                     </td>
                     <td className="border-b border-rule px-4 py-3">
-                      {row.code === "M" ? "Sample" : "Finalizing"}
+                      {row.code === "M"
+                        ? "Sample"
+                        : row.status === "unavailable"
+                          ? "Unavailable"
+                          : "Finalizing"}
                     </td>
                   </tr>
                 );

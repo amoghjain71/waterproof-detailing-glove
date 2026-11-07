@@ -72,7 +72,8 @@ export function SizeFit({
             squeezed. Between sizes, choose the larger.
           </p>
           <p className="relative z-10 mt-4 text-body text-ink-muted">
-            M is the only confirmed size: 200 to 215 mm. S, L and XL are still being set.
+            M is the only confirmed size: 200 to 215 mm. Size S is not available.
+            L and XL are still being set.
           </p>
           <div className="relative z-10 mt-6 flex flex-wrap gap-3">
             <Button type="button" onClick={() => onOpenChange(true)}>

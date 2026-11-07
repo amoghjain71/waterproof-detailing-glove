@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { SIZE_CHART, type SizeCode } from "@/data/sizes";
+import { SIZE_CHART, isSizeSelectable, type SizeCode } from "@/data/sizes";
 import {
   BUNDLES,
   BRAND,
@@ -44,9 +44,13 @@ export function BuyModule({
   const abuse = useFormAbuseFields();
   const bundle = BUNDLES.find((item) => item.id === bundleId) ?? BUNDLES[0];
   const sample = SIZE_CHART.find((row) => row.code === "M")?.sample;
-  const canBuy = SIZES_CONFIRMED
-    ? SIZE_CHART.find((row) => row.code === size)?.status === "confirmed"
-    : size === "M";
+  const sizeRow = SIZE_CHART.find((row) => row.code === size);
+  const unavailable = sizeRow?.status === "unavailable";
+  const canBuy =
+    !unavailable &&
+    (SIZES_CONFIRMED
+      ? sizeRow?.status === "confirmed"
+      : size === "M");
 
   async function preorder() {
     if (!canBuy || !bundle) return;
@@ -91,25 +95,37 @@ export function BuyModule({
     >
       <p className="text-label text-ink">Size</p>
       <div className="mt-2 flex gap-2">
-        {SIZES.map((code) => (
-          <button
-            key={code}
-            type="button"
-            aria-pressed={size === code}
-            onClick={() => {
-              onSize(code);
-              track("select_size", { size: code });
-            }}
-            className={cn(
-              "h-12 w-12 border text-label",
-              size === code ? "border-ink bg-surface text-ink" : "border-rule text-ink-muted",
-            )}
-          >
-            {code}
-          </button>
-        ))}
+        {SIZES.map((code) => {
+          const selectable = isSizeSelectable(code);
+          return (
+            <button
+              key={code}
+              type="button"
+              aria-pressed={size === code}
+              aria-disabled={!selectable}
+              disabled={!selectable}
+              onClick={() => {
+                if (!selectable) return;
+                onSize(code);
+                track("select_size", { size: code });
+              }}
+              className={cn(
+                "h-12 w-12 border text-label",
+                !selectable
+                  ? "cursor-not-allowed border-rule text-ink-muted opacity-40"
+                  : size === code
+                    ? "border-ink bg-surface text-ink"
+                    : "border-rule text-ink-muted",
+              )}
+            >
+              {code}
+            </button>
+          );
+        })}
       </div>
-      {size === "M" && sample ? (
+      {unavailable ? (
+        <p className="mt-2 text-label text-ink">Size S is not available.</p>
+      ) : size === "M" && sample ? (
         <p className="mt-2 text-label text-ink-muted">
           {compact
             ? `Size M sample: hand circumference 200 to 215 mm.`
@@ -139,7 +155,7 @@ export function BuyModule({
         />
       </div>
 
-      {canBuy ? (
+      {unavailable ? null : canBuy ? (
         <Button className={cn("w-full", compact ? "mt-3" : "mt-6")} loading={busy} onClick={preorder}>
           Pre-order
         </Button>

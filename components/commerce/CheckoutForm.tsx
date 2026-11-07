@@ -98,7 +98,7 @@ export function CheckoutForm() {
         error?: string;
       };
       if (!res.ok || (!data.redirectUrl && !data.orderId)) {
-        throw new Error("Checkout failed");
+        throw new Error(data.error || "Checkout failed");
       }
       // Hosted Stripe Checkout is an absolute URL. full navigation required.
       if (data.redirectUrl?.startsWith("http")) {
