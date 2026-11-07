@@ -5,13 +5,13 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
-    absolute: `${BRAND.name} | Waterproof inner glove for car detailing, $29.99`,
+    absolute: BRAND.name,
   },
   description:
     "A thin waterproof inner glove designed to live under your wash mitt. Put it on once. Swap mitts in seconds.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: `${BRAND.name} | Waterproof inner glove for car detailing, $29.99`,
+    title: BRAND.name,
     description: SITE.description,
     url: SITE.url,
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${BRAND.name} | Waterproof inner glove for car detailing, $29.99`,
+    title: BRAND.name,
     images: [
       {
         url: SITE.ogImage,
