@@ -46,8 +46,28 @@ export function CompareSection() {
         <h2 data-path-point className="relative z-10 font-display text-h2">
           Compare
         </h2>
-        <div className="relative z-10 mt-8 w-full min-w-0 overflow-x-auto border border-rule">
-          <table className="w-full min-w-sheet border-collapse text-left text-body">
+
+        <div className="relative z-10 mt-8 space-y-4 lg:hidden">
+          {ROWS.map((row) => (
+            <article
+              key={row[0]}
+              className="border border-rule bg-surface p-4"
+            >
+              <h3 className="text-label font-medium text-ink">{row[0]}</h3>
+              <dl className="mt-3 space-y-3">
+                {COLUMNS.slice(1).map((column, index) => (
+                  <div key={column}>
+                    <dt className="text-label text-ink-muted">{column}</dt>
+                    <dd className="mt-1 text-body text-ink">{row[index + 1]}</dd>
+                  </div>
+                ))}
+              </dl>
+            </article>
+          ))}
+        </div>
+
+        <div className="relative z-10 mt-8 hidden w-full min-w-0 overflow-x-auto border border-rule lg:block">
+          <table className="w-full border-collapse text-left text-body">
             <thead>
               <tr>
                 {COLUMNS.map((column) => (

@@ -25,7 +25,7 @@ export function HomeStory() {
   const [sizerOpen, setSizerOpen] = useState(false);
 
   return (
-    <div ref={rootRef} className="relative w-full min-w-0 pb-24">
+    <div ref={rootRef} className="relative w-full min-w-0 pb-sticky-buy">
       <ScrollPath containerRef={rootRef} />
       <HomeHero
         size={size}

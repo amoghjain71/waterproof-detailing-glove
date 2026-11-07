@@ -4,10 +4,11 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
 import { setLenis } from "@/lib/lenis";
-import { usePrefersReducedMotion } from "@/lib/reduced-motion";
+import { useIsTouch, usePrefersReducedMotion } from "@/lib/reduced-motion";
 
 export function MotionProvider({ children }: { children: React.ReactNode }) {
   const reducedMotion = usePrefersReducedMotion();
+  const isTouch = useIsTouch();
 
   useEffect(() => {
     registerGsap();
@@ -25,6 +26,13 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
     }
 
     root.classList.remove("reduced-motion");
+
+    // Native scroll on phones and iPads; Lenis only for fine-pointer desktops.
+    if (isTouch) {
+      root.classList.remove("lenis", "lenis-smooth");
+      setLenis(null);
+      return;
+    }
 
     const lenis = new Lenis({
       duration: 1.1,
@@ -49,7 +57,7 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
       lenis.destroy();
       root.classList.remove("lenis", "lenis-smooth");
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, isTouch]);
 
   return <>{children}</>;
 }

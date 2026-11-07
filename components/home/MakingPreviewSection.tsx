@@ -20,7 +20,7 @@ export function MakingPreviewSection() {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 768px)": () => {
+        "(min-width: 1024px)": () => {
           const amount = () => Math.max(0, track.scrollWidth - window.innerWidth + 48);
           gsap.to(track, {
             x: () => -amount(),

@@ -20,7 +20,7 @@ export function ProblemSection() {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 768px)": () => {
+        "(min-width: 1024px)": () => {
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: root,

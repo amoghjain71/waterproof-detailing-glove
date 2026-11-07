@@ -58,7 +58,7 @@ export function Footer() {
               Fit trials, test results, and pre-order timing for the{" "}
               {BRAND.productName}. No spam. just product truth.
             </p>
-            <form onSubmit={onSubmit} className="mt-6 flex max-w-md gap-2">
+            <form onSubmit={onSubmit} className="mt-6 flex max-w-md flex-col gap-2 sm:flex-row">
               <label className="sr-only" htmlFor="waitlist-email">
                 Email
               </label>
@@ -74,7 +74,12 @@ export function Footer() {
                 placeholder="you@shop.com"
                 className="w-full rounded border border-rule bg-surface px-4 py-3 text-label outline-none placeholder:text-ink-muted focus:border-brand"
               />
-              <Button type="submit" loading={status === "sending"} error={status === "error"}>
+              <Button
+                type="submit"
+                className="w-full shrink-0 sm:w-auto"
+                loading={status === "sending"}
+                error={status === "error"}
+              >
                 Join
               </Button>
             </form>

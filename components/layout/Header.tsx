@@ -82,7 +82,7 @@ export function Header() {
           <div className="flex items-center gap-3">
             <Link
               href={buyHref}
-              className="hidden h-12 items-center border border-brand bg-brand px-4 text-label font-medium text-on-brand hover:bg-brand-hover lg:inline-flex"
+              className="hidden h-12 items-center border border-brand bg-brand px-4 text-label font-medium text-on-brand hover:bg-brand-hover md:inline-flex"
             >
               Pre-order · {formatUsd(PRICE_USD)}
             </Link>

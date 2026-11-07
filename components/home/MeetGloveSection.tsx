@@ -29,7 +29,7 @@ export function MeetGloveSection() {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 768px)": () => {
+        "(min-width: 1024px)": () => {
           // Longer travel = slower spin per scroll tick (still 1:1 with progress).
           ScrollTrigger.create({
             trigger: root,

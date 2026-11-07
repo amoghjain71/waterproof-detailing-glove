@@ -113,15 +113,18 @@
   max-width: 14rem;
 }
 
+@utility pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+}
+
+@utility pb-sticky-buy {
+  padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
+}
+
 * {
   box-sizing: border-box;
 }
 
-@media (min-width: 40rem) {
-  :root {
-    --announce-h: 2.5rem;
-  }
-}
 
 html {
   background: var(--ground);

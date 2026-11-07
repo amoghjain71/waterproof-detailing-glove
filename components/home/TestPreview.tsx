@@ -40,7 +40,35 @@ export function TestPreview() {
         <h2 data-path-point className="relative z-10 font-display text-h2">
           How we test it
         </h2>
-        <div className="relative z-10 mt-8 overflow-x-auto border border-rule">
+
+        <div className="relative z-10 mt-8 space-y-4 lg:hidden">
+          {rows.map((gate) => (
+            <article
+              key={gate.id}
+              className="border border-rule bg-surface p-4"
+            >
+              <h3 className="text-label font-medium text-ink">
+                {COPY[gate.id]?.name}
+              </h3>
+              <dl className="mt-3 space-y-3">
+                <div>
+                  <dt className="text-label text-ink-muted">What we do</dt>
+                  <dd className="mt-1 text-body text-ink-muted">
+                    {COPY[gate.id]?.what}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-label text-ink-muted">Status</dt>
+                  <dd className="mt-1 text-body text-ink">
+                    {statusLabel(gate.status)}
+                  </dd>
+                </div>
+              </dl>
+            </article>
+          ))}
+        </div>
+
+        <div className="relative z-10 mt-8 hidden overflow-x-auto border border-rule lg:block">
           <table className="w-full border-collapse text-left text-body">
             <thead>
               <tr>

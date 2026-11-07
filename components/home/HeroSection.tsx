@@ -38,7 +38,7 @@ export function HeroSection() {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 768px)": () => {
+        "(min-width: 1024px)": () => {
           gsap.to(videoWrapRef.current, {
             scale: 0.88,
             ease: "none",

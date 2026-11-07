@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { BUNDLES, EXCHANGE_POLICY_TEXT, REFUND_PROMISE_SHORT, SHIP_WINDOW, type BundleId } from "@/lib/config";
+import { BUNDLES, type BundleId } from "@/lib/config";
 import type { SizeCode } from "@/data/sizes";
 import { Button } from "@/components/ui/Button";
 import { formatUsd } from "@/lib/utils";
@@ -31,25 +31,26 @@ export function StickyBuyBar({
   if (!visible || !bundle) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-ground">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-2 sm:px-6">
-        <Image
-          src="/images/glove/01-back-of-hand.jpg"
-          alt=""
-          width={96}
-          height={96}
-          className="h-12 w-12 object-cover"
-        />
-        <div className="min-w-0 flex-1">
-          <p className="text-label text-ink">{formatUsd(bundle.priceUsd)}</p>
-          <p className="text-label text-ink-muted">
-            Size {size} · {bundle.name}
-          </p>
-          <p className="text-label text-ink-muted">
-            {SHIP_WINDOW}. {REFUND_PROMISE_SHORT} {EXCHANGE_POLICY_TEXT}
-          </p>
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-ground pb-safe">
+      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:gap-4 sm:px-6 sm:py-2">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <Image
+            src="/images/glove/01-back-of-hand.jpg"
+            alt=""
+            width={96}
+            height={96}
+            className="h-12 w-12 shrink-0 object-cover"
+          />
+          <div className="min-w-0 flex-1">
+            <p className="text-label text-ink">{formatUsd(bundle.priceUsd)}</p>
+            <p className="text-label text-ink-muted">
+              Size {size} · {bundle.name}
+            </p>
+          </div>
         </div>
-        <Button href="#buy">Pre-order</Button>
+        <Button href="#buy" className="w-full shrink-0 sm:w-auto">
+          Pre-order
+        </Button>
       </div>
     </div>
   );

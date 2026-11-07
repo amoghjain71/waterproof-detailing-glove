@@ -18,7 +18,7 @@ export function PivotSection() {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 768px)": () => {
+        "(min-width: 1024px)": () => {
           const amount = () => track.scrollWidth - window.innerWidth + 64;
           gsap.to(track, {
             x: () => -amount(),

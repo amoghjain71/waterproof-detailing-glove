@@ -40,7 +40,7 @@ export function LayersSection() {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 768px)": () => {
+        "(min-width: 1024px)": () => {
           const layers = gsap.utils.toArray<HTMLElement>("[data-layer]");
           const gap = 118;
 

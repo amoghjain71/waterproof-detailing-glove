@@ -20,7 +20,7 @@ export function InUseSection() {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 768px)": () => {
+        "(min-width: 1024px)": () => {
           ScrollTrigger.create({
             trigger: root,
             start: "top top",

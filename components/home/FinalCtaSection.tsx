@@ -44,7 +44,7 @@ export function FinalCtaSection() {
       if (progress) gsap.set(progress, { scaleX: 0, transformOrigin: "left center" });
 
       ScrollTrigger.matchMedia({
-        "(min-width: 768px)": () => {
+        "(min-width: 1024px)": () => {
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: root,

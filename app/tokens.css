@@ -12,7 +12,7 @@
   --on-brand: #ffffff;
   --on-band: var(--surface);
   --header-h: 4rem;
-  --announce-h: 4rem;
+  --announce-h: 2.5rem;
   --chrome-h: calc(var(--header-h) + var(--announce-h));
   --duration-fast: 200ms;
   --duration-slow: 500ms;
