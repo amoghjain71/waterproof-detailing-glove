@@ -9,13 +9,14 @@ export default function PrivacyPage() {
     <LegalPage title="Privacy">
       <p>
         {BRAND.name} collects information you submit for waitlist, contact, and
-        checkout purposes. typically name, email, shipping address, size
+        checkout purposes: typically name, email, phone, shipping address, size
         preference, and message contents.
       </p>
       <p>
-        We use that data to respond to inquiries, fulfill orders, send
-        production timing updates you opt into, and improve fit guidance. We do
-        not sell personal data.
+        We use that data to respond to inquiries, fulfill orders, email or text
+        production and pre-order updates you opt into, and improve fit guidance.
+        Phone numbers from pre-order signup are stored so we can contact you
+        when the drop opens. We do not sell personal data.
       </p>
       <p>
         Card numbers are not stored on this site. When card payment is connected,
@@ -31,8 +32,8 @@ export default function PrivacyPage() {
         needed to answer you and run pre-order updates, then deleted or
         anonymized within 24 months unless a longer period is required for an
         order, dispute, or law. We do not write personal submissions into the
-        project repository. Until a hosted email or database provider is wired,
-        server logs may hold short-lived metadata without message bodies.
+        project repository. Lead details are emailed to our ops inbox and may be
+        stored in a hosted database when connected.
       </p>
       <p>
         Third-party tools (hosting, email, payments) process data under their

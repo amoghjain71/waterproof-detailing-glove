@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { SIZE_CHART, sizeLabel, type SizeCode } from "@/data/sizes";
-import type { BundleId } from "@/lib/config";
+import { BRAND, type BundleId } from "@/lib/config";
 import { BundleSelector } from "@/components/ui/BundleSelector";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -139,7 +139,8 @@ export function BuyModule({
       <form className={compact ? "mt-3" : "mt-6"} onSubmit={signup}>
         <p className="text-body text-ink">Sign up for pre-orders</p>
         <p className="mt-1 text-label text-ink-muted">
-          We will email and text when pre-orders open. No spam.
+          We save your email and phone for the drop. We email when pre-orders
+          open, and may text that number then. No spam.
         </p>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           <Input
@@ -180,9 +181,9 @@ export function BuyModule({
             className="mt-1 h-4 w-4 shrink-0 rounded border border-rule accent-brand"
           />
           <span>
-            I agree to receive emails and texts about pre-order status, product
-            updates, and promotions. Message and data rates may apply. Reply STOP
-            to opt out of texts. See{" "}
+            I agree that {BRAND.name} may email and text me about pre-order
+            status, product updates, and promotions using the contact info I
+            provide. Message and data rates may apply. See{" "}
             <a href="/legal/privacy" className="text-brand">
               Privacy
             </a>
@@ -207,7 +208,7 @@ export function BuyModule({
         </Button>
         {notice === "ok" ? (
           <p className="mt-2 text-label text-ink">
-            You are on the list. We will email and text when pre-orders open.
+            You are on the list. We will email when pre-orders open.
           </p>
         ) : null}
       </form>

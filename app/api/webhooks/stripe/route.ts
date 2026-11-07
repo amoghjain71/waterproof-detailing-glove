@@ -1,6 +1,7 @@
 import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { appendSubmission } from "@/lib/submissions";
+import { emailCopy } from "@/content/emails";
 import { orderEmailHtml, sendEmail } from "@/lib/email";
 import { labelForSku } from "@/lib/catalog";
 import { claimWebhookEvent } from "@/lib/webhook-idempotency";
@@ -44,11 +45,13 @@ async function fulfillCheckoutSession(
   if (to) {
     await sendEmail({
       to,
-      subject: "We got your 2HANDS pre-order",
+      subject: emailCopy.orderConfirm.subject,
       html: orderEmailHtml({
         name: session.metadata?.name ?? "",
         orderId: session.id,
         lines: parseCartLines(session.metadata?.cart),
+        amountTotal: session.amount_total,
+        currency: session.currency,
       }),
     });
   }

@@ -1,6 +1,12 @@
 import { waitlistSchema } from "@/lib/schemas";
 import { appendSubmission } from "@/lib/submissions";
-import { sendEmail } from "@/lib/email";
+import { savePreorderLead } from "@/lib/leads";
+import {
+  leadNotifyEmailHtml,
+  preorderSignupEmailHtml,
+  sendEmail,
+  waitlistEmailHtml,
+} from "@/lib/email";
 import {
   assertAbuseFields,
   clientError,
@@ -42,6 +48,7 @@ export async function POST(request: Request) {
     );
   }
 
+  const at = new Date().toISOString();
   await appendSubmission({
     type: "waitlist",
     email: data.email,
@@ -49,39 +56,43 @@ export async function POST(request: Request) {
     size: data.size,
     source: data.source,
     consent: data.consent,
-    at: new Date().toISOString(),
+    at,
   });
 
+  try {
+    await savePreorderLead({
+      email: data.email,
+      phone: data.phone,
+      size: data.size,
+      source: data.source,
+      consent: data.consent,
+      at,
+    });
+  } catch {
+    console.error("[waitlist] lead store failed");
+  }
+
+  const customerMail = data.phone
+    ? preorderSignupEmailHtml()
+    : waitlistEmailHtml();
   await sendEmail({
     to: data.email,
-    subject: "You're on the 2HANDS pre-order list",
-    html: data.phone
-      ? "<p>Thanks for signing up. We will email and text when pre-orders open. Product updates only.</p>"
-      : "<p>Thanks for joining the waitlist. We will email product updates only.</p>",
+    subject: customerMail.subject,
+    html: customerMail.html,
   });
 
   const notifyTo = process.env.LEAD_NOTIFY_EMAIL;
   if (notifyTo) {
-    const safeEmail = data.email
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
-    const safePhone = (data.phone ?? "not provided")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
-    const safeSize = (data.size ?? "n/a")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
-    const safeSource = (data.source ?? "waitlist")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
+    const leadMail = leadNotifyEmailHtml({
+      email: data.email,
+      phone: data.phone,
+      size: data.size,
+      source: data.source,
+    });
     await sendEmail({
       to: notifyTo,
-      subject: "New 2HANDS pre-order signup",
-      html: `<p>New signup</p><ul><li>Email: ${safeEmail}</li><li>Phone: ${safePhone}</li><li>Size: ${safeSize}</li><li>Source: ${safeSource}</li></ul>`,
+      subject: leadMail.subject,
+      html: leadMail.html,
     });
   }
 

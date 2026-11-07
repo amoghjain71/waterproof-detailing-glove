@@ -1,6 +1,6 @@
 import { contactSchema } from "@/lib/schemas";
 import { appendSubmission } from "@/lib/submissions";
-import { sendEmail } from "@/lib/email";
+import { contactAckEmailHtml, sendEmail } from "@/lib/email";
 import {
   assertAbuseFields,
   clientError,
@@ -51,10 +51,11 @@ export async function POST(request: Request) {
     at: new Date().toISOString(),
   });
 
+  const ack = contactAckEmailHtml();
   await sendEmail({
     to: data.email,
-    subject: "We got your message — 2Hands",
-    html: "<p>Thanks for writing. We will reply soon.</p>",
+    subject: ack.subject,
+    html: ack.html,
   });
 
   return noStoreJson({ ok: true });

@@ -20,6 +20,12 @@ const envSchema = z.object({
   EMAIL_FROM: z.string().min(3).optional(),
   /** Inbox for pre-order / waitlist lead alerts (email + phone). */
   LEAD_NOTIFY_EMAIL: z.string().email().optional(),
+  /** Public origin for images in emails (must be reachable by Gmail, not localhost). */
+  EMAIL_ASSET_BASE_URL: z.string().url().optional(),
+  DATABASE_URL: z.string().min(1).optional(),
+  POSTGRES_URL: z.string().min(1).optional(),
+  /** Secret for GET /api/admin/leads?key=… CSV export. */
+  LEADS_EXPORT_SECRET: z.string().min(16).optional(),
 });
 
 export type AppEnv = z.infer<typeof envSchema> & {

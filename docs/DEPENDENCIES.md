@@ -19,6 +19,7 @@ Exact versions are pinned in `package.json` (Phase 1). Reasons below. Removed un
 | `gsap` | Scroll-linked home sections. |
 | `lenis` | Smooth scroll provider. |
 | `resend` | Transactional email (order confirmation, waitlist, contact). |
+| `@neondatabase/serverless` | Postgres for pre-order lead storage (email + phone). |
 
 ## Development
 
