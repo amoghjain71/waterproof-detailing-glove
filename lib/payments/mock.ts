@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { PaymentProvider } from "@/lib/payments/types";
 
 function orderId() {
@@ -9,8 +11,8 @@ export const mockPaymentProvider: PaymentProvider = {
     const id = orderId();
     console.info("[payments:mock] createCheckout", {
       orderId: id,
-      email: customer.email,
-      items: cart,
+      itemCount: cart.length,
+      hasCustomer: Boolean(customer.email),
     });
     return {
       orderId: id,

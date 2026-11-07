@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { useCart } from "@/lib/store/cart";
 import { PreorderTerms, ShippingMeter } from "@/components/commerce/OfferNotes";
 import { orderTotal } from "@/lib/commerce";
+import { displayUnitPriceUsd, labelForSku } from "@/lib/catalog";
 import { BRAND } from "@/lib/config";
 import { formatUsd } from "@/lib/utils";
 
@@ -42,10 +43,10 @@ export default function CartPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="font-medium">
-                        {item.label ?? BRAND.productName} · Size {item.size}
+                        {labelForSku(item.sku)} · Size {item.size}
                       </p>
                       <p className="mt-1 text-label text-ink-muted">
-                        {formatUsd(item.price)}
+                        {formatUsd(displayUnitPriceUsd(item.sku))}
                       </p>
                     </div>
                     <button
@@ -75,7 +76,7 @@ export default function CartPage() {
                       </button>
                     </div>
                     <p className="font-medium">
-                      {formatUsd(item.price * item.qty)}
+                      {formatUsd(displayUnitPriceUsd(item.sku) * item.qty)}
                     </p>
                   </div>
                 </li>

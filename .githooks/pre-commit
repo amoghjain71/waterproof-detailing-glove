@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Lightweight secret pattern scan on staged content. Prefer gitleaks when approved.
+set -euo pipefail
+
+pattern='sk_live_|sk_test_[A-Za-z0-9]{10,}|rk_live_|rk_test_|whsec_[A-Za-z0-9]{10,}|pk_live_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY'
+
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --no-banner
+  exit $?
+fi
+
+staged=$(git diff --cached --name-only --diff-filter=ACM || true)
+if [[ -z "${staged}" ]]; then
+  exit 0
+fi
+
+hits=0
+while IFS= read -r file; do
+  [[ -z "${file}" ]] && continue
+  [[ "${file}" == ".env.example" ]] && continue
+  if git grep -I -E -n --cached -e "${pattern}" -- "${file}" >/dev/null 2>&1; then
+    echo "pre-commit: possible secret pattern in staged file: ${file}" >&2
+    hits=1
+  fi
+done <<< "${staged}"
+
+if [[ "${hits}" -ne 0 ]]; then
+  echo "pre-commit: reject commit (redacted scan). Install gitleaks for a stronger scan when approved." >&2
+  exit 1
+fi
+
+exit 0

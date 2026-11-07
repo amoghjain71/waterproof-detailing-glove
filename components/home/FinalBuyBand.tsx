@@ -6,6 +6,7 @@ import type { BundleId } from "@/lib/config";
 import { BuyModule } from "@/components/home/BuyModule";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { useFormAbuseFields } from "@/lib/form-abuse";
 import { track } from "@/lib/track";
 
 export function FinalBuyBand({
@@ -23,6 +24,7 @@ export function FinalBuyBand({
 }) {
   const [email, setEmail] = useState("");
   const [notice, setNotice] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const abuse = useFormAbuseFields();
 
   async function join(event: FormEvent) {
     event.preventDefault();
@@ -35,7 +37,7 @@ export function FinalBuyBand({
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: "final-band" }),
+        body: JSON.stringify({ email, source: "final-band", ...abuse }),
       });
       if (!res.ok) throw new Error("waitlist failed");
       track("join_waitlist", { source: "final-band" });

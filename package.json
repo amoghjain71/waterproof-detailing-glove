@@ -10,6 +10,8 @@
     "build": "npm run audit:tells && next build",
     "audit:tells": "node scripts/audit-tells.mjs",
     "security:check": "node scripts/security-check.mjs",
+    "security:attack-tests": "node scripts/phase4-attack-tests.mjs",
+    "hooks:install": "git config core.hooksPath .githooks",
     "start": "next start",
     "lint": "eslint"
   },

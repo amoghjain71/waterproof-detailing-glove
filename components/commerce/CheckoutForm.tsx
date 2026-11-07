@@ -10,6 +10,8 @@ import { useCart } from "@/lib/store/cart";
 import { orderTotal } from "@/lib/commerce";
 import { PreorderTerms } from "@/components/commerce/OfferNotes";
 import { readAttribution, track } from "@/lib/track";
+import { displayUnitPriceUsd, labelForSku } from "@/lib/catalog";
+import { useFormAbuseFields } from "@/lib/form-abuse";
 import { checkoutCustomerSchema } from "@/lib/schemas";
 import { cn, formatUsd } from "@/lib/utils";
 
@@ -26,6 +28,7 @@ export function CheckoutForm() {
   const { shipping, total } = orderTotal(subtotal);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const abuse = useFormAbuseFields();
 
   useEffect(() => {
     if (items.length > 0) track("begin_checkout", { items: items.length });
@@ -79,9 +82,14 @@ export function CheckoutForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer,
-          cart: items,
+          cart: items.map(({ sku, size, qty }) => ({
+            sku,
+            size,
+            qty,
+          })),
           waitlistEmail: customer.email,
           attribution: readAttribution(),
+          ...abuse,
         }),
       });
       const data = (await res.json()) as {
@@ -89,8 +97,8 @@ export function CheckoutForm() {
         redirectUrl?: string;
         error?: string;
       };
-      if (!res.ok) {
-        throw new Error(data.error || "Checkout failed");
+      if (!res.ok || (!data.redirectUrl && !data.orderId)) {
+        throw new Error("Checkout failed");
       }
       // Hosted Stripe Checkout is an absolute URL. full navigation required.
       if (data.redirectUrl?.startsWith("http")) {
@@ -219,9 +227,11 @@ export function CheckoutForm() {
               className="flex justify-between gap-3"
             >
               <span>
-                {item.label ?? "Inner glove"} · Size {item.size} × {item.qty}
+                {labelForSku(item.sku)} · Size {item.size} × {item.qty}
               </span>
-              <span>{formatUsd(item.price * item.qty)}</span>
+              <span>
+                {formatUsd(displayUnitPriceUsd(item.sku) * item.qty)}
+              </span>
             </li>
           ))}
         </ul>

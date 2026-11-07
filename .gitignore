@@ -34,6 +34,11 @@ yarn-error.log*
 .env*
 !.env.example
 
+# never store personal submissions in the repo
+/data/submissions.json
+/data/*.json
+!/data/.gitkeep
+
 # vercel
 .vercel
 

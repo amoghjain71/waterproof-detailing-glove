@@ -173,7 +173,7 @@ export function FinalCtaSection() {
             type="button"
             className="mt-6 w-full rounded bg-brand px-6 py-3 text-label font-medium text-on-brand"
             onClick={() =>
-              addItem({ size, qty, price: PRICE_USD, sku: BRAND.sku })
+              addItem({ size, qty, sku: BRAND.sku })
             }
           >
             {SALES_MODE === "preorder" ? "Pre-order" : "Add to cart"} ·{" "}

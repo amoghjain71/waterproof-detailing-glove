@@ -1,24 +1,36 @@
-import { NextResponse } from "next/server";
 import { checkoutRequestSchema } from "@/lib/schemas";
 import { getPaymentProvider } from "@/lib/payments";
 import { appendSubmission } from "@/lib/submissions";
-import { orderEmailHtml, sendEmail } from "@/lib/email";
 import { SALES_MODE } from "@/lib/config";
+import { assertCheckoutAvailable } from "@/lib/env";
+import {
+  assertAbuseFields,
+  clientError,
+  gatePublicPost,
+  noStoreJson,
+  readJsonBody,
+} from "@/lib/api-guard";
 
 export async function POST(request: Request) {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  const blocked = gatePublicPost(request, "checkout");
+  if (blocked) return blocked;
+
+  const parsedBody = await readJsonBody(request);
+  if (!parsedBody.ok) return parsedBody.response;
+
+  const parsed = checkoutRequestSchema.safeParse(parsedBody.body);
+  if (!parsed.success) {
+    return clientError(400, "Validation failed");
   }
 
-  const parsed = checkoutRequestSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: "Validation failed", issues: parsed.error.issues },
-      { status: 400 },
-    );
+  if (!assertAbuseFields(parsed.data)) {
+    // Soft-fail bots without tipping them; client treats missing redirect as failure.
+    return noStoreJson({ ok: true });
+  }
+
+  const availability = assertCheckoutAvailable();
+  if (!availability.ok) {
+    return clientError(availability.status, availability.message);
   }
 
   const { customer, cart, waitlistEmail, attribution } = parsed.data;
@@ -40,24 +52,10 @@ export async function POST(request: Request) {
   try {
     const provider = getPaymentProvider();
     const result = await provider.createCheckout(cart, customer);
-    await sendEmail({
-      to: customer.email,
-      subject: "Your 2HANDS pre-order",
-      html: orderEmailHtml({
-        name: customer.name,
-        lines: cart.map((item) => ({
-          label: item.label ?? "Inner glove",
-          size: item.size,
-          qty: item.qty,
-        })),
-      }),
-    });
-    return NextResponse.json(result);
+    // Confirmation email is webhook-only after payment verification.
+    return noStoreJson(result);
   } catch (err) {
-    console.error("[api/checkout]", err);
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Checkout failed" },
-      { status: 500 },
-    );
+    console.error("[api/checkout]", err instanceof Error ? err.name : "error");
+    return clientError(500, "Checkout failed");
   }
 }

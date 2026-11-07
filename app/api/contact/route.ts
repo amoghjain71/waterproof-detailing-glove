@@ -1,26 +1,46 @@
-import { NextResponse } from "next/server";
 import { contactSchema } from "@/lib/schemas";
 import { appendSubmission } from "@/lib/submissions";
 import { sendEmail } from "@/lib/email";
+import {
+  assertAbuseFields,
+  clientError,
+  gatePublicPost,
+  noStoreJson,
+  rateLimit,
+  readJsonBody,
+} from "@/lib/api-guard";
 
 export async function POST(request: Request) {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  const blocked = gatePublicPost(request, "contact");
+  if (blocked) return blocked;
+
+  const parsedBody = await readJsonBody(request);
+  if (!parsedBody.ok) return parsedBody.response;
+
+  const parsed = contactSchema.safeParse(parsedBody.body);
+  if (!parsed.success) {
+    return clientError(400, "Validation failed");
   }
 
-  const parsed = contactSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: "Validation failed", issues: parsed.error.issues },
-      { status: 400 },
-    );
+  if (!assertAbuseFields(parsed.data)) {
+    return noStoreJson({ ok: true });
   }
 
   const data = parsed.data;
-  console.info("[api/contact]", data);
+  const emailLimit = rateLimit(
+    `contact-email:${data.email.toLowerCase()}`,
+    3,
+    60_000,
+  );
+  if (!emailLimit.ok) {
+    return noStoreJson(
+      { error: "Too many requests" },
+      {
+        status: 429,
+        headers: { "Retry-After": String(emailLimit.retryAfterSec) },
+      },
+    );
+  }
 
   await appendSubmission({
     type: "contact",
@@ -34,8 +54,8 @@ export async function POST(request: Request) {
   await sendEmail({
     to: data.email,
     subject: "We got your message — 2Hands",
-    html: `<p>Thanks ${data.name}. We'll reply soon.</p>`,
+    html: "<p>Thanks for writing. We will reply soon.</p>",
   });
 
-  return NextResponse.json({ ok: true });
+  return noStoreJson({ ok: true });
 }

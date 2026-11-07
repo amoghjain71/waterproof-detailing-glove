@@ -6,6 +6,7 @@ import { AutoVideo } from "@/components/media/AutoVideo";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
+import { useFormAbuseFields } from "@/lib/form-abuse";
 import { track } from "@/lib/track";
 
 type Unit = "mm" | "in";
@@ -27,6 +28,7 @@ export function SizeFit({
   const [raw, setRaw] = useState("205");
   const [email, setEmail] = useState("");
   const [notice, setNotice] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const abuse = useFormAbuseFields();
 
   useEffect(() => {
     if (open) track("open_size_calculator");
@@ -46,7 +48,7 @@ export function SizeFit({
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: "size-calculator" }),
+        body: JSON.stringify({ email, source: "size-calculator", ...abuse }),
       });
       if (!res.ok) throw new Error("notify failed");
       track("notify_size", { size: "pending" });

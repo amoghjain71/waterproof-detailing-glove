@@ -12,7 +12,7 @@ async function ConfirmationFromParams({
   searchParams: Promise<{ orderId?: string }>;
 }) {
   const params = await searchParams;
-  return <ConfirmationClient orderId={params.orderId ?? "mock_order"} />;
+  return <ConfirmationClient orderId={params.orderId ?? "pending"} />;
 }
 
 export default function OrderConfirmationPage({

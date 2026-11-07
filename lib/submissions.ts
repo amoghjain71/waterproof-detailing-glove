@@ -1,7 +1,10 @@
-import { promises as fs } from "fs";
-import path from "path";
+import "server-only";
 
-const FILE = path.join(process.cwd(), "data", "submissions.json");
+/**
+ * Personal data must not be written into the project tree.
+ * Phase 2: record metadata only (no email/name/message bodies in logs).
+ * Wire Resend / a hosted store in Phase 3+ for real retention.
+ */
 
 export type Submission =
   | {
@@ -31,14 +34,13 @@ export type Submission =
     };
 
 export async function appendSubmission(entry: Submission): Promise<void> {
-  let current: Submission[] = [];
-  try {
-    const raw = await fs.readFile(FILE, "utf8");
-    current = JSON.parse(raw) as Submission[];
-    if (!Array.isArray(current)) current = [];
-  } catch {
-    current = [];
-  }
-  current.push(entry);
-  await fs.writeFile(FILE, JSON.stringify(current, null, 2), "utf8");
+  console.info("[submission]", {
+    type: entry.type,
+    at: entry.at,
+    size: entry.type === "waitlist" ? entry.size : undefined,
+    source: entry.type === "waitlist" ? entry.source : undefined,
+    topic: entry.type === "contact" ? entry.topic : undefined,
+    orderId: entry.type === "order" ? entry.orderId : undefined,
+    paymentStatus: entry.type === "order" ? entry.paymentStatus : undefined,
+  });
 }

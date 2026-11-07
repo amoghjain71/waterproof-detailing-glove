@@ -27,6 +27,14 @@ export default function PrivacyPage() {
         waitlist/contact records via the contact form.
       </p>
       <p>
+        Retention: waitlist and contact submissions are kept only as long as
+        needed to answer you and run pre-order updates, then deleted or
+        anonymized within 24 months unless a longer period is required for an
+        order, dispute, or law. We do not write personal submissions into the
+        project repository. Until a hosted email or database provider is wired,
+        server logs may hold short-lived metadata without message bodies.
+      </p>
+      <p>
         Third-party tools (hosting, email, payments) process data under their
         own policies. This draft will be updated before live fulfillment and
         payment capture.

@@ -13,6 +13,7 @@ import { BundleSelector } from "@/components/ui/BundleSelector";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { PreorderTerms } from "@/components/commerce/OfferNotes";
+import { useFormAbuseFields } from "@/lib/form-abuse";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
@@ -40,6 +41,7 @@ export function BuyModule({
   const [busy, setBusy] = useState(false);
   const [email, setEmail] = useState("");
   const [notice, setNotice] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const abuse = useFormAbuseFields();
   const bundle = BUNDLES.find((item) => item.id === bundleId) ?? BUNDLES[0];
   const sample = SIZE_CHART.find((row) => row.code === "M")?.sample;
   const canBuy = SIZES_CONFIRMED
@@ -53,9 +55,7 @@ export function BuyModule({
     addItem({
       size,
       qty: 1,
-      price: bundle.priceUsd,
-      sku: bundle.id === "single" ? BRAND.sku : `2hands-${bundle.id}`,
-      label: bundle.name,
+      sku: bundle.id === "single" ? BRAND.sku : bundle.id,
     });
     track("add_to_cart", { size, bundle: bundle.id, price: bundle.priceUsd });
     setBusy(false);
@@ -72,7 +72,7 @@ export function BuyModule({
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, size, source: "size-notify" }),
+        body: JSON.stringify({ email, size, source: "size-notify", ...abuse }),
       });
       if (!res.ok) throw new Error("notify failed");
       track("notify_size", { size });

@@ -5,7 +5,13 @@
 **Repo:** waterproof-detailing-glove (2HANDS)  
 **Changed in Phase 0:** `docs/SECURITY_PROMPT.md`, `docs/SECURITY_AUDIT.md`, `.cursorignore` only. No application code, dependencies, or config behavior changes.
 
-**Phase 1 (2026-11-06):** React/react-dom → 19.3.1; exact version pins; removed unused `@stripe/react-stripe-js` and `@stripe/stripe-js`; disabled `cacheComponents` / `partialPrefetching`; set `poweredByHeader`/`productionBrowserSourceMaps` false; added `.npmrc`, `.nvmrc` (22.23.4), `engines.node`, `vercel.json` installCommand `npm ci`, Dependabot, `docs/DEPENDENCIES.md`, `npm run security:check`. Local Node remains 22.16.0 — upgrade to ≥22.23.4 and set Vercel Node yourself.
+**Phase 1 (2026-11-06):** React/react-dom → 19.3.1; exact version pins; removed unused `@stripe/react-stripe-js` and `@stripe/stripe-js`; disabled `cacheComponents` / `partialPrefetching`; set `poweredByHeader`/`productionBrowserSourceMaps` false; added `.npmrc`, `.nvmrc` (22.23.4), `engines.node`, `vercel.json` installCommand `npm ci`, Dependabot, `docs/DEPENDENCIES.md`, `npm run security:check`. Local Node upgraded to 22.23.4 — still set Vercel Node yourself.
+
+**Phase 2 (2026-11-06):** Added `lib/env.ts`, `server-only` on secret modules, security headers + CSP Report-Only + `/api/csp-report`, Origin + rate limits + honeypot/min-fill, strict zod, no file PII, privacy retention, hooks/CI. CSP remains Report-Only.
+
+**Phase 3 (2026-11-06):** `PAYMENTS_OPEN` gate + production 503; no mock Place Order outside local dev; cart localStorage is sku/size/qty only; Stripe `client_reference_id` + cart metadata; webhook fulfilment + confirmation email only after signature verify; event dedupe + `metadata.fulfilled`; confirmation page never marks paid; `public/.well-known/security.txt`; `docs/SECURITY.md`.
+
+**Phase 4 (2026-11-06):** `npm run security:check` OK (0 prod vulns; magic-string `EMISSINGSIGNATUREKEY` tracked as warn); CodeQL workflow added; `npm run security:attack-tests` script; Origin check fixed to match request `Host` (plus site/VERCEL allowlist). Local attack tests **8 PASS / 0 FAIL / 2 SKIP**. Production probe still on **pre-Phase-2** deploy (redeploy required). CSP still Report-Only. `eslint-plugin-security` not installed (needs approval). gitleaks still needs approval.
 
 This is not a claim that the site is secure or unhackable. It records what was checked, what was found, and what later phases should fix.
 
@@ -206,18 +212,52 @@ No zod env bootstrap (`lib/env.ts`) yet — Phase 2.
 
 ### Remains (later phases + owner)
 
-1. **Phase 1:** React 19.3.1, Node pin, optional disable `cacheComponents`, `.npmrc` / Dependabot / `security:check`, lockfile discipline.  
-2. **Phase 2:** `lib/env.ts`, security headers + CSP Report-Only→enforce, zod strict allowlists, Origin checks, rate limits, remove file-based PII, generic errors, `no-store` on APIs.  
-3. **Phase 3:** Server-side price lookup, webhook-only fulfilment + idempotency, block mock in production, `security.txt`, `docs/SECURITY.md`.  
-4. **Phase 4:** Automated scanners, manual attack tests (§11 of the prompt).  
-5. **You (section 15):** 2FA on GitHub/Vercel/Stripe/domain, private repo + push protection, Vercel Deployment Protection + Firewall, Stripe restricted keys/Radar, DNSSEC/CAA/SPF/DKIM/DMARC.  
-6. **Approve** install of **gitleaks** or **trufflehog** for a definitive history secret scan.
+1. ~~Phase 1~~ done.  
+2. ~~Phase 2~~ done (CSP still Report-Only).  
+3. ~~Phase 3~~ done (set `PAYMENTS_OPEN=true` only when ready to charge).  
+4. ~~Phase 4~~ local automation + attack tests done — see §Phase 4 results below.  
+5. **You (section 15):** 2FA, private repo + push protection, enable CodeQL on GitHub, Vercel Deployment Protection + Firewall, Stripe restricted keys/Radar, DNSSEC/CAA/SPF/DKIM/DMARC; `npm run hooks:install`; Vercel Node ≥22.23.4; **redeploy** Phases 2–4; set `PAYMENTS_OPEN` only when Stripe webhook is live.  
+6. **Approve** install of **gitleaks** / **trufflehog**, and optionally **eslint-plugin-security**.
 
 ### Highest priorities before real money
 
-1. Stop trusting client `price` in Checkout Session creation.  
-2. Block mock checkout in production.  
-3. Move fulfilment/email to verified, idempotent webhooks.  
-4. Stop writing personal data to `data/submissions.json`.  
-5. Add CSP and the rest of the security headers.  
-6. Patch React/Node to the versions in the current advisories.
+1. ~~Server-side prices / no client price trust~~.  
+2. ~~Production 503 until `PAYMENTS_OPEN` + no prod mock orders~~ (local verified; **redeploy to production**).  
+3. ~~Webhook-only fulfilment with signature verify + fulfilled flag~~.  
+4. ~~No file PII~~.  
+5. Redeploy → re-run attack tests + securityheaders/Observatory/Lighthouse → enforce CSP.  
+6. Confirm Vercel Node/runtime and restricted Stripe keys; rotate any secret ever pasted into a terminal/chat.
+
+---
+
+## Phase 4 results (2026-11-06)
+
+### Automated
+
+| Check | Result |
+|-------|--------|
+| `npm run security:check` | **OK** — 0 high/critical vulns; signatures warn only for known `magic-string` key gap; secret pattern scan clean on HEAD (gitleaks not installed) |
+| CodeQL workflow | Added [`.github/workflows/codeql.yml`](../.github/workflows/codeql.yml) — enable code scanning on GitHub |
+| OWASP ZAP | Command documented in [SECURITY.md](SECURITY.md); not run here (needs preview URL + Docker) |
+| `eslint-plugin-security` | **Not installed** — awaiting approval |
+
+### Manual attack tests (`npm run security:attack-tests` → `http://127.0.0.1:3010`)
+
+| # | Test | Result |
+|---|------|--------|
+| 1 | Checkout qty 9999 / client price | **PASS** (400 Validation failed) |
+| 1b | Strict reject `cart.price` | **PASS** (400) |
+| 2 | Fake Stripe webhook, no signature | **PASS** (400) |
+| 2b | Replay valid webhook twice | **SKIP** — needs signed Stripe event after `PAYMENTS_OPEN` |
+| 3 | Script / oversized form fields | **PASS** (400, generic error) |
+| 4 | 50 posts → 429 | **PASS** |
+| 5 | Foreign Origin | **PASS** (403) |
+| 6 | `/.env`, `/.git/config`, `/api/debug`, `/package.json`, maps | **PASS** (404) |
+| 7 | Preview Vercel auth | **SKIP** — owner |
+| 8 | Checkout 503 until payments open | **PASS** (503 Pre-order payments open soon) |
+
+**Production probe (live `waterproof-detailing-glove.vercel.app` before redeploy):** still old checkout (expects client `price`, qty max 20, leaks zod `issues`, missing Phase 2 headers beyond HSTS). **Do not treat live production as Phase 4-hardened until you deploy.**
+
+### Local headers (Phase 2+ build)
+
+Present: HSTS, nosniff, Referrer-Policy, Permissions-Policy, COOP, X-Frame-Options, CSP-Report-Only. No `x-powered-by`. CSP not enforced yet.

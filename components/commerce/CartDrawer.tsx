@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "@/lib/store/cart";
 import { PreorderTerms, ShippingMeter } from "@/components/commerce/OfferNotes";
 import { orderTotal } from "@/lib/commerce";
+import { displayUnitPriceUsd, labelForSku } from "@/lib/catalog";
 import { BUNDLES, BRAND, MITT_SKU_AVAILABLE } from "@/lib/config";
 import { formatUsd, FRAMER_EASE } from "@/lib/utils";
 
@@ -75,10 +76,10 @@ export function CartDrawer() {
                         <div className="flex items-start justify-between gap-3">
                           <div>
                             <p className="text-label font-medium">
-                              {item.label ?? "Inner glove"} · Size {item.size}
+                              {labelForSku(item.sku)} · Size {item.size}
                             </p>
                             <p className="mt-1 text-label text-ink-muted">
-                              {formatUsd(item.price)}
+                              {formatUsd(displayUnitPriceUsd(item.sku))}
                             </p>
                           </div>
                           <button
@@ -112,7 +113,9 @@ export function CartDrawer() {
                             </button>
                           </div>
                           <p className="text-label font-medium">
-                            {formatUsd(item.price * item.qty)}
+                            {formatUsd(
+                              displayUnitPriceUsd(item.sku) * item.qty,
+                            )}
                           </p>
                         </div>
                       </motion.li>
@@ -146,9 +149,7 @@ export function CartDrawer() {
                     addItem({
                       size: items[0]?.size ?? "M",
                       qty: 1,
-                      price: mitt.priceUsd,
-                      sku: "2hands-mitt",
-                      label: mitt.name,
+                      sku: mitt.id,
                     })
                   }
                 >

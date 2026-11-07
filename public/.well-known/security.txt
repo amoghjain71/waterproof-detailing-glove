@@ -1,0 +1,5 @@
+Contact: mailto:amoghjain71@gmail.com
+Preferred-Languages: en
+Canonical: https://waterproof-detailing-glove.vercel.app/.well-known/security.txt
+Expires: 2027-11-06T00:00:00.000Z
+Policy: https://waterproof-detailing-glove.vercel.app/legal/privacy

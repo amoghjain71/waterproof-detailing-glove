@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { BRAND, FOOTER_LINKS } from "@/lib/config";
 import { PrototypeBadge } from "@/components/ui/PrototypeBadge";
 import { Button } from "@/components/ui/Button";
+import { useFormAbuseFields } from "@/lib/form-abuse";
 import { track } from "@/lib/track";
 
 const LEGAL = [
@@ -17,6 +18,7 @@ const LEGAL = [
 export function Footer() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const abuse = useFormAbuseFields();
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -29,7 +31,7 @@ export function Footer() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: "footer" }),
+        body: JSON.stringify({ email, source: "footer", ...abuse }),
       });
       if (!res.ok) throw new Error("waitlist failed");
       track("join_waitlist", { source: "footer" });

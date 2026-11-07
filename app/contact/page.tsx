@@ -3,12 +3,14 @@
 import { FormEvent, useState } from "react";
 import { PageHero } from "@/components/ui/PageHero";
 import { Button } from "@/components/ui/Button";
+import { useFormAbuseFields } from "@/lib/form-abuse";
 
 type Status = "idle" | "sending" | "ok" | "error";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<Status>("idle");
   const [topic, setTopic] = useState("general");
+  const abuse = useFormAbuseFields();
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -18,6 +20,7 @@ export default function ContactPage() {
       email: String(data.get("email") || ""),
       topic: String(data.get("topic") || topic),
       message: String(data.get("message") || ""),
+      ...abuse,
     };
     if (!payload.email.includes("@") || payload.message.length < 5) {
       setStatus("error");

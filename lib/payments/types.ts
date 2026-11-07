@@ -1,4 +1,4 @@
-import type { CartItem } from "@/lib/store/cart-types";
+import type { CheckoutCartItem } from "@/lib/schemas";
 
 export type CheckoutCustomer = {
   email: string;
@@ -22,7 +22,7 @@ export type CreateCheckoutResult = {
 
 export interface PaymentProvider {
   createCheckout(
-    cart: CartItem[],
+    cart: CheckoutCartItem[],
     customer: CheckoutCustomer,
   ): Promise<CreateCheckoutResult>;
   confirmOrder(orderId: string): Promise<{ ok: boolean; orderId: string }>;
