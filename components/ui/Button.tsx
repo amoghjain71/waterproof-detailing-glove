@@ -9,7 +9,9 @@ type ButtonProps = {
   variant?: "primary" | "outline" | "band";
   className?: string;
   type?: "button" | "submit";
-  onClick?: () => void;
+  onClick?: (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
+  ) => void;
   disabled?: boolean;
   loading?: boolean;
   error?: boolean;

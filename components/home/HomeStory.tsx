@@ -4,9 +4,7 @@ import { useRef, useState } from "react";
 import type { SizeCode } from "@/data/sizes";
 import type { BundleId } from "@/lib/config";
 import { CompareSection } from "@/components/home/CompareSection";
-import { FinalBuyBand } from "@/components/home/FinalBuyBand";
 import { FounderNote } from "@/components/home/FounderNote";
-import { HomeFaqSection } from "@/components/home/HomeFaqSection";
 import { HomeHero } from "@/components/home/HomeHero";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { ProblemBand } from "@/components/home/ProblemBand";
@@ -20,7 +18,7 @@ import { ScrollPath } from "@/components/layout/ScrollPath";
 
 export function HomeStory() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState<SizeCode>("M");
+  const [size, setSize] = useState<SizeCode>("ML");
   const [bundleId, setBundleId] = useState<BundleId>("single");
   const [sizerOpen, setSizerOpen] = useState(false);
 
@@ -46,17 +44,9 @@ export function HomeStory() {
         open={sizerOpen}
         onOpenChange={setSizerOpen}
         onUseM={() => {
-          setSize("M");
+          setSize("ML");
           document.getElementById("buy")?.scrollIntoView({ behavior: "smooth" });
         }}
-      />
-      <HomeFaqSection />
-      <FinalBuyBand
-        size={size}
-        bundleId={bundleId}
-        onSize={setSize}
-        onBundle={setBundleId}
-        onOpenSizer={() => setSizerOpen(true)}
       />
       <StickyBuyBar size={size} bundleId={bundleId} />
     </div>

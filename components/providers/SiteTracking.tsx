@@ -9,7 +9,7 @@ export function SiteTracking() {
 
   useEffect(() => {
     captureAttribution();
-    if (pathname === "/" || pathname === "/glove") {
+    if (pathname === "/") {
       track("view_item", { item: "glove" });
     }
   }, [pathname]);

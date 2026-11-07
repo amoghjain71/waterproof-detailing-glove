@@ -4,7 +4,8 @@ import { faqItems } from "@/content/faq";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Fit, the strap, water at the cuff, sizing, shipping, and pre-order.",
+  description:
+    "Fit, materials and allergens, sizing, shipping, refunds, exchanges, and pre-order signup.",
 };
 
 export default function FaqPage() {
@@ -13,7 +14,8 @@ export default function FaqPage() {
       <div className="mx-auto max-w-3xl">
         <h1 className="font-display text-h1">Questions</h1>
         <p className="mt-4 text-lead text-ink">
-          Fit, the strap, water at the cuff, and what a pre-order means.
+          Fit, materials and safety, sizing, shipping, refunds, and what signup
+          means.
         </p>
         <div className="mt-10">
           <Accordion
@@ -22,7 +24,7 @@ export default function FaqPage() {
               title: item.question,
               body: item.answer,
             }))}
-            defaultOpen={["fit-under-mitt", "scratch-paint", "stays-on"]}
+            defaultOpen={["fit-under-mitt", "materials-allergens", "returns"]}
           />
         </div>
       </div>

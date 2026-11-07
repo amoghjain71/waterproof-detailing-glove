@@ -8,20 +8,17 @@ import {
   BRAND,
   FREE_SHIPPING_OVER_USD,
   HOME_NAV,
-  PRICE_USD,
-  REFUND_PROMISE_SHORT,
-  SHIP_WINDOW,
+  SHIP_ESTIMATE_TEXT,
 } from "@/lib/config";
-import { cn } from "@/lib/utils";
+import { handleHomeSectionNav } from "@/lib/nav";
+import { cn, formatUsd } from "@/lib/utils";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { CartButton } from "@/components/commerce/CartButton";
-import { formatUsd } from "@/lib/utils";
 
 export function Header() {
   const pathname = usePathname();
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const buyHref = pathname === "/" ? "#buy" : "/#buy";
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -44,10 +41,11 @@ export function Header() {
       >
         <p className="mx-auto flex h-announce w-full max-w-7xl items-center px-4 text-label text-ink sm:px-6 lg:px-8">
           <span className="min-w-0 sm:hidden">
-            Pre-order. {SHIP_WINDOW}. Free shipping over {formatUsd(FREE_SHIPPING_OVER_USD)}.
+            Sign up for pre-orders. Free shipping over{" "}
+            {formatUsd(FREE_SHIPPING_OVER_USD)}.
           </span>
           <span className="hidden min-w-0 sm:inline">
-            Pre-order. {SHIP_WINDOW}. {REFUND_PROMISE_SHORT} Free shipping over{" "}
+            Sign up for pre-orders. {SHIP_ESTIMATE_TEXT} Free shipping over{" "}
             {formatUsd(FREE_SHIPPING_OVER_USD)}.
           </span>
         </p>
@@ -68,24 +66,27 @@ export function Header() {
           </Link>
 
           <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
-            {HOME_NAV.map((link) => (
-              <Link
-                key={link.href}
-                href={pathname === "/" ? link.href.slice(1) : link.href}
-                className="text-label text-ink-muted transition-colors duration-200 ease-wash hover:text-ink"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {HOME_NAV.map((link) => {
+              const href =
+                pathname === "/" && link.href.startsWith("/#")
+                  ? link.href.slice(1)
+                  : link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={href}
+                  onClick={(event) => {
+                    handleHomeSectionNav(link.href, pathname, event);
+                  }}
+                  className="text-label text-ink-muted transition-colors duration-200 ease-wash hover:text-ink"
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link
-              href={buyHref}
-              className="hidden h-12 items-center border border-brand bg-brand px-4 text-label font-medium text-on-brand hover:bg-brand-hover md:inline-flex"
-            >
-              Pre-order · {formatUsd(PRICE_USD)}
-            </Link>
             <CartButton />
 
             <button

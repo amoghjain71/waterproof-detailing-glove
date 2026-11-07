@@ -4,6 +4,7 @@ import {
   FREE_SHIPPING_OVER_USD,
   REFUND_PROMISE_SHORT,
   SHIPPING_FLAT_USD,
+  SHIP_ESTIMATE_TEXT,
   SHIP_WINDOW,
 } from "@/lib/config";
 import { formatUsd } from "@/lib/utils";
@@ -11,10 +12,11 @@ import { formatUsd } from "@/lib/utils";
 export const metadata: Metadata = { title: "Shipping" };
 
 export default function ShippingPage() {
+  const shipLine = SHIP_WINDOW.trim() || SHIP_ESTIMATE_TEXT;
   return (
     <LegalPage title="Shipping">
       <p>
-        {SHIP_WINDOW}. {REFUND_PROMISE_SHORT}
+        {shipLine} {REFUND_PROMISE_SHORT}
       </p>
       <p>
         Flat shipping is {formatUsd(SHIPPING_FLAT_USD)} per order. Orders over{" "}

@@ -147,7 +147,7 @@ export function CartDrawer() {
                   className="mt-4 h-12 w-full border border-ink text-label"
                   onClick={() =>
                     addItem({
-                      size: items[0]?.size ?? "M",
+                      size: items[0]?.size ?? "ML",
                       qty: 1,
                       sku: mitt.id,
                     })

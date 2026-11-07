@@ -44,9 +44,10 @@ async function fulfillCheckoutSession(
   if (to) {
     await sendEmail({
       to,
-      subject: "Your 2HANDS pre-order",
+      subject: "We got your 2HANDS pre-order",
       html: orderEmailHtml({
         name: session.metadata?.name ?? "",
+        orderId: session.id,
         lines: parseCartLines(session.metadata?.cart),
       }),
     });

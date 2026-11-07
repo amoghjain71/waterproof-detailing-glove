@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { BUNDLES, BRAND, type BundleId } from "@/lib/config";
 
-/** Offered sizes for notify / fit. S is not available. */
-const sizeSchema = z.enum(["M", "L", "XL"]);
+/** Offered sizes for notify / fit. S is not available. M/L is one slot. */
+const sizeSchema = z.enum(["ML", "XL"]);
 
 /** Honeypot + timing — allow filled honeypot through zod so the route can soft-succeed. */
 const abuseFields = {
@@ -10,14 +10,32 @@ const abuseFields = {
   formStartedAt: z.number().optional(),
 };
 
+const phoneSchema = z
+  .string()
+  .min(10)
+  .max(24)
+  .regex(/^[+\d][\d\s().-]{8,22}$/, "Invalid phone");
+
 export const waitlistSchema = z
   .object({
     email: z.string().email().max(254),
+    phone: phoneSchema.optional(),
     size: sizeSchema.optional(),
     source: z.string().max(80).optional(),
+    /** Required true for preorder-signup (email + SMS consent). */
+    consent: z.boolean().optional(),
     ...abuseFields,
   })
-  .strict();
+  .strict()
+  .superRefine((data, ctx) => {
+    if (data.source === "preorder-signup" && data.consent !== true) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["consent"],
+        message: "Consent required",
+      });
+    }
+  });
 
 export const contactSchema = z
   .object({

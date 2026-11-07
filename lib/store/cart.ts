@@ -34,9 +34,19 @@ function normalizeItems(raw: unknown): CartItem[] {
       typeof row.sku === "string" ? canonicalSku(row.sku) : BRAND.sku;
     const size = row.size;
     const qty = Number(row.qty);
-    if (size !== "M" && size !== "L" && size !== "XL") continue;
+    const normalizedSize =
+      size === "ML" || size === "XL"
+        ? size
+        : size === "M" || size === "L"
+          ? "ML"
+          : null;
+    if (!normalizedSize) continue;
     if (!Number.isFinite(qty) || qty < 1) continue;
-    next.push({ sku, size, qty: Math.min(10, Math.floor(qty)) });
+    next.push({
+      sku,
+      size: normalizedSize,
+      qty: Math.min(10, Math.floor(qty)),
+    });
   }
   return next;
 }

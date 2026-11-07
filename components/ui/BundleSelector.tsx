@@ -44,10 +44,10 @@ export function BundleSelector({
             <label
               key={bundle.id}
               className={cn(
-                "flex cursor-pointer items-start justify-between gap-4 border text-body",
+                "flex items-start justify-between gap-4 border text-body",
                 compact ? "p-3" : "p-4",
                 active ? "border-ink bg-surface" : "border-rule bg-ground",
-                "hover:border-ink",
+                disabled ? "cursor-not-allowed" : "cursor-pointer hover:border-ink",
               )}
             >
               <span>

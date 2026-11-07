@@ -52,8 +52,8 @@ export const MITT_SKU_AVAILABLE = false;
 /** L and XL stay unconfirmed until fit trials. Do not auto-scale M. */
 export const SIZES_CONFIRMED = false;
 
-/** Owner must replace this with a real date range before it is shown. */
-export const SHIP_WINDOW = "Ship window not set";
+/** Shown only after a real window is set. Prefer SHIP_ESTIMATE_TEXT until then. */
+export const SHIP_WINDOW = "";
 
 export const REFUND_PROMISE_SHORT =
   "Full refund any time before it ships. Full refund if we miss the date.";
@@ -106,11 +106,11 @@ export const HOME_NAV = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#spec", label: "Spec" },
   { href: "/#sizing", label: "Sizing" },
-  { href: "/#faq", label: "FAQ" },
+  { href: "/faq", label: "FAQ" },
 ] as const;
 
 export const FOOTER_LINKS = [
-  { href: "/glove", label: "The glove" },
+  { href: "/#buy", label: "The glove" },
   { href: "/how-its-made", label: "How it's made" },
   { href: "/sizing", label: "Sizing" },
   { href: "/tested", label: "Tested" },

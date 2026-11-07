@@ -1,13 +1,15 @@
-export type SizeCode = "S" | "M" | "L" | "XL";
+export type SizeCode = "S" | "ML" | "XL";
 
 export type SizeStatus = "confirmed" | "pending" | "unavailable";
 
 export type SizeRow = {
   code: SizeCode;
+  /** Customer-facing label (e.g. M/L). */
+  label: string;
   status: SizeStatus;
-  /** Hand circumference range in mm when confirmed. */
+  /** Hand circumference range in mm when known. */
   circumferenceMm?: { min: number; max: number };
-  /** Sample dimensions — only confirmed sizes may include numbers. */
+  /** Sample dimensions — only measured sizes may include numbers. */
   sample?: {
     overallLengthMm: number;
     middleFingerMm: number;
@@ -18,24 +20,29 @@ export type SizeRow = {
   note: string;
 };
 
+export function sizeLabel(code: SizeCode): string {
+  return SIZE_CHART.find((row) => row.code === code)?.label ?? code;
+}
+
 export function isSizeSelectable(code: SizeCode): boolean {
   return SIZE_CHART.find((row) => row.code === code)?.status !== "unavailable";
 }
 
 /**
- * Size M is the measured Prototype V2 sample.
- * L / XL stay pending until fit trials lock them.
- * S is not offered.
+ * Pre-order signup is open; size buttons stay unavailable until fit trials lock.
+ * M and L share one M/L slot from the measured Prototype V2 sample.
  */
 export const SIZE_CHART: SizeRow[] = [
   {
     code: "S",
+    label: "S",
     status: "unavailable",
     note: "Size S is not available.",
   },
   {
-    code: "M",
-    status: "confirmed",
+    code: "ML",
+    label: "M/L",
+    status: "unavailable",
     circumferenceMm: { min: 200, max: 215 },
     sample: {
       overallLengthMm: 260,
@@ -43,17 +50,13 @@ export const SIZE_CHART: SizeRow[] = [
       palmWidthLaidFlatMm: 95,
       cuffLengthMm: 60,
     },
-    note: "Confirmed sample. 95 mm is palm width laid flat, not a hand-size range. Between sizes? Choose the larger.",
-  },
-  {
-    code: "L",
-    status: "pending",
-    note: "Size set finalizing. Do not scale the M sample until fit trials lock it.",
+    note: "M/L sample range. 95 mm is palm width laid flat, not a hand-size range. Between sizes? Choose the larger when sizes open.",
   },
   {
     code: "XL",
-    status: "pending",
-    note: "Size set finalizing. Do not scale the M sample until fit trials lock it.",
+    label: "XL",
+    status: "unavailable",
+    note: "Size set finalizing. Do not scale the M/L sample until fit trials lock it.",
   },
 ];
 
@@ -61,27 +64,21 @@ export function recommendSize(circumferenceMm: number): {
   code: SizeCode | null;
   message: string;
 } {
-  const confirmed = SIZE_CHART.filter(
-    (s) => s.status === "confirmed" && s.circumferenceMm,
-  );
-
-  const exact = confirmed.find(
-    (s) =>
-      s.circumferenceMm &&
-      circumferenceMm >= s.circumferenceMm.min &&
-      circumferenceMm <= s.circumferenceMm.max,
-  );
-
-  if (exact) {
+  const ml = SIZE_CHART.find((s) => s.code === "ML");
+  if (
+    ml?.circumferenceMm &&
+    circumferenceMm >= ml.circumferenceMm.min &&
+    circumferenceMm <= ml.circumferenceMm.max
+  ) {
     return {
-      code: exact.code,
-      message: `Recommended size ${exact.code} for ${circumferenceMm} mm hand circumference.`,
+      code: "ML",
+      message: `Recommended size M/L for ${circumferenceMm} mm hand circumference. Sign up and we will email and text when pre-orders open.`,
     };
   }
 
   return {
     code: null,
-    message: `${circumferenceMm} mm is outside size M (200 to 215 mm). That size is still being set.`,
+    message: `${circumferenceMm} mm is outside the M/L sample range (200 to 215 mm). That size is still being set.`,
   };
 }
 

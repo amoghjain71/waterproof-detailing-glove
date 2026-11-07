@@ -5,9 +5,9 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { BRAND, HOME_NAV, PRICE_USD } from "@/lib/config";
-import { formatUsd } from "@/lib/utils";
+import { handleHomeSectionNav } from "@/lib/nav";
+import { formatUsd, FRAMER_EASE } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
-import { FRAMER_EASE } from "@/lib/utils";
 
 export function MobileMenu({
   open,
@@ -40,18 +40,39 @@ export function MobileMenu({
               />
             </div>
             <nav aria-label="Mobile" className="flex flex-col gap-2">
-              {HOME_NAV.map((link) => (
-                <Link
-                  key={link.href}
-                  href={pathname === "/" ? link.href.slice(1) : link.href}
-                  onClick={onClose}
-                  className="font-display block border-b border-rule py-4 text-h2 text-ink"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Button href={buyHref} className="mt-6" onClick={onClose}>
-                Pre-order · {formatUsd(PRICE_USD)}
+              {HOME_NAV.map((link) => {
+                const href =
+                  pathname === "/" && link.href.startsWith("/#")
+                    ? link.href.slice(1)
+                    : link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={href}
+                    onClick={(event) => {
+                      const handled = handleHomeSectionNav(
+                        link.href,
+                        pathname,
+                        event,
+                      );
+                      onClose();
+                      if (!handled) return;
+                    }}
+                    className="font-display block border-b border-rule py-4 text-h2 text-ink"
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+              <Button
+                href={buyHref}
+                className="mt-6"
+                onClick={(event) => {
+                  onClose();
+                  if (handleHomeSectionNav("/#buy", pathname, event)) return;
+                }}
+              >
+                Sign up for pre-orders
               </Button>
             </nav>
           </div>

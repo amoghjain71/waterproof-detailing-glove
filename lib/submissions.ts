@@ -10,8 +10,10 @@ export type Submission =
   | {
       type: "waitlist";
       email: string;
+      phone?: string;
       size?: string;
       source?: string;
+      consent?: boolean;
       at: string;
     }
   | {

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { sizeLabel, type SizeCode } from "@/data/sizes";
 import { BUNDLES, type BundleId } from "@/lib/config";
-import type { SizeCode } from "@/data/sizes";
 import { Button } from "@/components/ui/Button";
 import { formatUsd } from "@/lib/utils";
 
@@ -44,12 +44,17 @@ export function StickyBuyBar({
           <div className="min-w-0 flex-1">
             <p className="text-label text-ink">{formatUsd(bundle.priceUsd)}</p>
             <p className="text-label text-ink-muted">
-              Size {size} · {bundle.name}
+              Size {sizeLabel(size)} · {bundle.name}
             </p>
           </div>
         </div>
-        <Button href="#buy" className="w-full shrink-0 sm:w-auto">
-          Pre-order
+        <Button
+          className="w-full shrink-0 sm:w-auto"
+          onClick={() =>
+            document.getElementById("buy")?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          Sign up for pre-orders
         </Button>
       </div>
     </div>

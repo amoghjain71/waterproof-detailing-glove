@@ -15,6 +15,11 @@ const envSchema = z.object({
   STRIPE_SECRET_KEY: z.string().min(1).optional(),
   STRIPE_WEBHOOK_SECRET: z.string().min(1).optional(),
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1).optional(),
+  RESEND_API_KEY: z.string().min(1).optional(),
+  /** Verified sender, e.g. "2HANDS <orders@yourdomain.com>" */
+  EMAIL_FROM: z.string().min(3).optional(),
+  /** Inbox for pre-order / waitlist lead alerts (email + phone). */
+  LEAD_NOTIFY_EMAIL: z.string().email().optional(),
 });
 
 export type AppEnv = z.infer<typeof envSchema> & {

@@ -4,13 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { AutoVideo } from "@/components/media/AutoVideo";
 import { RainCanvas } from "@/components/home/RainCanvas";
 import { copy } from "@/content/copy";
-import { SIZE_CHART, isSizeSelectable, type SizeCode } from "@/data/sizes";
+import { SIZE_CHART, type SizeCode } from "@/data/sizes";
 import {
   BRAND,
   PRICE_USD,
   SALES_MODE,
 } from "@/lib/config";
-import { useCart } from "@/lib/store/cart";
 import { formatUsd } from "@/lib/utils";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
 import { usePrefersReducedMotion } from "@/lib/reduced-motion";
@@ -23,9 +22,8 @@ export function FinalCtaSection() {
   const cardRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const [intensity, setIntensity] = useState(0.15);
-  const [size, setSize] = useState<SizeCode>("M");
+  const [size, setSize] = useState<SizeCode>("ML");
   const [qty, setQty] = useState(1);
-  const addItem = useCart((s) => s.addItem);
   const reduced = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -128,31 +126,20 @@ export function FinalCtaSection() {
           className="mt-10 w-full max-w-md rounded border border-rule bg-ground p-6 text-left"
         >
           <div className="flex flex-wrap gap-2">
-            {SIZE_CHART.map((s) => {
-              const selectable = isSizeSelectable(s.code);
-              return (
+            {SIZE_CHART.map((s) => (
                 <button
                   key={s.code}
                   type="button"
-                  disabled={!selectable}
-                  aria-disabled={!selectable}
-                  onClick={() => {
-                    if (!selectable) return;
-                    setSize(s.code);
-                  }}
+                  disabled
+                  aria-disabled
                   className={cn(
-                    "border px-4 py-2 text-label",
-                    !selectable
-                      ? "cursor-not-allowed border-rule text-ink-muted opacity-40"
-                      : size === s.code
-                        ? "border-brand bg-surface text-brand"
-                        : "border-rule text-ink-muted",
+                    "cursor-not-allowed border px-4 py-2 text-label border-rule text-ink-muted opacity-40",
+                    size === s.code && "border-ink bg-surface text-ink opacity-50",
                   )}
                 >
-                  {s.code}
+                  {s.label}
                 </button>
-              );
-            })}
+            ))}
           </div>
           <p className="mt-3 text-label text-ink-muted">{selected?.note}</p>
 
@@ -181,18 +168,14 @@ export function FinalCtaSection() {
 
           <button
             type="button"
-            disabled={!isSizeSelectable(size) || size !== "M"}
+            disabled
             className="mt-6 w-full bg-brand px-6 py-3 text-label font-medium text-on-brand disabled:cursor-not-allowed disabled:opacity-40"
-            onClick={() => {
-              if (!isSizeSelectable(size) || size !== "M") return;
-              addItem({ size, qty, sku: BRAND.sku });
-            }}
           >
             {SALES_MODE === "preorder" ? "Pre-order" : "Add to cart"} ·{" "}
             {formatUsd(PRICE_USD * qty)}
           </button>
           <p className="mt-3 text-label text-ink-muted">
-            Opens your cart drawer with size {size}.
+            Pre-orders open from the home page signup.
           </p>
         </div>
 

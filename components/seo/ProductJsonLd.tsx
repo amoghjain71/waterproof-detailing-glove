@@ -30,7 +30,7 @@ export function ProductJsonLd() {
         SALES_MODE === "preorder"
           ? "https://schema.org/PreOrder"
           : "https://schema.org/InStock",
-      url: `${SITE.url}/glove`,
+      url: SITE.url,
     },
   };
 

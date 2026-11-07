@@ -21,8 +21,8 @@ export function SizingPageContent() {
         <div className="mx-auto max-w-3xl">
           <h1 className="font-display text-h1">Sizing</h1>
           <p className="mt-4 text-lead text-ink">
-            Measure around the widest knuckles. M is 200 to 215 mm. Size S is not
-            available. L and XL are still being set.
+            Measure around the widest knuckles. M/L is 200 to 215 mm. Size S is not
+            available. XL is still being set.
           </p>
         </div>
       </section>
@@ -64,25 +64,26 @@ export function SizingPageContent() {
             <tbody>
               {SIZE_CHART.map((row) => {
                 const confirmed = SIZES_CONFIRMED && row.status === "confirmed";
+                const hasSample = Boolean(row.sample);
                 return (
                   <tr key={row.code}>
-                    <td className="border-b border-rule px-4 py-3">{row.code}</td>
+                    <td className="border-b border-rule px-4 py-3">{row.label}</td>
                     <td className="border-b border-rule px-4 py-3 text-ink-muted">
                       {confirmed && row.circumferenceMm
                         ? `${row.circumferenceMm.min} to ${row.circumferenceMm.max} mm`
-                        : row.code === "M"
+                        : row.code === "ML"
                           ? "200 to 215 mm"
                           : row.status === "unavailable"
                             ? "Not available"
                             : "Size set finalizing"}
                     </td>
                     <td className="border-b border-rule px-4 py-3 text-ink-muted">
-                      {row.code === "M" && row.sample
+                      {hasSample && row.sample
                         ? `${row.sample.overallLengthMm} mm length, ${row.sample.palmWidthLaidFlatMm} mm palm`
                         : "Not set"}
                     </td>
                     <td className="border-b border-rule px-4 py-3">
-                      {row.code === "M"
+                      {hasSample
                         ? "Sample"
                         : row.status === "unavailable"
                           ? "Unavailable"

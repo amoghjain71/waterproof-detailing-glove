@@ -12,7 +12,7 @@ const ROWS = [
   ["Strap", "25 mm hook-and-loop that sits under the mitt", "Target"],
   ["Seams", "Bonded and sealed. Through-stitching alone is not used", "Target"],
   [
-    "Size M sample",
+    "Size M/L sample",
     "260 mm length, 95 mm palm width, 80 mm middle finger, 60 mm cuff. Tolerances ±5, ±3, ±3 and ±3 mm",
     "Sample dimension",
   ],

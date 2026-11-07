@@ -15,21 +15,23 @@ export function ConfirmationClient({ orderId }: { orderId: string }) {
   }, [clear, orderId]);
 
   return (
-    <section className="px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-xl">
+    <section className="flex min-h-fold items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-xl flex-col items-center text-center">
         <h1 className="font-display text-h1">Thanks</h1>
         {hasRef ? (
-          <p className="mt-4 text-lead text-ink">Reference {orderId}</p>
+          <div className="mt-4 w-full">
+            <p className="text-label text-ink-muted">Reference</p>
+            <p className="mt-1 break-all text-body text-ink">{orderId}</p>
+          </div>
         ) : null}
-        <p className="mt-4 text-body text-ink">
-          If you completed Stripe Checkout, Stripe holds the payment status. This
-          page does not confirm payment. A receipt email is sent only after the
-          payment webhook succeeds.
+        <p className="mt-4 max-w-md text-body text-ink">
+          We have your pre-order. A confirmation email goes to the address you
+          used at checkout once Stripe confirms payment.
         </p>
-        <div className="mt-8">
+        <div className="mt-8 w-full max-w-md text-center">
           <PreorderTerms />
         </div>
-        <Button href="/glove" className="mt-8">
+        <Button href="/" className="mt-8">
           Back to the glove
         </Button>
       </div>

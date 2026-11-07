@@ -28,7 +28,7 @@ export default function CartPage() {
         {items.length === 0 ? (
           <div className="border border-rule p-10">
             <p className="text-ink-muted">No items yet.</p>
-            <Button href="/glove" className="mt-6">
+            <Button href="/#buy" className="mt-6">
               Shop the glove
             </Button>
           </div>
@@ -106,7 +106,7 @@ export default function CartPage() {
                 Checkout
               </Button>
               <Link
-                href="/glove"
+                href="/#buy"
                 className="mt-3 block text-center text-label text-brand"
               >
                 Continue shopping

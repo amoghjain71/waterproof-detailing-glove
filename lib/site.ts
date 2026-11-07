@@ -16,7 +16,6 @@ export const SITE = {
 
 export const SITEMAP_ROUTES = [
   "/",
-  "/glove",
   "/how-its-made",
   "/sizing",
   "/tested",

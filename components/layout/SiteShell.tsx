@@ -1,11 +1,13 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { HashScroll } from "@/components/layout/HashScroll";
 import { SkipLink } from "@/components/layout/SkipLink";
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative flex min-h-full w-full min-w-0 flex-1 flex-col">
       <SkipLink />
+      <HashScroll />
       <Header />
       <main
         id="main"

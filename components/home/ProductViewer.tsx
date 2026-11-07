@@ -28,10 +28,10 @@ const VIEWS = [
   },
   {
     id: "size",
-    label: "Size M",
+    label: "Size M/L",
     kind: "image" as const,
     src: "/images/glove/05-flexibility.jpg",
-    alt: "Size M glove on a hand, fist and open fingers",
+    alt: "Size M/L glove on a hand, fist and open fingers",
   },
 ] as const;
 

@@ -109,7 +109,7 @@ export function HeroSection() {
           {copy.subline}
         </p>
         <div data-hero-fade className="mt-8 flex flex-wrap gap-3">
-          <Button href="/glove">
+          <Button href="/#buy">
             {copy.shopCta}
           </Button>
           <Button

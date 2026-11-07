@@ -121,7 +121,7 @@ export function CheckoutForm() {
     return (
       <div className="border border-rule p-10">
         <p className="text-ink-muted">Nothing to check out yet.</p>
-        <a href="/glove" className="mt-4 inline-block text-label text-brand">
+        <a href="/#buy" className="mt-4 inline-block text-label text-brand">
           Shop the glove
         </a>
       </div>

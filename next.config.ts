@@ -47,6 +47,15 @@ const nextConfig: NextConfig = {
     deviceSizes: [360, 640, 768, 1024, 1280, 1536, 1920],
     imageSizes: [64, 96, 128, 256, 384],
   },
+  async redirects() {
+    return [
+      {
+        source: "/glove",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
