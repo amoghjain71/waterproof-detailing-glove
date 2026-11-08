@@ -18,6 +18,7 @@ const VIEWS = [
     kind: "image" as const,
     src: "/images/glove/09-material-layers.jpg",
     alt: "Matte nylon, 1 mm neoprene, and smooth tricot stacked as the glove laminate",
+    frame: "portrait" as const,
   },
   {
     id: "cuff",
@@ -25,6 +26,7 @@ const VIEWS = [
     kind: "image" as const,
     src: "/images/glove/07-cuff-strap.jpg",
     alt: "Cuff opening with the 25 mm strap at the wrist",
+    frame: "portrait" as const,
   },
   {
     id: "size",
@@ -32,6 +34,8 @@ const VIEWS = [
     kind: "image" as const,
     src: "/images/glove/05-flexibility.jpg",
     alt: "Size M/L glove on a hand, fist and open fingers",
+    // Wide diptych (1024x571) — keep full frame on mobile instead of portrait crop.
+    frame: "wide" as const,
   },
 ] as const;
 
@@ -50,6 +54,17 @@ export function ProductViewer() {
             className="aspect-portrait w-full object-cover lg:aspect-auto lg:h-hero-media"
             priority
           />
+        ) : active.frame === "wide" ? (
+          <div className="flex w-full items-center justify-center lg:h-hero-media">
+            <Image
+              src={active.src}
+              alt={active.alt}
+              width={1024}
+              height={571}
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              className="h-auto w-full max-w-full object-contain lg:h-full lg:w-auto"
+            />
+          </div>
         ) : (
           <div className="relative aspect-portrait w-full lg:aspect-auto lg:h-hero-media">
             <Image
