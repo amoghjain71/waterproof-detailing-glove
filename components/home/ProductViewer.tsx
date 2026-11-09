@@ -11,6 +11,7 @@ const VIEWS = [
     label: "Under the mitt",
     kind: "video" as const,
     video: "mitt-swap" as const,
+    frame: "portrait" as const,
   },
   {
     id: "layers",
@@ -18,6 +19,7 @@ const VIEWS = [
     kind: "image" as const,
     src: "/images/glove/09-material-layers.jpg",
     alt: "Matte nylon, 1 mm neoprene, and smooth tricot stacked as the glove laminate",
+    frame: "portrait" as const,
   },
   {
     id: "cuff",
@@ -25,6 +27,7 @@ const VIEWS = [
     kind: "image" as const,
     src: "/images/glove/07-cuff-strap.jpg",
     alt: "Cuff opening with the 25 mm strap at the wrist",
+    frame: "portrait" as const,
   },
   {
     id: "size",
@@ -32,6 +35,8 @@ const VIEWS = [
     kind: "image" as const,
     src: "/images/glove/05-flexibility.jpg",
     alt: "Size M/L glove on a hand, fist and open fingers",
+    // Wide diptych — portrait + cover was clipping both panels on phones.
+    frame: "wide" as const,
   },
 ] as const;
 
@@ -41,23 +46,30 @@ export function ProductViewer() {
   const [view, setView] = useState<ViewId>("mitt");
   const active = VIEWS.find((item) => item.id === view) ?? VIEWS[0];
 
+  const frameClass =
+    active.frame === "wide"
+      ? "aspect-video w-full lg:aspect-auto lg:h-hero-media"
+      : "aspect-portrait w-full lg:aspect-auto lg:h-hero-media";
+
   return (
     <div>
       <div className="overflow-hidden border border-rule bg-surface">
         {active.kind === "video" ? (
           <AutoVideo
             id={active.video}
-            className="aspect-portrait w-full object-cover lg:aspect-auto lg:h-hero-media"
+            className={cn(frameClass, "object-cover")}
             priority
           />
         ) : (
-          <div className="relative aspect-portrait w-full lg:aspect-auto lg:h-hero-media">
+          <div className={cn("relative", frameClass)}>
             <Image
               src={active.src}
               alt={active.alt}
               fill
               sizes="(max-width: 1024px) 100vw, 55vw"
-              className="object-cover"
+              className={
+                active.frame === "wide" ? "object-contain" : "object-cover"
+              }
               priority={active.id === "layers"}
             />
           </div>
