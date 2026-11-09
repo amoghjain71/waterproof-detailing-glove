@@ -35,7 +35,7 @@ const VIEWS = [
     kind: "image" as const,
     src: "/images/glove/05-flexibility.jpg",
     alt: "Size M/L glove on a hand, fist and open fingers",
-    // Wide diptych — portrait + cover was clipping both panels on phones.
+    // Wide diptych: portrait + cover was clipping both panels on phones.
     frame: "wide" as const,
   },
 ] as const;
