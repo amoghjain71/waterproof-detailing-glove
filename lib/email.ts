@@ -15,6 +15,7 @@ import {
   SHIP_ESTIMATE_TEXT,
   SHIP_WINDOW,
 } from "@/lib/config";
+import { IP } from "@/lib/ip";
 import { formatOrderNumber } from "@/lib/order-number";
 import { SITE } from "@/lib/site";
 import { formatUsd } from "@/lib/utils";
@@ -270,7 +271,12 @@ ${totalRow}
     </td>
   </tr>
 </table>
-${signOffHtml(copy.signOff)}`;
+${signOffHtml(copy.signOff)}
+${
+  IP.PATENT_PENDING
+    ? `<p style="margin:24px 0 0;font-size:12px;line-height:1.4;color:#4B5560;">${escapeHtml(IP.NOTICE)}</p>`
+    : ""
+}`;
   return wrapEmailHtml(body);
 }
 

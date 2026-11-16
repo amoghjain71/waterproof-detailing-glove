@@ -36,7 +36,7 @@ export function Drawer({
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="fixed bottom-0 right-0 top-0 z-drawer flex w-full max-w-md flex-col border-l border-rule bg-ground"
+        className="fixed top-0 right-0 z-drawer flex h-dvh w-full max-w-md flex-col border-l border-rule bg-ground"
       >
         <div className="flex items-center justify-between border-b border-rule px-4 py-4">
           <h2 className="font-display text-h3">{title}</h2>
@@ -48,7 +48,7 @@ export function Drawer({
             Close
           </button>
         </div>
-        {children}
+        <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
       </aside>
     </>
   );

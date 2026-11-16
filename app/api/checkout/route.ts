@@ -55,7 +55,10 @@ export async function POST(request: Request) {
     // Confirmation email is webhook-only after payment verification.
     return noStoreJson(result);
   } catch (err) {
-    console.error("[api/checkout]", err instanceof Error ? err.name : "error");
+    console.error(
+      "[api/checkout]",
+      err instanceof Error ? err.message : "error",
+    );
     return clientError(500, "Checkout failed");
   }
 }

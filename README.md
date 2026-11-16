@@ -1,8 +1,8 @@
-# 2Hands — Waterproof Detailing Inner Glove
+# 2HANDS waterproof detailing inner glove
 
-Production-quality marketing + e-commerce site for the **Waterproof Detailing Inner Glove** (SKU `WDIG-001`, colorway `BLK-01`).
+Production-quality marketing and e-commerce site for the **Waterproof Detailing Inner Glove**.
 
-Built from tech pack WDIG-001 R01 and the Problem-Solution Fit portfolio. Brand, price, sales mode, and claims are config-driven — never invent specs.
+Brand, price, sales mode, and claims are config-driven. Do not invent specs.
 
 ## Quick start
 

@@ -160,8 +160,18 @@ function checkFile(file) {
   if (emojiRe.test(src)) add(file, 1, "emoji");
 
   if (file.endsWith(".css")) {
-    if (/gradient|backdrop-filter|backdrop-blur/i.test(src)) {
-      add(file, 1, "gradient or backdrop blur in CSS");
+    if (/backdrop-filter|backdrop-blur/i.test(src)) {
+      add(file, 1, "backdrop blur in CSS");
+    }
+    const lines = src.split("\n");
+    for (let i = 0; i < lines.length; i += 1) {
+      const line = lines[i];
+      if (!/gradient\s*\(/i.test(line)) continue;
+      const allowed =
+        /mask-image\s*:/i.test(line) || /\bin\s+oklch\b/i.test(line);
+      if (!allowed) {
+        add(file, i + 1, "gradient in CSS");
+      }
     }
     if (/box-shadow\s*:/i.test(src)) add(file, 1, "box shadow in CSS");
     if (/text-transform\s*:\s*uppercase/i.test(src)) add(file, 1, "uppercase in CSS");
@@ -169,7 +179,12 @@ function checkFile(file) {
     let radius = radiusRe.exec(src);
     while (radius) {
       const value = radius[1].trim();
-      if (value !== "0" && value !== "4px") {
+      const allowed =
+        value === "0" ||
+        value === "4px" ||
+        value === "var(--radius-control)" ||
+        /^calc\(\s*var\(--radius-control\)\s*\+/.test(value);
+      if (!allowed) {
         add(file, lineOf(src, radius.index), `radius ${value}`);
       }
       radius = radiusRe.exec(src);

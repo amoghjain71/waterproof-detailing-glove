@@ -68,7 +68,7 @@ export function ProvenSection() {
                 <span className="absolute -left-4 top-1.5 h-2.5 w-2.5 -translate-x-1/2 rounded bg-brand" />
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="font-display text-lead">
-                    {gate.code} · {gate.name}
+                    {gate.name}
                   </h3>
                   <span className="rounded border border-rule px-3 py-1 text-label r text-ink-muted">
                     {STATUS_LABEL[gate.status]}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Swap } from "@/components/ui/Swap";
 import { cn } from "@/lib/utils";
 
 type ButtonProps = {
@@ -22,7 +23,7 @@ const variants = {
     "border border-brand bg-brand text-on-brand hover:bg-brand-hover active:bg-brand-hover",
   outline:
     "border border-ink bg-transparent text-ink hover:bg-surface active:bg-surface",
-  band: "border border-rule bg-transparent text-on-band hover:bg-surface hover:text-ink active:bg-surface active:text-ink",
+  band: "border border-rule-on-band bg-transparent text-on-band hover:bg-surface hover:text-ink active:bg-surface active:text-ink",
 };
 
 export function Button({
@@ -46,7 +47,11 @@ export function Button({
 
   const content = (
     <>
-      {loading ? <span className="spinner" aria-hidden /> : null}
+      {loading ? (
+        <Swap swapKey="spinner" scaleFrom={0.85}>
+          <span className="spinner" aria-hidden />
+        </Swap>
+      ) : null}
       <span>{children}</span>
     </>
   );

@@ -52,16 +52,6 @@ export const checkoutCustomerSchema = z
     email: z.string().email().max(254),
     name: z.string().min(1).max(120),
     phone: z.string().max(40).optional(),
-    address: z
-      .object({
-        line1: z.string().min(1).max(200),
-        line2: z.string().max(200).optional(),
-        city: z.string().min(1).max(100),
-        state: z.string().min(1).max(100),
-        postalCode: z.string().min(3).max(20),
-        country: z.string().length(2),
-      })
-      .strict(),
   })
   .strict();
 

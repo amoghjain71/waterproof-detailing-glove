@@ -7,10 +7,14 @@
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-rule: var(--rule);
+  --color-rule-solid: var(--rule-solid);
   --color-brand: var(--brand);
   --color-brand-hover: var(--brand-hover);
   --color-band: var(--band);
+  --color-band-raised: var(--band-raised);
   --color-brand-on-band: var(--brand-on-band);
+  --color-rule-on-band: var(--rule-on-band);
+  --color-media-edge: var(--media-edge);
   --color-on-brand: var(--on-brand);
   --color-on-band: var(--on-band);
   --font-sans: var(--font-barlow);
@@ -102,7 +106,27 @@
 }
 
 @utility max-h-sheet {
-  max-height: 80vh;
+  max-height: calc(100dvh - 2rem);
+}
+
+@utility rounded-shell-* {
+  border-radius: calc(
+    var(--radius-control) + --spacing(--value(integer)) + 1px
+  );
+}
+
+@utility bg-band-depth {
+  background-image: linear-gradient(to bottom in oklch, var(--band-raised), var(--band));
+}
+
+@utility mask-edge-x {
+  --mask-fade-start: 0px;
+  --mask-fade-end: 0px;
+}
+
+@utility mask-edge-y {
+  --mask-fade-start: 0px;
+  --mask-fade-end: 0px;
 }
 
 @utility aspect-hand {
@@ -119,6 +143,68 @@
 
 @utility pb-sticky-buy {
   padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
+}
+
+@property --mask-fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --mask-fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes mask-edge-start {
+  to {
+    --mask-fade-start: var(--mask-edge);
+  }
+}
+
+@keyframes mask-edge-end {
+  to {
+    --mask-fade-end: 0px;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .mask-edge-x {
+    --mask-fade-start: 0px;
+    --mask-fade-end: var(--mask-edge);
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      oklch(0 0 0) var(--mask-fade-start),
+      oklch(0 0 0) calc(100% - var(--mask-fade-end)),
+      transparent
+    );
+    animation-name: mask-edge-start, mask-edge-end;
+    animation-timeline: scroll(self inline), scroll(self inline);
+    animation-range:
+      0 var(--mask-edge),
+      calc(100% - var(--mask-edge)) 100%;
+    animation-fill-mode: both, both;
+  }
+
+  .mask-edge-y {
+    --mask-fade-start: 0px;
+    --mask-fade-end: var(--mask-edge);
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      oklch(0 0 0) var(--mask-fade-start),
+      oklch(0 0 0) calc(100% - var(--mask-fade-end)),
+      transparent
+    );
+    animation-name: mask-edge-start, mask-edge-end;
+    animation-timeline: scroll(self block), scroll(self block);
+    animation-range:
+      0 var(--mask-edge),
+      calc(100% - var(--mask-edge)) 100%;
+    animation-fill-mode: both, both;
+  }
 }
 
 * {
@@ -254,7 +340,7 @@ body {
   height: 8px;
   width: 100%;
   border-radius: 0;
-  background: var(--rule);
+  background: var(--rule-solid);
   cursor: pointer;
 }
 

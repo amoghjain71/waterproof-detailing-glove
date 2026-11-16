@@ -14,6 +14,7 @@ import { handleHomeSectionNav } from "@/lib/nav";
 import { cn, formatUsd } from "@/lib/utils";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { CartButton } from "@/components/commerce/CartButton";
+import { Swap } from "@/components/ui/Swap";
 
 export function Header() {
   const pathname = usePathname();
@@ -96,7 +97,13 @@ export function Header() {
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
             >
-              <span className="text-label">{menuOpen ? "Close" : "Menu"}</span>
+              <Swap
+                swapKey={menuOpen ? "close" : "menu"}
+                scaleFrom={0.85}
+                className="text-label"
+              >
+                {menuOpen ? "Close" : "Menu"}
+              </Swap>
             </button>
           </div>
         </div>

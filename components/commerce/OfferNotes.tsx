@@ -1,21 +1,13 @@
 import {
-  EXCHANGE_POLICY_TEXT,
   FREE_SHIPPING_OVER_USD,
   PREORDER_CHARGE_TIMING,
-  REFUND_PROMISE_SHORT,
-  SHIP_ESTIMATE_TEXT,
-  SHIP_WINDOW,
 } from "@/lib/config";
 import { formatUsd } from "@/lib/utils";
 
 /** Checkout / cart disclosures. Refund and exchange detail also live in FAQ. */
 export function PreorderTerms() {
-  const shipLine = SHIP_WINDOW.trim() || SHIP_ESTIMATE_TEXT;
   return (
     <ul className="space-y-2 text-label text-ink-muted">
-      <li>{shipLine}</li>
-      <li>{REFUND_PROMISE_SHORT}</li>
-      <li>{EXCHANGE_POLICY_TEXT}</li>
       <li>{PREORDER_CHARGE_TIMING}</li>
     </ul>
   );

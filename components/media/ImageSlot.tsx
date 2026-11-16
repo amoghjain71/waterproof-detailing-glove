@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { IMAGE_SLOTS, type ImageSlotId } from "@/content/images";
+import { cn } from "@/lib/utils";
 
 export function ImageSlot({
   id,
@@ -22,14 +23,29 @@ export function ImageSlot({
     );
   }
 
+  if (fit === "cover") {
+    return (
+      <Image
+        src={slot.src}
+        alt={slot.alt}
+        fill
+        sizes={sizes}
+        priority={priority}
+        className="object-cover"
+      />
+    );
+  }
+
   return (
-    <Image
-      src={slot.src}
-      alt={slot.alt}
-      fill
-      sizes={sizes}
-      priority={priority}
-      className={fit === "cover" ? "object-cover" : "object-contain p-4"}
-    />
+    <div className="isolate absolute inset-0">
+      <Image
+        src={slot.src}
+        alt={slot.alt}
+        fill
+        sizes={sizes}
+        priority={priority}
+        className={cn("object-contain p-4 mix-blend-multiply")}
+      />
+    </div>
   );
 }

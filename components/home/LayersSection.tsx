@@ -17,13 +17,13 @@ const MATERIAL_IMAGES = [
     id: "neoprene",
     src: "/images/materials/neoprene.jpg",
     label: "1.0 mm neoprene",
-    alt: "Closed-cell neoprene foam, target 1.0 mm",
+    alt: "Closed-cell neoprene foam, about 1 mm",
   },
   {
     id: "tricot",
     src: "/images/materials/tricot.jpg",
     label: "Tricot",
-    alt: "Smooth, low-friction polyester tricot",
+    alt: "Smooth polyester tricot",
   },
 ] as const;
 

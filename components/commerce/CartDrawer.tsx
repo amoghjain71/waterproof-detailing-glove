@@ -36,7 +36,7 @@ export function CartDrawer() {
             onClick={closeCart}
           />
           <motion.aside
-            className="fixed bottom-0 right-0 top-0 z-drawer flex w-full max-w-md flex-col border-l border-rule bg-ground"
+            className="fixed top-0 right-0 z-drawer flex h-dvh w-full max-w-md flex-col border-l border-rule bg-ground"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -58,7 +58,7 @@ export function CartDrawer() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-5 py-4">
+            <div className="mask-edge-y min-h-0 flex-1 overflow-y-auto px-5 py-4">
               {items.length === 0 ? (
                 <p className="text-label text-ink-muted">Your cart is empty.</p>
               ) : (
@@ -125,54 +125,56 @@ export function CartDrawer() {
               )}
             </div>
 
-            <div className="border-t border-rule px-5 py-5">
-              <dl className="space-y-2 text-label">
-                <div className="flex justify-between">
-                  <dt className="text-ink-muted">Subtotal</dt>
-                  <dd>{formatUsd(subtotal)}</dd>
+            <div className="border-t border-rule pb-safe">
+              <div className="px-5 py-5">
+                <dl className="space-y-2 text-label">
+                  <div className="flex justify-between">
+                    <dt className="text-ink-muted">Subtotal</dt>
+                    <dd>{formatUsd(subtotal)}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-ink-muted">Shipping</dt>
+                    <dd>{shipping === 0 ? "Free" : formatUsd(shipping)}</dd>
+                  </div>
+                  <div className="flex justify-between border-t border-rule pt-2 font-medium">
+                    <dt>Total</dt>
+                    <dd>{formatUsd(total)}</dd>
+                  </div>
+                </dl>
+                <ShippingMeter subtotal={subtotal} />
+                {MITT_SKU_AVAILABLE && mitt?.enabled && onlySingle ? (
+                  <button
+                    type="button"
+                    className="mt-4 h-12 w-full border border-ink text-label"
+                    onClick={() =>
+                      addItem({
+                        size: items[0]?.size ?? "ML",
+                        qty: 1,
+                        sku: mitt.id,
+                      })
+                    }
+                  >
+                    Add a wash mitt, {formatUsd(mitt.priceUsd)}
+                  </button>
+                ) : null}
+                <div className="mt-4">
+                  <PreorderTerms />
                 </div>
-                <div className="flex justify-between">
-                  <dt className="text-ink-muted">Shipping</dt>
-                  <dd>{shipping === 0 ? "Free" : formatUsd(shipping)}</dd>
-                </div>
-                <div className="flex justify-between border-t border-rule pt-2 font-medium">
-                  <dt>Total</dt>
-                  <dd>{formatUsd(total)}</dd>
-                </div>
-              </dl>
-              <ShippingMeter subtotal={subtotal} />
-              {MITT_SKU_AVAILABLE && mitt?.enabled && onlySingle ? (
-                <button
-                  type="button"
-                  className="mt-4 h-12 w-full border border-ink text-label"
-                  onClick={() =>
-                    addItem({
-                      size: items[0]?.size ?? "ML",
-                      qty: 1,
-                      sku: mitt.id,
-                    })
-                  }
+                <Link
+                  href="/checkout"
+                  onClick={closeCart}
+                  className="mt-4 flex h-12 w-full items-center justify-center bg-brand px-6 text-label font-medium text-on-brand"
                 >
-                  Add a wash mitt, {formatUsd(mitt.priceUsd)}
-                </button>
-              ) : null}
-              <div className="mt-4">
-                <PreorderTerms />
+                  Checkout
+                </Link>
+                <Link
+                  href="/cart"
+                  onClick={closeCart}
+                  className="mt-3 flex w-full items-center justify-center text-label text-brand"
+                >
+                  View full cart
+                </Link>
               </div>
-              <Link
-                href="/checkout"
-                onClick={closeCart}
-                className="mt-4 flex h-12 w-full items-center justify-center bg-brand px-6 text-label font-medium text-on-brand"
-              >
-                Checkout
-              </Link>
-              <Link
-                href="/cart"
-                onClick={closeCart}
-                className="mt-3 flex w-full items-center justify-center text-label text-brand"
-              >
-                View full cart
-              </Link>
             </div>
           </motion.aside>
         </>

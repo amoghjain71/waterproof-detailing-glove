@@ -148,7 +148,7 @@ export const VIDEOS: Record<VideoId, VideoEntry> = {
     id: "making-bond",
     filename: "clips/making-bond.mp4",
     src: "/videos/clips/making-bond.mp4",
-    label: "Bonding the glove body with seam adhesive",
+    label: "Joining the glove body panels",
     concept: true,
   },
   "making-seal": {

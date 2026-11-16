@@ -184,7 +184,7 @@ export const AutoVideo = forwardRef<AutoVideoHandle, AutoVideoProps>(
         {reduced && !manualPlay ? (
           <button
             type="button"
-            className="absolute top-6 left-1/2 z-20 inline-flex h-12 -translate-x-1/2 items-center rounded border border-rule bg-band px-4 text-label font-medium text-on-band"
+            className="absolute top-6 left-1/2 z-20 inline-flex h-12 -translate-x-1/2 items-center rounded border border-rule-on-band bg-band-raised px-4 text-label font-medium text-on-band"
             onClick={() => {
               setManualPlay(true);
               void videoRef.current?.play().then(() => {

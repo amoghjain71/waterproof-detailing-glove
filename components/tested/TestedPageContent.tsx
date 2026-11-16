@@ -78,36 +78,32 @@ export function TestedPageContent() {
       </section>
 
       <section className="border-t border-rule px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl min-w-0 overflow-x-auto border border-rule">
-          <table className="w-full min-w-sheet border-collapse text-left text-body">
-            <thead>
-              <tr>
-                {["Test", "What we do", "Status", "Code"].map((column) => (
-                  <th key={column} className="border-b border-rule px-4 py-3 text-label font-medium">
-                    {column}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {TEST_GATES.map((gate) => (
-                <tr key={gate.id}>
-                  <td className="border-b border-rule px-4 py-3">{PLAIN[gate.id]?.name ?? gate.name}</td>
-                  <td className="border-b border-rule px-4 py-3 text-ink-muted">
-                    {PLAIN[gate.id]?.what ?? gate.method}
-                  </td>
-                  <td className="border-b border-rule px-4 py-3">{statusLabel(gate.status)}</td>
-                  <td className="border-b border-rule px-4 py-3 text-label text-ink-muted">
-                    {gate.code}
-                  </td>
+        <div className="mx-auto max-w-7xl min-w-0 border border-rule">
+          <div className="mask-edge-x overflow-x-auto">
+            <table className="w-full min-w-sheet border-collapse text-left text-body">
+              <thead>
+                <tr>
+                  {["Test", "What we do", "Status"].map((column) => (
+                    <th key={column} className="border-b border-rule px-4 py-3 text-label font-medium">
+                      {column}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {TEST_GATES.map((gate) => (
+                  <tr key={gate.id}>
+                    <td className="border-b border-rule px-4 py-3">{PLAIN[gate.id]?.name ?? gate.name}</td>
+                    <td className="border-b border-rule px-4 py-3 text-ink-muted">
+                      {PLAIN[gate.id]?.what ?? gate.method}
+                    </td>
+                    <td className="border-b border-rule px-4 py-3">{statusLabel(gate.status)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <p className="mx-auto mt-4 max-w-7xl text-label text-ink-muted">
-          Codes are for our notes. The test name is what matters.
-        </p>
       </section>
     </div>
   );

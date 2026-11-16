@@ -38,7 +38,7 @@ export function HomeHero({
             ))}
           </ul>
           <p className="relative z-10 mt-8 max-w-md text-label text-ink-muted">
-            Materials include nylon, CR neoprene, polyester tricot, and a silicone
+            Materials include nylon, neoprene, polyester tricot, and a silicone
             cuff lip. Not for kids under 14. Read{" "}
             <Link href="/faq" className="text-brand">
               materials, allergens, refunds, and exchanges

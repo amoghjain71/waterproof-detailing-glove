@@ -1,8 +1,9 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/lib/store/cart";
+import { Swap } from "@/components/ui/Swap";
+import { cn } from "@/lib/utils";
 
 function subscribe(onStoreChange: () => void) {
   return useCart.subscribe(onStoreChange);
@@ -31,30 +32,27 @@ export function CartButton() {
         <path
           d="M6 7h15l-1.4 8.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.7L5.2 3.5H2"
           stroke="currentColor"
-          strokeWidth="1.6"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <circle cx="10" cy="20" r="1.2" fill="currentColor" />
-        <circle cx="17" cy="20" r="1.2" fill="currentColor" />
+        <circle cx="10" cy="20" r="1.5" fill="currentColor" />
+        <circle cx="17" cy="20" r="1.5" fill="currentColor" />
       </svg>
-      <AnimatePresence>
-        {count > 0 ? (
-          <motion.span
-            key={count}
-            initial={{ scale: 0.6, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.6, opacity: 0 }}
-            className="cart-badge absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand px-1 text-label font-semibold text-on-brand"
+      <span className="absolute -right-1 -top-1">
+        <Swap swapKey={count > 0 ? `n-${count}` : "empty"} scaleFrom={0.25}>
+          <span
+            className={cn(
+              "cart-badge flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-label font-semibold",
+              count > 0
+                ? "bg-brand text-on-brand"
+                : "border border-rule bg-surface text-ink",
+            )}
           >
             {count}
-          </motion.span>
-        ) : (
-          <span className="cart-badge absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full border border-rule bg-surface px-1 text-label font-semibold text-ink">
-            0
           </span>
-        )}
-      </AnimatePresence>
+        </Swap>
+      </span>
     </button>
   );
 }

@@ -39,7 +39,7 @@ export function StickyBuyBar({
             alt=""
             width={96}
             height={96}
-            className="h-12 w-12 shrink-0 object-cover"
+            className="h-12 w-12 shrink-0 object-cover outline outline-1 -outline-offset-1 outline-media-edge"
           />
           <div className="min-w-0 flex-1">
             <p className="text-label text-ink">{formatUsd(bundle.priceUsd)}</p>
@@ -54,7 +54,9 @@ export function StickyBuyBar({
             document.getElementById("buy")?.scrollIntoView({ behavior: "smooth" })
           }
         >
-          Sign up for pre-orders
+          {process.env.NEXT_PUBLIC_PAYMENTS_OPEN === "true"
+            ? "Pre-order"
+            : "Sign up for pre-orders"}
         </Button>
       </div>
     </div>

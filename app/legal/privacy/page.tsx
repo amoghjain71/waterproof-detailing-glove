@@ -9,8 +9,9 @@ export default function PrivacyPage() {
     <LegalPage title="Privacy">
       <p>
         {BRAND.name} collects information you submit for waitlist, contact, and
-        checkout purposes: typically name, email, phone, shipping address, size
-        preference, and message contents.
+        checkout purposes: typically name, email, phone, size preference, and
+        message contents. Shipping address is collected by Stripe on the payment
+        page when you place an order.
       </p>
       <p>
         We use that data to respond to inquiries, fulfill orders, email or text

@@ -66,32 +66,34 @@ export function CompareSection() {
           ))}
         </div>
 
-        <div className="relative z-10 mt-8 hidden w-full min-w-0 overflow-x-auto border border-rule lg:block">
-          <table className="w-full border-collapse text-left text-body">
-            <thead>
-              <tr>
-                {COLUMNS.map((column) => (
-                  <th
-                    key={column}
-                    className="border-b border-rule px-4 py-3 text-label font-medium"
-                  >
-                    {column}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {ROWS.map((row) => (
-                <tr key={row[0]}>
-                  {row.map((cell) => (
-                    <td key={cell} className="border-b border-rule px-4 py-3 align-top">
-                      {cell}
-                    </td>
+        <div className="relative z-10 mt-8 hidden w-full min-w-0 border border-rule lg:block">
+          <div className="mask-edge-x overflow-x-auto">
+            <table className="w-full border-collapse text-left text-body">
+              <thead>
+                <tr>
+                  {COLUMNS.map((column) => (
+                    <th
+                      key={column}
+                      className="border-b border-rule px-4 py-3 text-label font-medium"
+                    >
+                      {column}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {ROWS.map((row) => (
+                  <tr key={row[0]}>
+                    {row.map((cell) => (
+                      <td key={cell} className="border-b border-rule px-4 py-3 align-top">
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

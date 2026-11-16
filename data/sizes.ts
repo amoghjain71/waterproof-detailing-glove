@@ -29,8 +29,8 @@ export function isSizeSelectable(code: SizeCode): boolean {
 }
 
 /**
- * Pre-order signup is open; size buttons stay unavailable until fit trials lock.
- * M and L share one M/L slot from the measured Prototype V2 sample.
+ * M/L is the measured Prototype V2 sample and the only size sellable while
+ * fit trials continue. S and XL stay unavailable.
  */
 export const SIZE_CHART: SizeRow[] = [
   {
@@ -42,7 +42,7 @@ export const SIZE_CHART: SizeRow[] = [
   {
     code: "ML",
     label: "M/L",
-    status: "unavailable",
+    status: "confirmed",
     circumferenceMm: { min: 200, max: 215 },
     sample: {
       overallLengthMm: 260,

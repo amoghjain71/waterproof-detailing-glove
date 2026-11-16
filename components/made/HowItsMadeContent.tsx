@@ -17,7 +17,7 @@ export function HowItsMadeContent() {
         <div className="mx-auto max-w-3xl">
           <h1 className="font-display text-h1">How it is made</h1>
           <p className="mt-4 text-lead text-ink">
-            Three layers, cut as a left and a right, then bonded and sealed. The cuff
+            Three layers, cut as a left and a right, then joined into a pair. The cuff
             lip and strap go on last.
           </p>
         </div>
@@ -26,29 +26,31 @@ export function HowItsMadeContent() {
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <h2 className="font-display text-h2">Materials</h2>
-          <div className="mt-8 overflow-x-auto border border-rule">
-            <table className="w-full table-fixed border-collapse text-left text-body">
-              <thead>
-                <tr>
-                  {["Layer", "Material", "What it does"].map((column) => (
-                    <th key={column} className="border-b border-rule px-4 py-3 text-label font-medium">
-                      {column}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {MATERIALS.map((row) => (
-                  <tr key={row[0]}>
-                    {row.map((cell) => (
-                      <td key={cell} className="border-b border-rule px-4 py-3">
-                        {cell}
-                      </td>
+          <div className="mt-8 border border-rule">
+            <div className="mask-edge-x overflow-x-auto">
+              <table className="w-full table-fixed border-collapse text-left text-body">
+                <thead>
+                  <tr>
+                    {["Layer", "Material", "What it does"].map((column) => (
+                      <th key={column} className="border-b border-rule px-4 py-3 text-label font-medium">
+                        {column}
+                      </th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {MATERIALS.map((row) => (
+                    <tr key={row[0]}>
+                      {row.map((cell) => (
+                        <td key={cell} className="border-b border-rule px-4 py-3">
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
@@ -68,15 +70,15 @@ export function HowItsMadeContent() {
                       ? "Check the sheet before it is cut."
                       : step.title === "Cut mirrored left / right"
                         ? "Cut a left and a right so the pair matches."
-                        : step.title === "Bond the body"
-                          ? "Join the panels. Keep the seams thin."
+                        : step.title === "Join the body"
+                          ? "Join the panels into a glove body."
                           : step.title === "Seal every joint"
-                            ? "Seal the seams. That is where water gets in."
+                            ? "Close the seams. That is where water gets in."
                             : step.title === "Attach lip and strap"
                               ? "Add the silicone lip and the 25 mm strap."
                               : step.title === "Finish"
                                 ? "Trim, look it over, and pair left with right."
-                                : "Cure it, then run the leak check."}
+                                : "Run the leak check."}
                   </p>
                 </div>
                 <div className="overflow-hidden border border-rule">

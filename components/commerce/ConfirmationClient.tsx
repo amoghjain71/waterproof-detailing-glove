@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { PreorderTerms } from "@/components/commerce/OfferNotes";
 import { Button } from "@/components/ui/Button";
+import { IP } from "@/lib/ip";
 import { formatOrderNumber } from "@/lib/order-number";
 import { useCart } from "@/lib/store/cart";
 
@@ -35,6 +36,9 @@ export function ConfirmationClient({ orderId }: { orderId: string }) {
         <div className="mt-8 w-full max-w-md text-center">
           <PreorderTerms />
         </div>
+        {IP.PATENT_PENDING ? (
+          <p className="mt-6 text-label text-ink-muted">{IP.NOTICE}</p>
+        ) : null}
         <Button href="/" className="mt-8">
           Back to the glove
         </Button>

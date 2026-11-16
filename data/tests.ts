@@ -18,7 +18,7 @@ export const TEST_GATES: TestGate[] = [
     code: "V01",
     name: "Body leakage",
     method:
-      "Fingers and body immersed 20 mm below the opening for 10 minutes with 50 finger flexes; dry indicator inside.",
+      "Fingers under water for 10 minutes with 50 finger flexes; dry indicator inside.",
     sampleCount: "3 pairs",
     passMeans: "No wet spots on the dry indicator.",
     status: "planned",
@@ -58,7 +58,7 @@ export const TEST_GATES: TestGate[] = [
     name: "Care durability",
     method: "10 rinse and air-dry cycles; measure dimension change.",
     sampleCount: "Per protocol sample set",
-    passMeans: "Dimension change within 3%.",
+    passMeans: "Size stays stable after rinse and dry cycles.",
     status: "planned",
   },
   {

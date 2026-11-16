@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { BRAND, FOOTER_LINKS } from "@/lib/config";
+import { IP } from "@/lib/ip";
 import { PrototypeBadge } from "@/components/ui/PrototypeBadge";
 import { Button } from "@/components/ui/Button";
 import { useFormAbuseFields } from "@/lib/form-abuse";
@@ -13,6 +14,7 @@ const LEGAL = [
   { href: "/legal/returns", label: "Returns" },
   { href: "/legal/privacy", label: "Privacy" },
   { href: "/legal/terms", label: "Terms" },
+  { href: "/legal/ip", label: "Intellectual property" },
 ] as const;
 
 export function Footer() {
@@ -124,10 +126,13 @@ export function Footer() {
           aria-label={BRAND.name}
         >
           {BRAND.name}
+          <span aria-hidden>™</span>
         </Link>
 
         <p className="mt-6 text-label text-ink-muted">
-          © 2026 {BRAND.name}. {BRAND.productName}. Designed to keep water out.
+          © {new Date().getFullYear()} {BRAND.name}. {BRAND.productName}.
+          Designed to keep water out.
+          {IP.PATENT_PENDING ? ` ${IP.NOTICE}` : null}
         </p>
       </div>
     </footer>

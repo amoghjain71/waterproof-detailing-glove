@@ -13,11 +13,6 @@ import { getStripe } from "@/lib/stripe";
 import type { PaymentProvider } from "@/lib/payments/types";
 import type { CheckoutCartItem } from "@/lib/schemas";
 
-function integrationIdentifier(): string {
-  const suffix = Math.random().toString(36).slice(2, 10);
-  return `2hands-checkout-${suffix}`;
-}
-
 function cartSummary(cart: CheckoutCartItem[]): string {
   return cart
     .map((item) => `${item.sku}:${item.size}:${item.qty}`)
@@ -73,27 +68,32 @@ export const stripePaymentProvider: PaymentProvider = {
     }
 
     const session = await stripe.checkout.sessions.create({
+      ui_mode: "hosted_page",
       mode: "payment",
       customer_email: customer.email,
       client_reference_id: customer.email.slice(0, 200),
       line_items,
       success_url: `${siteUrl}/order/confirmation?orderId={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/checkout`,
-      shipping_address_collection: { allowed_countries: ["US"] },
+      billing_address_collection: "required",
       phone_number_collection: { enabled: true },
+      automatic_tax: { enabled: false },
+      allow_promotion_codes: true,
+      submit_type: "pay",
+      shipping_address_collection: {
+        allowed_countries: ["CA", "MX", "US"],
+      },
+      name_collection: {
+        individual: { enabled: true, optional: true },
+      },
+      origin_context: "web",
+      integration_identifier: "hosted_web_0012",
       metadata: {
         name: customer.name.slice(0, 200),
         phone: (customer.phone ?? "").slice(0, 40),
         cart: cartSummary(cart),
-        ship_line1: customer.address.line1.slice(0, 200),
-        ship_line2: (customer.address.line2 ?? "").slice(0, 200),
-        ship_city: customer.address.city.slice(0, 100),
-        ship_state: customer.address.state.slice(0, 100),
-        ship_postal: customer.address.postalCode.slice(0, 20),
-        ship_country: customer.address.country.slice(0, 2),
         fulfilled: "0",
       },
-      integration_identifier: integrationIdentifier(),
     });
 
     if (!session.url) {

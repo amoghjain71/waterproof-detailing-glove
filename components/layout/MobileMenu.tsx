@@ -23,13 +23,13 @@ export function MobileMenu({
     <AnimatePresence>
       {open ? (
         <motion.div
-          className="fixed inset-0 z-40 bg-ground lg:hidden"
+          className="fixed inset-0 z-40 h-dvh bg-ground lg:hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2, ease: FRAMER_EASE }}
         >
-          <div className="flex h-full flex-col px-6 pb-10 pt-menu">
+          <div className="flex h-full flex-col overflow-y-auto px-6 pb-safe pt-menu">
             <div className="mb-8">
               <Image
                 src="/images/brand/logo-mark.png"

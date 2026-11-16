@@ -45,14 +45,6 @@ export function CheckoutForm() {
       name: "",
       email: "",
       phone: "",
-      address: {
-        line1: "",
-        line2: "",
-        city: "",
-        state: "",
-        postalCode: "",
-        country: "US",
-      },
     },
   });
 
@@ -157,52 +149,9 @@ export function CheckoutForm() {
               <input {...register("phone")} className={fieldClass} autoComplete="tel" />
             </Field>
           </div>
-        </div>
-
-        <div>
-          <h2 className="font-display text-h3">
-            Shipping address
-          </h2>
-          <div className="mt-4 grid gap-4">
-            <Field label="Address" error={errors.address?.line1?.message}>
-              <input
-                {...register("address.line1")}
-                className={fieldClass}
-                autoComplete="address-line1"
-              />
-            </Field>
-            <Field label="Apt / suite" error={errors.address?.line2?.message}>
-              <input
-                {...register("address.line2")}
-                className={fieldClass}
-                autoComplete="address-line2"
-              />
-            </Field>
-            <div className="grid gap-4 sm:grid-cols-3">
-              <Field label="City" error={errors.address?.city?.message}>
-                <input
-                  {...register("address.city")}
-                  className={fieldClass}
-                  autoComplete="address-level2"
-                />
-              </Field>
-              <Field label="State" error={errors.address?.state?.message}>
-                <input
-                  {...register("address.state")}
-                  className={fieldClass}
-                  autoComplete="address-level1"
-                />
-              </Field>
-              <Field label="ZIP" error={errors.address?.postalCode?.message}>
-                <input
-                  {...register("address.postalCode")}
-                  className={fieldClass}
-                  autoComplete="postal-code"
-                />
-              </Field>
-            </div>
-            <input type="hidden" {...register("address.country")} />
-          </div>
+          <p className="mt-4 text-label text-ink-muted">
+            Shipping address is collected on the next payment step.
+          </p>
         </div>
 
         <PaymentSlot

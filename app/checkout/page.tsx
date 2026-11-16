@@ -3,7 +3,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { CheckoutForm } from "@/components/commerce/CheckoutForm";
 export const metadata: Metadata = {
   title: "Checkout",
-  description: "Guest pre-order checkout. Shipping and the refund terms are on this page.",
+  description: "Guest pre-order checkout. Contact details and refund terms are on this page.",
 };
 
 export default function CheckoutPage() {
@@ -11,7 +11,7 @@ export default function CheckoutPage() {
     <div>
       <PageHero
         title="Checkout"
-        description="Name, email, and a shipping address. No account."
+        description="Name, email, and optional phone. Shipping address comes next at payment. No account."
       />
       <section className="mx-auto max-w-5xl px-4 py-14 lg:px-8">
         <CheckoutForm />

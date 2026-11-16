@@ -70,36 +70,38 @@ export function TestPreview() {
             ))}
           </div>
 
-          <div className="mt-8 hidden overflow-x-auto border border-rule lg:block">
-            <table className="w-full border-collapse text-left text-body">
-              <thead>
-                <tr>
-                  {["Test", "What we do", "Status"].map((column) => (
-                    <th
-                      key={column}
-                      className="border-b border-rule px-4 py-3 text-label font-medium"
-                    >
-                      {column}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((gate) => (
-                  <tr key={gate.id}>
-                    <td className="border-b border-rule px-4 py-3">
-                      {COPY[gate.id]?.name}
-                    </td>
-                    <td className="border-b border-rule px-4 py-3 text-ink-muted">
-                      {COPY[gate.id]?.what}
-                    </td>
-                    <td className="border-b border-rule px-4 py-3">
-                      {statusLabel(gate.status)}
-                    </td>
+          <div className="mt-8 hidden border border-rule lg:block">
+            <div className="mask-edge-x overflow-x-auto">
+              <table className="w-full border-collapse text-left text-body">
+                <thead>
+                  <tr>
+                    {["Test", "What we do", "Status"].map((column) => (
+                      <th
+                        key={column}
+                        className="border-b border-rule px-4 py-3 text-label font-medium"
+                      >
+                        {column}
+                      </th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {rows.map((gate) => (
+                    <tr key={gate.id}>
+                      <td className="border-b border-rule px-4 py-3">
+                        {COPY[gate.id]?.name}
+                      </td>
+                      <td className="border-b border-rule px-4 py-3 text-ink-muted">
+                        {COPY[gate.id]?.what}
+                      </td>
+                      <td className="border-b border-rule px-4 py-3">
+                        {statusLabel(gate.status)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <p className="mt-4 text-body text-ink">

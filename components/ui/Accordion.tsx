@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Swap } from "@/components/ui/Swap";
 
 export type AccordionItem = {
   id: string;
@@ -37,9 +38,13 @@ export function Accordion({
                 }
               >
                 {item.title}
-                <span className="text-label text-ink-muted" aria-hidden>
-                  {isOpen ? "Hide" : "Show"}
-                </span>
+                <Swap
+                  swapKey={isOpen ? "hide" : "show"}
+                  scaleFrom={0.85}
+                  className="text-label text-ink-muted"
+                >
+                  <span aria-hidden>{isOpen ? "Hide" : "Show"}</span>
+                </Swap>
               </button>
             </h3>
             {isOpen ? (

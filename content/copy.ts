@@ -116,7 +116,7 @@ export const copy = {
     { at: 0.15, label: "Articulated fingers" },
     { at: 0.4, label: "25 mm strap" },
     { at: 0.65, label: "Silicone sealing lip" },
-    { at: 0.85, label: "Bonded seams" },
+    { at: 0.85, label: "Sealed seams" },
   ],
   layers: [
     {
@@ -127,22 +127,22 @@ export const copy = {
     {
       id: "core",
       title: "Core",
-      body: "Closed-cell neoprene foam, target 1.0 mm.",
+      body: "Closed-cell neoprene foam, about 1 mm.",
     },
     {
       id: "inner",
       title: "Inner facing",
-      body: "Smooth, low-friction polyester tricot.",
+      body: "Smooth polyester tricot.",
     },
   ],
   makingSteps: [
     { title: "Inspect laminate", video: "making-inspect" as const },
     { title: "Cut mirrored left / right", video: "making-cut" as const },
-    { title: "Bond the body", video: "making-bond" as const },
+    { title: "Join the body", video: "making-bond" as const },
     { title: "Seal every joint", video: "making-seal" as const },
     { title: "Attach lip and strap", video: "making-strap" as const },
     { title: "Finish", video: "making-finish" as const },
-    { title: "Cure and test", video: "making-leak-test" as const },
+    { title: "Test", video: "making-leak-test" as const },
   ],
   inUseSlides: [
     {

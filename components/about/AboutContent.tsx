@@ -1,6 +1,7 @@
 import { ImageSlot } from "@/components/media/ImageSlot";
 import { TesterQuotes } from "@/components/about/TesterQuotes";
 import { PARTNERSHIP_EMAIL } from "@/lib/config";
+import { IP } from "@/lib/ip";
 
 export function AboutContent() {
   return (
@@ -27,6 +28,7 @@ export function AboutContent() {
                 The strap sits under the mitt. Leak, cuff, flex, and strap tests are
                 still planned. I will publish the results, including failures.
               </p>
+              {IP.PATENT_PENDING ? <p>{IP.LONG_NOTICE}</p> : null}
               <p>
                 Email{" "}
                 <a href={`mailto:${PARTNERSHIP_EMAIL}`} className="text-brand">

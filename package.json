@@ -7,8 +7,10 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "npm run audit:tells && next build",
+    "build": "npm run audit:tells && npm run audit:ip && npm run check:ip && next build",
     "audit:tells": "node scripts/audit-tells.mjs",
+    "audit:ip": "node scripts/audit-ip.mjs",
+    "check:ip": "node scripts/check-ip.mjs",
     "security:check": "node scripts/security-check.mjs",
     "security:attack-tests": "node scripts/phase4-attack-tests.mjs",
     "hooks:install": "git config core.hooksPath .githooks",

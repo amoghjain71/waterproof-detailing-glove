@@ -133,11 +133,11 @@ export function CuffSealSection() {
             </svg>
           </div>
 
-          <div className="relative z-10 mt-4 inline-flex rounded border border-rule p-1">
+          <div className="relative z-10 mt-4 inline-flex rounded-shell-1 border border-rule p-1">
             <button
               type="button"
               className={cn(
-                "h-12 px-4 text-label",
+                "h-12 rounded px-4 text-label",
                 !closed ? "border border-ink bg-surface text-ink" : "text-ink-muted",
               )}
               onClick={() => setClosed(false)}
@@ -147,7 +147,7 @@ export function CuffSealSection() {
             <button
               type="button"
               className={cn(
-                "h-12 px-4 text-label",
+                "h-12 rounded px-4 text-label",
                 closed ? "border border-ink bg-surface text-ink" : "text-ink-muted",
               )}
               onClick={() => setClosed(true)}

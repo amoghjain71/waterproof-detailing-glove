@@ -1,7 +1,10 @@
 export function ProblemBand() {
   return (
     <section className="relative px-4 py-16 text-on-band sm:px-6 lg:px-8">
-      <div className="absolute inset-0 -z-10 bg-band" aria-hidden />
+      <div
+        className="absolute inset-0 -z-10 border-t border-rule-on-band bg-band-depth"
+        aria-hidden
+      />
       <div className="mx-auto max-w-7xl">
         <h2 data-path-point className="relative z-10 font-display max-w-4xl text-h2">
           Bucket water soaks through a wash mitt in seconds.

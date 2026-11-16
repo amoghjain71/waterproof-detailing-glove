@@ -28,4 +28,5 @@ export const SITEMAP_ROUTES = [
   "/legal/returns",
   "/legal/privacy",
   "/legal/terms",
+  "/legal/ip",
 ] as const;

@@ -1,12 +1,19 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { SIZE_CHART, sizeLabel, type SizeCode } from "@/data/sizes";
-import { BRAND, type BundleId } from "@/lib/config";
+import {
+  SIZE_CHART,
+  isSizeSelectable,
+  sizeLabel,
+  type SizeCode,
+} from "@/data/sizes";
+import { BUNDLES, BRAND, type BundleId } from "@/lib/config";
 import { BundleSelector } from "@/components/ui/BundleSelector";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { PreorderTerms } from "@/components/commerce/OfferNotes";
 import { useFormAbuseFields } from "@/lib/form-abuse";
+import { useCart } from "@/lib/store/cart";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
@@ -16,9 +23,15 @@ function normalizePhone(value: string) {
   return value.replace(/[^\d+]/g, "").trim();
 }
 
+function paymentsOpen() {
+  return process.env.NEXT_PUBLIC_PAYMENTS_OPEN === "true";
+}
+
 export function BuyModule({
   size,
   bundleId,
+  onSize,
+  onBundle,
   onOpenSizer,
   observe = false,
   compact = false,
@@ -32,14 +45,34 @@ export function BuyModule({
   /** Tighter spacing for the home hero fold. */
   compact?: boolean;
 }) {
+  const buyOpen = paymentsOpen();
+  const addItem = useCart((s) => s.addItem);
+  const [busy, setBusy] = useState(false);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [consent, setConsent] = useState(false);
-  const [notice, setNotice] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [notice, setNotice] = useState<"idle" | "sending" | "ok" | "error">(
+    "idle",
+  );
   const [error, setError] = useState<string | undefined>();
   const abuse = useFormAbuseFields();
+  const bundle = BUNDLES.find((item) => item.id === bundleId) ?? BUNDLES[0];
   const sizeRow = SIZE_CHART.find((row) => row.code === size);
   const sample = SIZE_CHART.find((row) => row.code === "ML")?.sample;
+  const canBuy = buyOpen && isSizeSelectable(size) && Boolean(bundle?.enabled);
+
+  async function preorder() {
+    if (!canBuy || !bundle) return;
+    setBusy(true);
+    await new Promise((resolve) => window.setTimeout(resolve, 200));
+    addItem({
+      size,
+      qty: 1,
+      sku: bundle.id === "single" ? BRAND.sku : bundle.id,
+    });
+    track("add_to_cart", { size, bundle: bundle.id, price: bundle.priceUsd });
+    setBusy(false);
+  }
 
   async function signup(event: FormEvent) {
     event.preventDefault();
@@ -93,29 +126,42 @@ export function BuyModule({
     >
       <p className="text-label text-ink">Size</p>
       <div className="mt-2 flex gap-2">
-        {SIZES.map((code) => (
-          <button
-            key={code}
-            type="button"
-            aria-pressed={size === code}
-            aria-disabled
-            disabled
-            title="Sizes open when pre-orders start"
-            className={cn(
-              "h-12 min-w-12 border px-2 text-label",
-              "cursor-not-allowed border-rule text-ink-muted opacity-40",
-              size === code && "border-ink bg-surface text-ink opacity-50",
-            )}
-          >
-            {sizeLabel(code)}
-          </button>
-        ))}
+        {SIZES.map((code) => {
+          const selectable = buyOpen && isSizeSelectable(code);
+          return (
+            <button
+              key={code}
+              type="button"
+              aria-pressed={size === code}
+              aria-disabled={!selectable}
+              disabled={!selectable}
+              title={
+                selectable ? undefined : "Sizes open when pre-orders start"
+              }
+              onClick={() => {
+                if (!selectable) return;
+                onSize(code);
+                track("select_size", { size: code });
+              }}
+              className={cn(
+                "h-12 min-w-12 border px-2 text-label",
+                !selectable
+                  ? "cursor-not-allowed border-rule text-ink-muted opacity-40"
+                  : size === code
+                    ? "border-ink bg-surface text-ink"
+                    : "border-rule text-ink-muted",
+              )}
+            >
+              {sizeLabel(code)}
+            </button>
+          );
+        })}
       </div>
       <p className="mt-2 text-label text-ink-muted">
         {sizeRow?.code === "ML" && sample
           ? compact
-            ? "M/L sample: hand circumference 200 to 215 mm. Sizes open with pre-orders."
-            : `M/L sample: ${sample.overallLengthMm} mm length, ${sample.palmWidthLaidFlatMm} mm palm width, ${sample.middleFingerMm} mm middle finger, ${sample.cuffLengthMm} mm cuff. Hand circumference 200 to 215 mm. Sizes open with pre-orders.`
+            ? "M/L sample: hand circumference 200 to 215 mm."
+            : `M/L sample: ${sample.overallLengthMm} mm length, ${sample.palmWidthLaidFlatMm} mm palm width, ${sample.middleFingerMm} mm middle finger, ${sample.cuffLengthMm} mm cuff. Hand circumference 200 to 215 mm.`
           : sizeRow?.note ?? "Size set finalizing."}
       </p>
       {onOpenSizer ? (
@@ -131,87 +177,115 @@ export function BuyModule({
       <div className={compact ? "mt-3" : "mt-6"}>
         <BundleSelector
           value={bundleId}
-          disabled
+          disabled={!buyOpen}
+          onChange={(id) => {
+            onBundle(id);
+            track("select_bundle", { bundle: id });
+          }}
           compact={compact}
         />
       </div>
 
-      <form className={compact ? "mt-3" : "mt-6"} onSubmit={signup}>
-        <p className="text-body text-ink">Sign up for pre-orders</p>
-        <p className="mt-1 text-label text-ink-muted">
-          We save your email and phone for the drop. We email when pre-orders
-          open, and may text that number then. No spam.
-        </p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          <Input
-            label="Email"
-            name="preorder-email"
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-              setNotice("idle");
-            }}
-            error={notice === "error" && error?.includes("email") ? error : undefined}
-          />
-          <Input
-            label="Phone"
-            name="preorder-phone"
-            type="tel"
-            autoComplete="tel"
-            inputMode="tel"
-            value={phone}
-            onChange={(event) => {
-              setPhone(event.target.value);
-              setNotice("idle");
-            }}
-            error={notice === "error" && error?.includes("phone") ? error : undefined}
-          />
-        </div>
-        <label className="mt-3 flex cursor-pointer items-start gap-3 text-label text-ink">
-          <input
-            type="checkbox"
-            name="preorder-consent"
-            checked={consent}
-            onChange={(event) => {
-              setConsent(event.target.checked);
-              setNotice("idle");
-            }}
-            className="mt-1 h-4 w-4 shrink-0 rounded border border-rule accent-brand"
-          />
-          <span>
-            I agree that {BRAND.name} may email and text me about pre-order
-            status, product updates, and promotions using the contact info I
-            provide. Message and data rates may apply. See{" "}
-            <a href="/legal/privacy" className="text-brand">
-              Privacy
-            </a>
-            .
-          </span>
-        </label>
-        {notice === "error" &&
-        error &&
-        !error.includes("email") &&
-        !error.includes("phone") ? (
-          <p role="alert" className="mt-2 text-label text-ink">
-            {error}
+      {buyOpen ? (
+        <>
+          <Button
+            className={cn("w-full", compact ? "mt-3" : "mt-6")}
+            loading={busy}
+            disabled={!canBuy}
+            onClick={() => void preorder()}
+          >
+            Pre-order
+          </Button>
+          <div className="mt-3">
+            <PreorderTerms />
+          </div>
+        </>
+      ) : (
+        <form className={compact ? "mt-3" : "mt-6"} onSubmit={signup}>
+          <p className="text-body text-ink">Sign up for pre-orders</p>
+          <p className="mt-1 text-label text-ink-muted">
+            We save your email and phone for the drop. We email when pre-orders
+            open, and may text that number then. No spam.
           </p>
-        ) : null}
-        <Button
-          className="mt-3 w-full"
-          type="submit"
-          loading={notice === "sending"}
-          error={notice === "error"}
-        >
-          Sign up for pre-orders
-        </Button>
-        {notice === "ok" ? (
-          <p className="mt-2 text-label text-ink">
-            You are on the list. We will email when pre-orders open.
-          </p>
-        ) : null}
-      </form>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <Input
+              label="Email"
+              name="preorder-email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                setNotice("idle");
+              }}
+              error={
+                notice === "error" && error?.includes("email")
+                  ? error
+                  : undefined
+              }
+            />
+            <Input
+              label="Phone"
+              name="preorder-phone"
+              type="tel"
+              autoComplete="tel"
+              inputMode="tel"
+              value={phone}
+              onChange={(event) => {
+                setPhone(event.target.value);
+                setNotice("idle");
+              }}
+              error={
+                notice === "error" && error?.includes("phone")
+                  ? error
+                  : undefined
+              }
+            />
+          </div>
+          <label className="mt-3 flex cursor-pointer items-start gap-3 text-label text-ink">
+            <input
+              type="checkbox"
+              name="preorder-consent"
+              checked={consent}
+              onChange={(event) => {
+                setConsent(event.target.checked);
+                setNotice("idle");
+              }}
+              className="mt-1 h-4 w-4 shrink-0 rounded border border-rule accent-brand"
+            />
+            <span>
+              I agree that {BRAND.name} may email and text me about pre-order
+              status, product updates, and promotions using the contact info I
+              provide. Message and data rates may apply. See{" "}
+              <a href="/legal/privacy" className="text-brand">
+                Privacy
+              </a>
+              .
+            </span>
+          </label>
+          {notice === "error" &&
+          error &&
+          !error.includes("email") &&
+          !error.includes("phone") ? (
+            <p role="alert" className="mt-2 text-label text-ink">
+              {error}
+            </p>
+          ) : null}
+          <Button
+            className="mt-3 w-full"
+            type="submit"
+            loading={notice === "sending"}
+            error={notice === "error"}
+          >
+            Sign up for pre-orders
+          </Button>
+          {notice === "ok" ? (
+            <p className="mt-2 text-label text-ink">
+              You are on the list. We will email when pre-orders open.
+            </p>
+          ) : null}
+        </form>
+      )}
     </div>
   );
 }

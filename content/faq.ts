@@ -46,7 +46,7 @@ export const faqItems: FaqItem[] = [
     id: "materials-allergens",
     question: "What materials are in the glove? Any allergen or safety concerns?",
     answer:
-      "Target build: matte stretch nylon outer, about 1.0 mm closed-cell CR (chloroprene) neoprene foam, smooth polyester tricot inner, a soft silicone cuff lip, and a 25 mm hook-and-loop strap. Materials and adhesives can irritate sensitive skin. This product is not hypoallergenic, not a medical device, and not PPE. If you have a known allergy to neoprene, chloroprene, rubber, silicone, nylon, polyester, or related compounds, do not use it, or ask a clinician first. Stop use and rinse if you get redness, itching, swelling, or rash. Keep away from open flame and high heat. Not for food handling or medical use.",
+      "Target build: matte stretch nylon outer, about 1 mm closed-cell neoprene, smooth polyester tricot inner, a soft silicone cuff lip, and a 25 mm hook-and-loop strap. Materials can irritate sensitive skin. This product is not hypoallergenic, not a medical device, and not PPE. If you have a known allergy to neoprene, rubber, silicone, nylon, polyester, or related compounds, do not use it, or ask a clinician first. Stop use and rinse if you get redness, itching, swelling, or rash. Keep away from open flame and high heat. Not for food handling or medical use.",
   },
   {
     id: "children",

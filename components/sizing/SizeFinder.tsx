@@ -40,7 +40,7 @@ export function SizeFinder({
   return (
     <div className={cn("grid items-stretch gap-6 sm:grid-cols-2", className)}>
       <div className="flex flex-col rounded border border-rule bg-surface p-6">
-        <div className="inline-flex w-fit rounded border border-rule p-1">
+        <div className="inline-flex w-fit rounded-shell-1 border border-rule p-1">
           {(["mm", "cm", "in"] as Unit[]).map((u) => (
             <button
               key={u}
